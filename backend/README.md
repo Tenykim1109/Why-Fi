@@ -3,6 +3,21 @@
 ### 공통 (중복되는 부분) : http://127.0.0.1:8000/api/
 
 - 계정 (User)
+  - 로그인 [POST] : accounts/signin/
+    - username
+    - password
+  - ID 중복 확인 [GET] : accounts/idcheck/<str : username>/
+  - 회원 가입 [POST] : accounts/signup/
+    - username
+    - password
+    - password_confirm
+    - name
+    - birthday
+  - 회원 탈퇴 [DELETE] : accounts/delete/
+    - username
+    - password
+  - 본인 정보 [GET] : accounts/self/
+  - 프로필 [GET] : accounts/profile/<str : username>/
 
 
 
