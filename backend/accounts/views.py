@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view, permission_classes
@@ -5,19 +6,20 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import (
+    UserSerializer,
     SignupSerializer,
     CheckSerializer,
 )
 import random, re
 
 
-def make_numbers():
+def make_number():
     numbers = '0123456789'
-    make_number = ''
+    make_numbers = ''
 
     for _ in range(10):
-        make_number += random.choice(numbers)
-    return make_number
+        make_numbers += random.choice(numbers)
+    return make_numbers
 
 
 @api_view(['GET'])
@@ -61,7 +63,7 @@ def signup(request):
 
     if serializer.is_valid(raise_exception=True):
         while True:
-            numbers = make_numbers()
+            numbers = make_number()
 
             if not User.objects.filter(book_number=numbers):
                 break
@@ -75,14 +77,26 @@ def signup(request):
 @swagger_auto_schema(method='DELETE', request_body=CheckSerializer)
 @api_view(['DELETE'])
 def delete(request):
-    pass
+    User = get_user_model()
+    user = get_object_or_404(User, username=request.data['username'])
+
+    if user == request.user and user.check_password(request.data['password']):
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['GET'])
 def self(request):
-    pass
+    User = get_user_model()
+    user = get_object_or_404(User, pk=request.user.pk)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
 def profile(request, username):
-    pass
+    User = get_user_model()
+    user = get_object_or_404(User, username=username)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
