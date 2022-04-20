@@ -1,9 +1,9 @@
 from rest_framework import serializers
-# from .models import 
+from .models import BankBook, StockInfo, StockSituation
 
 
-# class Serializer(serializers.ModelSerializer):
+class BankBookSerializer(serializers.ModelSerializer):
 
-#     class Meta:
-#         model = 
-#         fields = '__all__'
+    class Meta:
+        model = BankBook
+        fields = ('payment', 'deadline', 'book_type', )

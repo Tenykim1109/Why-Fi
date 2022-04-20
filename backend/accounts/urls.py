@@ -16,4 +16,5 @@ urlpatterns = [
     path('delete/', views.delete),
     path('self/', views.self),
     path('profile/<username>/', views.profile),
+    path('setpassword/', views.setpassword),
 ]

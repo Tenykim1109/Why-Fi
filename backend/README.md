@@ -18,11 +18,23 @@
     - password
   - 본인 정보 [GET] : accounts/self/
   - 프로필 [GET] : accounts/profile/<str : username>/
+  - 계좌 비밀번호 설정 [POST] : accounts/setpassword/
+    - name
+    - birthday
+    - book_password
 
 
 
 - 계좌 (Bankbook)
-  - 
+  - 본인 계좌 확인 [GET] : bankbooks/booklist/
+  - 계좌 생성 [POST] : bankbooks/create/
+    - payment
+    - deadline
+    - book_type
+  - 계좌 해지 [DELETE] : bankbooks/<str : book_type>/ delete/
+    - name
+    - birthday
+    - book_password
 
 
 

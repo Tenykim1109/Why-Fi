@@ -24,3 +24,10 @@ class CheckSerializer(UserSerializer):
     class Meta:
         model = get_user_model()
         fields = ('username', 'password', )
+
+
+class PasswordSerializer(UserSerializer):
+
+    class Meta:
+        model = get_user_model()
+        fields = ('name', 'birthday', 'book_password', )
