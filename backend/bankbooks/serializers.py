@@ -1,9 +1,10 @@
 from rest_framework import serializers
-# from .models import 
+from .models import BankBook, StockInfo, StockSituation
 
 
-# class Serializer(serializers.ModelSerializer):
+class BankBookSerializer(serializers.ModelSerializer):
 
-#     class Meta:
-#         model = 
-#         fields = '__all__'
+    class Meta:
+        model = BankBook
+        fields = '__all__'
+        read_only_fields = ('user', 'balance', 'interest', 'created_at', )
