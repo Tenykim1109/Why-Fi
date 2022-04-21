@@ -6,7 +6,9 @@ class BankBook(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     balance = models.BigIntegerField(default=0)
     payment = models.BigIntegerField(default=0)
+    interest = models.BigIntegerField(default=0)
     deadline = models.DateField()
+    created_at = models.DateField(auto_now_add=True)
     BOOK_TYPES = (
         ('deposit', '예금'),
         ('savings', '적금'),

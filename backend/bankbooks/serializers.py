@@ -6,4 +6,5 @@ class BankBookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BankBook
-        fields = ('payment', 'deadline', 'book_type', )
+        fields = '__all__'
+        read_only_fields = ('user', 'balance', 'interest', 'created_at', )

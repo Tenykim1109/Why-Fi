@@ -11,7 +11,7 @@ from .serializers import (
     CheckSerializer,
     PasswordSerializer,
 )
-import random, re
+import random, re, datetime
 
 
 def make_number():
@@ -20,6 +20,7 @@ def make_number():
 
     for _ in range(10):
         make_numbers += random.choice(numbers)
+
     return make_numbers
 
 
@@ -52,14 +53,16 @@ def signup(request):
     if re.findall('[0-9]+', name) or re.findall('[{-~[-`:-@!-/]+', name):
         return Response({'error: 이름 형식 오류'}, status=status.HTTP_400_BAD_REQUEST)
 
+    if datetime.date.fromisoformat(birthday) > datetime.date.today():
+        return Response({'error: 잘못된 생일 입력'}, status=status.HTTP_400_BAD_REQUEST)
+
     if not (4 <= len(username) <= 16) or re.findall('[{-~[-`:-@!-/]+', username):
         return Response({'error: ID 형식 오류'}, status=status.HTTP_400_BAD_REQUEST)
 
     if password != password_confirm:
         return Response({'error: 비밀번호와 비밀번호 확인이 다름'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if not (8 <= len(password) <= 20 and re.findall('[a-z]+', password) and re.findall('[A-Z]+', password) and \
-        re.findall('[0-9]+', password) and re.findall('[{-~[-`:-@!-/]+', password)):
+    if not (8 <= len(password) <= 20 and re.findall('[a-zA-Z]+', password) and re.findall('[0-9]+', password)):
         return Response({'error: 비밀번호 형식 오류'}, status=status.HTTP_400_BAD_REQUEST)
 
     serializer = SignupSerializer(data=request.data)
@@ -86,7 +89,9 @@ def delete(request):
     if user == request.user and user.check_password(request.data.get('password')):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    else:
+        return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['GET'])
@@ -114,13 +119,15 @@ def setpassword(request):
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
 
-    if len(book_password) != 4 or re.findall('[a-zA-Z]+', name) or re.findall('[{-~[-`:-@!-/]+', name):
+    if len(book_password) != 4 or re.findall('[a-zA-Z]+', book_password) or re.findall('[{-~[-`:-@!-/]+', book_password):
         return Response({'error: 통장 비밀번호 형식 오류'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if user.name == name and user.birthday == birthday:
-        user.book_password = request.data['book_password']
-        user.save()
-        return Response(status=status.HTTP_201_CREATED)
+    if user.name == name and user.birthday == datetime.date.fromisoformat(birthday):
+        serializer = PasswordSerializer(user, data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
 
     else:
         return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
