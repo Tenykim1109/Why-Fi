@@ -13,12 +13,13 @@ build-front:
     - develop
   script:
     # - source "/home/ubuntu/.nvm/nvm.sh"
+    - echo $HOME
     - cd $CI_PROJECT_DIR/frontend
     - pwd
     - npm install
     - CI=false npm run build
-    - rm -rf /home/ubuntu/project/S06P31D108/frontend/build
-    - cp -rf build /home/ubuntu/project/S06P31D108/frontend
+    - sudo rm -rf $HOME/project/S06P31D108/frontend/build
+    - cp -rf build $HOME/project/S06P31D108/frontend
   tags:
     - prd
 
@@ -28,6 +29,6 @@ deploy-front:
     - master
     - develop
   script:
-    - ls -al /home/ubuntu/project/S06P31D108/frontend/build
+    - ls -al $HOME/project/S06P31D108/frontend/build
   tags:
     - prd
