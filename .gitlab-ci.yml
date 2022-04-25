@@ -29,6 +29,7 @@ deploy-front:
     - master
     - develop
   script:
+    - echo $PROJECT_REPO
     - ls -al $PROJECT_REPO/frontend/build
   tags:
     - prd
