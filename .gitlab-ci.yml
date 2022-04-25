@@ -13,7 +13,6 @@ build-front:
     - develop
   script:
     # - source "/home/ubuntu/.nvm/nvm.sh"
-    - echo $CI_PROJECT_DIR
     - echo $PROJECT_REPO
     - cd $CI_PROJECT_DIR/frontend
     - pwd
