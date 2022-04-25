@@ -13,7 +13,7 @@ build-front:
     - develop
   script:
     # - source "/home/ubuntu/.nvm/nvm.sh"
-    - cd $CI_PROJECT_DIR/frontend-react
+    - cd $CI_PROJECT_DIR/frontend
     - npm install
     - CI=false npm run build
     # - rm -rf ~/project/S06P12D201/frontend-react/build
