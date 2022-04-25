@@ -17,8 +17,8 @@ build-front:
     - pwd
     - npm install
     - CI=false npm run build
-    # - rm -rf ~/project/S06P31D108/frontend/build
-    # - cp -rf build ~/project/S06P31D108/frontend
+    - rm -rf /home/ubuntu/project/S06P31D108/frontend/build
+    - cp -rf build /home/ubuntu/project/S06P31D108/frontend
   tags:
     - prd
 
@@ -28,6 +28,6 @@ deploy-front:
     - master
     - develop
   script:
-    - pwd
+    - ls -al /home/ubuntu/project/S06P31D108/frontend/build
   tags:
     - prd
