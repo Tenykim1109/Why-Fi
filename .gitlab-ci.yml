@@ -1,0 +1,32 @@
+stages:
+  - build
+  - deploy
+
+build-front:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - project/S06P31D108/frontend/node_modules
+  only:
+    - master
+    - develop
+  script:
+    # - source "/home/ubuntu/.nvm/nvm.sh"
+    - cd $CI_PROJECT_DIR/frontend-react
+    - npm install
+    - CI=false npm run build
+    # - rm -rf ~/project/S06P12D201/frontend-react/build
+    # - cp -rf build ~/project/S06P12D201/frontend-react
+  tags:
+    - prd
+
+deploy-front:
+  stage: deploy
+  only:
+    - master
+    - develop
+  script:
+    - ls -al ~/project/S06P31D108/frontend/build
+  tags:
+    - prd
