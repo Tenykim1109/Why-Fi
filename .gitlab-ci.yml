@@ -21,6 +21,7 @@ build-front:
     - ls -al build
     - sudo rm -rf $PROJECT_REPO/frontend/build
     - sudo cp -rf build $PROJECT_REPO/frontend
+    - ls -al
   tags:
     - prd
 
