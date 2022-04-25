@@ -18,10 +18,10 @@ build-front:
     - pwd
     - npm install
     - CI=false npm run build
-    - ls -al build
-    - sudo rm -rf $PROJECT_REPO/frontend/build
-    - sudo cp -rf build $PROJECT_REPO/frontend
-    - ls -al
+    # - ls -al build
+    # - sudo rm -rf $PROJECT_REPO/frontend/build
+    # - sudo cp -rf build $PROJECT_REPO/frontend
+    # - ls -al
   tags:
     - prd
 
@@ -32,6 +32,7 @@ deploy-front:
     - develop
   script:
     - echo $PROJECT_REPO
-    - ls -al $PROJECT_REPO/frontend/build
+    - pwd
+    # - ls -al $PROJECT_REPO/frontend/build
   tags:
     - prd
