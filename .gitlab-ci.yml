@@ -19,7 +19,7 @@ build-front:
     - npm install
     - CI=false npm run build
     - sudo rm -rf $PROJECT_REPO/frontend/build
-    - cp -rf build $PROJECT_REPO/frontend
+    - sudo cp -rf build $PROJECT_REPO/frontend
   tags:
     - prd
 
