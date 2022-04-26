@@ -18,7 +18,11 @@
     - password
   - 본인 정보 [GET] : accounts/self/
   - 프로필 [GET] : accounts/profile/<str : username>/
-  - 계좌 비밀번호 설정 [POST] : accounts/setpassword/
+  - 계좌 비밀번호 설정 [PUT] : accounts/setpassword/
+    - name
+    - birthday
+    - book_password
+  - 송금 [POST] : accounts/remittance/<str : book_number>/<int : money>/
     - name
     - birthday
     - book_password
@@ -35,6 +39,7 @@
     - name
     - birthday
     - book_password
+  - 본인 보유 주식 확인 [GET] : bankbooks/mystocklist/
 
 
 
@@ -43,3 +48,4 @@
   - 문제 생성  [GET] : quiz/
     - 전체 퀴즈 중에 랜덤으로 5개 선택하여 문제 생성
     - 퀴즈 추가는 admin 페이지를 활용 : admin/
+

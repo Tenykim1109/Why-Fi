@@ -5,7 +5,7 @@ from django.conf import settings
 class BankBook(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     balance = models.BigIntegerField(default=0)
-    payment = models.BigIntegerField(default=0)
+    payment = models.BigIntegerField()
     interest = models.BigIntegerField(default=0)
     deadline = models.DateField()
     created_at = models.DateField(auto_now_add=True)
@@ -17,14 +17,22 @@ class BankBook(models.Model):
     book_type = models.CharField(max_length=10, choices=BOOK_TYPES)
 
 
-class StockInfo(models.Model):
-    bankbook = models.ForeignKey(BankBook, on_delete=models.CASCADE)
-    name = models.CharField(max_length=10)
+class Stock(models.Model):
+    STOCK_TYPES = (
+        ('A', '엔터'),
+        ('B', '제조'),
+        ('C', '유통'),
+    )
+    stock_type = models.CharField(max_length=10, choices=STOCK_TYPES)
     price = models.IntegerField()
-    stock = models.IntegerField()
+
+
+class MyStock(Stock):
+    bankbook = models.ForeignKey(BankBook, on_delete=models.CASCADE)
+    stocks = models.IntegerField()
 
 
 class StockSituation(models.Model):
-    name = models.CharField(max_length=10)
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     change = models.IntegerField()
     article = models.CharField(max_length=200)

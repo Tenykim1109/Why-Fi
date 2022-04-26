@@ -4,9 +4,10 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import BankBook
+from .models import BankBook, MyStock
 from .serializers import (
     BankBookSerializer,
+    MyStockSerializer,
 )
 from accounts.serializers import PasswordSerializer
 import datetime
@@ -24,40 +25,45 @@ def booklist(request):
 def create(request):
     book_type = request.data.get('book_type')
 
+    if BankBook.objects.filter(user=request.user, book_type=book_type).exists():
+        return Response({'error: 이미 해당 종류의 통장이 존재'}, status=status.HTTP_400_BAD_REQUEST)
+
     if book_type == 'stock':
-        request.data['deadline'] = str(datetime.date.today())
+        serializer = BankBookSerializer(data=request.data)
 
-    payment = request.data.get('payment')
-    deadline = request.data.get('deadline')
-    weeks = (datetime.date.fromisoformat(deadline) - datetime.date.today()).days // 7
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(user=request.user, deadline=datetime.date.today())
 
-    if payment <= 0:
-        return Response({'error: 잘못된 금액 입력'}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        payment = request.data.get('payment')
+        deadline = request.data.get('deadline')
+        weeks = (datetime.date.fromisoformat(deadline) - datetime.date.today()).days // 7
 
-    if book_type != 'stock' and weeks <= 0:
-        return Response({'error: 잘못된 만기 날짜 입력'}, status=status.HTTP_400_BAD_REQUEST)
+        if payment <= 0:
+            return Response({'error: 잘못된 금액 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
-    User = get_user_model()
-    user = get_object_or_404(User, pk=request.user.pk)
-    serializer = BankBookSerializer(data=request.data)
+        if weeks <= 0:
+            return Response({'error: 잘못된 만기 날짜 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if serializer.is_valid(raise_exception=True):
-        if book_type == 'deposit':
-            user.balance -= payment
-            user.save()
-            interest = payment * (1.05 ** weeks) - payment
-            serializer.save(user=request.user, balance=payment, interest=interest)
+        serializer = BankBookSerializer(data=request.data)
 
-        elif book_type == 'savings':
-            user.balance -= payment
-            user.save()
-            interest = payment * 1.01 * (((1.01 ** (weeks * 7)) - 1) / 1.01)
-            serializer.save(user=request.user, balance=payment, interest=interest)
+        if serializer.is_valid(raise_exception=True):
+            User = get_user_model()
+            user = get_object_or_404(User, pk=request.user.pk)
 
-        elif book_type == 'stock':
-            serializer.save(user=request.user)
+            if book_type == 'deposit':
+                user.balance -= payment
+                user.save()
+                interest = payment * (1.05 ** weeks) - payment
+                serializer.save(user=request.user, balance=payment, interest=interest)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            elif book_type == 'savings':
+                user.balance -= payment
+                user.save()
+                interest = payment * 1.01 * (((1.01 ** (weeks * 7)) - 1) / 1.01)
+                serializer.save(user=request.user, balance=payment, interest=interest)
+
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @swagger_auto_schema(method='DELETE', request_body=PasswordSerializer)
@@ -86,3 +92,19 @@ def delete(request, book_type):
     
     else:
         return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+def mystocklist(request):
+    stockbook = get_object_or_404(BankBook, user=request.user, book_type='stock')
+    mystocks = MyStock.objects.filter(bankbook=stockbook)
+    serializer = MyStockSerializer(mystocks, many=True)
+    return Response(serializer.data)
+
+
+def buystocks(request):
+    pass
+
+
+def sellstocks(request):
+    pass
