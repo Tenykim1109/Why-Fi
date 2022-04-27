@@ -12,7 +12,6 @@ class BankBook(models.Model):
     BOOK_TYPES = (
         ('deposit', '예금'),
         ('savings', '적금'),
-        ('stock', '주식'),
     )
     book_type = models.CharField(max_length=10, choices=BOOK_TYPES)
 
@@ -24,11 +23,13 @@ class Stock(models.Model):
         ('C', '유통'),
     )
     stock_type = models.CharField(max_length=10, choices=STOCK_TYPES)
-    price = models.IntegerField()
+    current_price = models.IntegerField()
 
 
-class MyStock(Stock):
-    bankbook = models.ForeignKey(BankBook, on_delete=models.CASCADE)
+class MyStock(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    purchase_price = models.IntegerField()
     stocks = models.IntegerField()
 
 

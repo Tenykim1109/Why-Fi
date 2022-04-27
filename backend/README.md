@@ -22,10 +22,12 @@
     - name
     - birthday
     - book_password
-  - 송금 [POST] : accounts/remittance/<str : book_number>/<int : money>/
+  - 송금 [POST] : accounts/remittance/
     - name
     - birthday
+    - book_number
     - book_password
+    - money
 
 
 
@@ -40,6 +42,10 @@
     - birthday
     - book_password
   - 본인 보유 주식 확인 [GET] : bankbooks/mystocklist/
+  - 주식 구매 [POST] : bankbooks/buystocks/
+    - stock[stock_type] (이중 딕셔너리)
+    - stocks (주식수)
+  - 주식 판매 [DELETE] : bankbooks/sellstocks/
 
 
 

@@ -10,6 +10,7 @@ from .serializers import (
     SignupSerializer,
     CheckSerializer,
     PasswordSerializer,
+    RemittanceSerializer,
 )
 import random, re, datetime
 
@@ -133,22 +134,24 @@ def setpassword(request):
         return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-@swagger_auto_schema(method='POST', request_body=PasswordSerializer)
+@swagger_auto_schema(method='POST', request_body=RemittanceSerializer)
 @api_view(['POST'])
-def remittance(request, book_number, money):
+def remittance(request):
     name = request.data.get('name')
     birthday = request.data.get('birthday')
+    book_number = request.data.get('book_number')
     book_password = request.data.get('book_password')
+    money = request.data.get('money')
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
 
-    if user.name == name and user.birthday == datetime.date.fromisoformat(birthday) and user.book_password == book_password:
-        if not User.objects.filter(book_number=book_number).exists() or user.book_number == book_number:
-            return Response({'error: 잘못된 계좌번호 입력'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        if user.balance < money:
-            return Response({'error: 잘못된 송금 금액 입력'}, status=status.HTTP_400_BAD_REQUEST)
+    if not User.objects.filter(book_number=book_number).exists() or user.book_number == book_number:
+        return Response({'error: 잘못된 계좌번호 입력'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    if user.balance < money:
+        return Response({'error: 잘못된 송금 금액 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
+    if user.name == name and user.birthday == datetime.date.fromisoformat(birthday) and user.book_password == book_password:
         user.balance -= money
         user.save()
         other_user = get_object_or_404(User, book_number=book_number)

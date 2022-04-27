@@ -31,3 +31,11 @@ class PasswordSerializer(UserSerializer):
     class Meta:
         model = get_user_model()
         fields = ('name', 'birthday', 'book_password', )
+
+
+class RemittanceSerializer(PasswordSerializer):
+    money = serializers.IntegerField()
+    
+    class Meta:
+        model = get_user_model()
+        fields = ('name', 'birthday', 'book_number', 'book_password', 'money', )
