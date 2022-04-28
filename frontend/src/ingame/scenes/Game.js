@@ -15,17 +15,31 @@ export default class Game extends Phaser.Scene {
     const { width, height } = this.scale;
 
     // map image 생성
-    this.add.image(width * 0.5, height * 0.5, "map_image");
+    // this.add.image(width * 0.5, height * 0.5, "map_image");
+
+    this.map = this.make.tilemap({ key: "bank" });
+    this.floor = this.map.addTilesetImage("Carpet", "floor");
+    this.ceil = this.map.addTilesetImage("toppers", "ceil");
+    this.items = this.map.addTilesetImage("walltexture", "items");
+
+    // this.map.createStaticLayer(
+    //   "Ground",
+    //   [this.floor, this.items, this.ceil],
+    //   0,
+    //   0
+    // );
+    this.map.createLayer("Ground", [this.floor, this.ceil, this.items]);
+    this.map.createLayer("Wall", [this.floor, this.items, this.ceil]);
 
     // Character 생성
-    this.player = this.physics.add
-      .sprite(width * 0.5, height * 0.5, TEXTURE_BOY)
-      .play("down-idle");
+    // this.player = this.physics.add
+    //   .sprite(width * 0.5, height * 0.5, TEXTURE_BOY)
+    //   .play("down-idle");
 
     // this.physics.add.sprite(width * 0.25, height * 0.25, "map_item", 35);
 
     // 화면 바깥으로 나갈 수 없도록 설정
-    this.player.setCollideWorldBounds(true);
+    // this.player.setCollideWorldBounds(true);
   }
 
   update() {

@@ -13,12 +13,12 @@ export default class Preloader extends Phaser.Scene {
     });
 
     // map image 불러오기
-    this.load.image("map_image", "assets/bankmap.png");
-    this.load.tilemapTiledJSON("map", "assets/bankmap.json");
-
-    this.load.spritesheet("map_item", "assets/gather_plants_1.2.png", {
-      frameWidth: 64,
-    });
+    // this.load.image("map_image", "assets/bankmap.png");
+    // this.load.tilemapTiledJSON("map", "assets/bankmap.json");
+    this.load.image("floor", "assets/tiles/Carpet.png");
+    this.load.image("items", "assets/tiles/toppers.png");
+    this.load.image("ceil", "assets/tiles/walltexture.png");
+    this.load.tilemapTiledJSON("bank", "assets/tilemap/test-bank.json");
   }
 
   create() {

@@ -11,8 +11,9 @@ export default class PhaserGame extends React.Component {
       pixelArt: true,
       scale: {
         // mode: Phaser.Scale.ScaleModes.RESIZE,
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: window.innerWidth * 0.5,
+        height: window.innerHeight * 0.5,
+        zoom: 2,
       },
       physics: {
         default: "arcade",
