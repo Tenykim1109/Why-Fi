@@ -46,6 +46,8 @@
     - stock[stock_type] (이중 딕셔너리)
     - stocks (주식수)
   - 주식 판매 [DELETE] : bankbooks/sellstocks/
+    - stock[stock_type] (이중 딕셔너리)
+    - stocks (주식수)
 
 
 

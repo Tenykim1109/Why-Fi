@@ -48,14 +48,17 @@ def create(request):
             user.save()
             interest = payment * (1.05 ** weeks) - payment
             serializer.save(user=request.user, balance=payment, interest=interest)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         elif book_type == 'savings':
             user.balance -= payment
             user.save()
             interest = payment * 1.01 * (((1.01 ** (weeks * 7)) - 1) / 1.01)
             serializer.save(user=request.user, balance=payment, interest=interest)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'error: 잘못된 통장 종류 선택'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(method='DELETE', request_body=PasswordSerializer)
@@ -102,8 +105,11 @@ def buystocks(request):
     user = get_object_or_404(User, pk=request.user.pk)
     stock = get_object_or_404(Stock, stock_type=stock_type)
 
+    if stock_type not in ['A', 'B', 'C']:
+        return Response({'error: 잘못된 기업 선택'}, status=status.HTTP_400_BAD_REQUEST)
+
     if stocks <= 0:
-        return Response({'error: 잘못된 주식수 입력'})
+        return Response({'error: 잘못된 주식수 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
     if MyStock.objects.filter(user=user, stock=stock).exists():
         mystock = get_object_or_404(MyStock, user=user, stock=stock)
@@ -130,4 +136,28 @@ def buystocks(request):
 @swagger_auto_schema(method='DELETE', request_body=MyStockSerializer)
 @api_view(['DELETE'])
 def sellstocks(request):
-    pass
+    stock_type = request.data.get('stock').get('stock_type')
+    stocks = request.data.get('stocks')
+    User = get_user_model()
+    user = get_object_or_404(User, pk=request.user.pk)
+    stock = get_object_or_404(Stock, stock_type=stock_type)
+    mystock = get_object_or_404(MyStock, user=user, stock=stock)
+
+    if stock_type not in ['A', 'B', 'C']:
+        return Response({'error: 잘못된 기업 선택'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if stocks <= 0 or stocks > mystock.stocks:
+        return Response({'error: 잘못된 주식수 입력'}, status=status.HTTP_400_BAD_REQUEST)
+
+    elif stocks == mystock.stocks:
+        user.balance += stock.current_price * stocks
+        user.save()
+        mystock.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    elif stocks < mystock.stocks:
+        user.balance += stock.current_price * stocks
+        user.save()
+        mystock.stocks -= stocks
+        mystock.save()
+        return Response(status=status.HTTP_200_OK)

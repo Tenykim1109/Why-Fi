@@ -15,7 +15,7 @@ class StockSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stock
         fields = ('stock_type', 'current_price', )
-        read_only_fields = ('current_price', )
+        read_only_fields = ('current_price', 'updated_at', )
 
 
 class MyStockSerializer(serializers.ModelSerializer):
@@ -24,4 +24,4 @@ class MyStockSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyStock
         fields = ('purchase_price', 'stocks', 'stock', )
-        read_only_fields = ('purchase_price', 'stock', )
+        read_only_fields = ('purchase_price', )

@@ -17,13 +17,15 @@ class BankBook(models.Model):
 
 
 class Stock(models.Model):
+    situation = models.IntegerField(default=4)
+    current_price = models.IntegerField()
+    updated_at = models.DateField(auto_now=True)
     STOCK_TYPES = (
         ('A', '엔터'),
-        ('B', '제조'),
-        ('C', '유통'),
+        ('B', '유통'),
+        ('C', '제조'),
     )
     stock_type = models.CharField(max_length=10, choices=STOCK_TYPES)
-    current_price = models.IntegerField()
 
 
 class MyStock(models.Model):
