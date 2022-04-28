@@ -17,4 +17,5 @@ urlpatterns = [
     path('self/', views.self),
     path('profile/<username>/', views.profile),
     path('setpassword/', views.setpassword),
+    path('remittance/', views.remittance),
 ]
