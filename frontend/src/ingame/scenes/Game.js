@@ -14,32 +14,38 @@ export default class Game extends Phaser.Scene {
     // 화면 크기
     const { width, height } = this.scale;
 
-    // map image 생성
-    // this.add.image(width * 0.5, height * 0.5, "map_image");
+    // map 생성
+    const map = this.make.tilemap({ key: "bank" });
+    // this.map = this.make.tilemap({ key: "bank" });
+    this.floor = map.addTilesetImage("Carpet", "floor"); // 바닥
+    this.ceil = map.addTilesetImage("toppers", "ceil"); // 천장
+    this.items = map.addTilesetImage("walltexture", "items"); // 벽
 
-    this.map = this.make.tilemap({ key: "bank" });
-    this.floor = this.map.addTilesetImage("Carpet", "floor");
-    this.ceil = this.map.addTilesetImage("toppers", "ceil");
-    this.items = this.map.addTilesetImage("walltexture", "items");
+    const groundLayer = map.createLayer("Ground", [
+      this.floor,
+      this.items,
+      this.ceil,
+    ]);
 
-    // this.map.createStaticLayer(
-    //   "Ground",
-    //   [this.floor, this.items, this.ceil],
-    //   0,
-    //   0
-    // );
-    this.map.createLayer("Ground", [this.floor, this.ceil, this.items]);
-    this.map.createLayer("Wall", [this.floor, this.items, this.ceil]);
+    const wallLayer = map.createLayer("Wall", [
+      this.floor,
+      this.items,
+      this.ceil,
+    ]);
+
+    groundLayer.fixedToCamera = false;
+
+    // 벽 너머로 넘어갈 수 없도록 설정
+    wallLayer.setCollisionByExclusion([-1]);
 
     // Character 생성
-    // this.player = this.physics.add
-    //   .sprite(width * 0.5, height * 0.5, TEXTURE_BOY)
-    //   .play("down-idle");
-
-    // this.physics.add.sprite(width * 0.25, height * 0.25, "map_item", 35);
+    this.player = this.physics.add
+      .sprite(width * 0.5, height * 0.5, TEXTURE_BOY)
+      .play("down-idle");
 
     // 화면 바깥으로 나갈 수 없도록 설정
-    // this.player.setCollideWorldBounds(true);
+    this.player.setCollideWorldBounds(true);
+    this.physics.add.collider(this.player, wallLayer);
   }
 
   update() {
