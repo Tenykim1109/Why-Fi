@@ -4,11 +4,23 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 import django
 django.setup()
 from django.shortcuts import get_list_or_404
-from bankbooks.models import Stock, StockSituation
+from bankbooks.models import BankBook, Stock, StockSituation
 import concurrent.futures, datetime, time
 
 
-def daily_stock_variance():
+def daily():
+    savings = BankBook.objects.filter(book_type='savings')
+
+    for saving in savings:
+        if saving.updated_at != datetime.date.today() and saving.deadline > datetime.date.today():
+            user = saving.user
+
+            if saving.payment <= user.balance:
+                user.balance -= saving.payment
+                user.save()
+                saving.balance += saving.payment
+                saving.save()
+
     stocks = get_list_or_404(Stock)
 
     for stock in stocks:
@@ -24,4 +36,4 @@ def daily_stock_variance():
 if __name__ == "__main__":
     with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
         while True:
-            future = executor.submit(daily_stock_variance)
+            future = executor.submit(daily)
