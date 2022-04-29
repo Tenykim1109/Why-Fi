@@ -9,6 +9,7 @@ class BankBook(models.Model):
     interest = models.BigIntegerField(default=0)
     deadline = models.DateField()
     created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
     BOOK_TYPES = (
         ('deposit', '예금'),
         ('savings', '적금'),
