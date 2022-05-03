@@ -13,11 +13,10 @@ export default class Preloader extends Phaser.Scene {
     });
 
     // map image 불러오기
-    // this.load.image("map_image", "assets/bankmap.png");
-    // this.load.tilemapTiledJSON("map", "assets/bankmap.json");
     this.load.image("floor", "assets/tiles/Carpet.png"); // 바닥
     this.load.image("ceil", "assets/tiles/toppers.png"); // 천장
     this.load.image("items", "assets/tiles/walltexture.png"); // 벽
+    this.load.image("object", "assets/tiles/gather_plants_1.2.png"); // 장애물
     this.load.tilemapTiledJSON("bank", "assets/tilemap/test-bank.json");
   }
 

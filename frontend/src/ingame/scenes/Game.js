@@ -16,10 +16,10 @@ export default class Game extends Phaser.Scene {
 
     // map 생성
     const map = this.make.tilemap({ key: "bank" });
-    // this.map = this.make.tilemap({ key: "bank" });
     this.floor = map.addTilesetImage("Carpet", "floor"); // 바닥
     this.ceil = map.addTilesetImage("toppers", "ceil"); // 천장
     this.items = map.addTilesetImage("walltexture", "items"); // 벽
+    this.object = map.addTilesetImage("gather_plants.1.2", "object"); // 장애물
 
     const groundLayer = map.createLayer("Ground", [
       this.floor,
@@ -32,6 +32,12 @@ export default class Game extends Phaser.Scene {
       this.items,
       this.ceil,
     ]);
+
+    // const objItems = this.physics.add.staticGroup();
+    // const objectLayer = map.getObjectLayer("Object");
+    // objectLayer.objects.forEach((objectItem) => {
+    //   objItems.get(objectItem.x, objItems.y);
+    // });
 
     groundLayer.fixedToCamera = false;
 
