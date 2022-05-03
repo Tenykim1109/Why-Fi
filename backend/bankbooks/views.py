@@ -117,7 +117,7 @@ def buystocks(request):
 
         if serializer.is_valid(raise_exception=True):
             new_stocks = mystock.stocks + stocks
-            new_purchase_price = (mystock.purchase_price * mystock.stocks + stock.current_price * stocks) // new_stocks
+            new_purchase_price = (mystock.purchase_price * mystock.stocks + stock.current_price * stocks) / new_stocks
             user.balance -= stock.current_price * stocks
             user.save()
             serializer.save(user=user, stock=stock, purchase_price=new_purchase_price, stocks=new_stocks)
