@@ -33,6 +33,10 @@
 
 - 계좌 (Bankbook)
   - 본인 계좌 확인 [GET] : bankbooks/booklist/
+  - 만기 금액 확인 [POST] : bankbooks/getinterest/
+    - payment
+    - deadline
+    - book_type
   - 계좌 생성 [POST] : bankbooks/create/
     - payment
     - deadline

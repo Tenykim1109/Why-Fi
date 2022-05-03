@@ -22,6 +22,35 @@ def booklist(request):
 
 @swagger_auto_schema(method='POST', request_body=BankBookSerializer)
 @api_view(['POST'])
+def getinterest(request):
+    book_type = request.data.get('book_type')
+    payment = request.data.get('payment')
+    deadline = request.data.get('deadline')
+    weeks = (datetime.date.fromisoformat(deadline) - datetime.date.today()).days // 7
+
+    if BankBook.objects.filter(user=request.user, book_type=book_type).exists():
+        return Response({'error: 이미 해당 종류의 통장이 존재'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if payment <= 0:
+        return Response({'error: 잘못된 금액 입력'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if weeks <= 0:
+        return Response({'error: 잘못된 만기 날짜 입력'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if book_type == 'deposit':
+        interest = payment * (1.05 ** weeks)
+        return Response(int(interest))
+
+    elif book_type == 'savings':
+        interest = payment * 1.01 * (((1.01 ** (weeks * 7)) - 1) / 1.01) + payment * weeks
+        return Response(int(interest))
+
+    else:
+        return Response({'error: 잘못된 통장 종류 선택'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@swagger_auto_schema(method='POST', request_body=BankBookSerializer)
+@api_view(['POST'])
 def create(request):
     book_type = request.data.get('book_type')
     payment = request.data.get('payment')
