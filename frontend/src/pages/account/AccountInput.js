@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 // 상단 여백
 const Wrapper = styled.div`
@@ -10,9 +10,7 @@ const Wrapper = styled.div`
 
 const Input = styled.input`
   box-sizing: border-box;
-  width: ${
-    props => props.Width ? props.Width : '400px'
-  }};
+  width: ${(props) => (props.Width ? props.Width : "400px")}};
   height: 45px;
   border: 1px solid;
   border-radius: 8px;
@@ -27,9 +25,9 @@ const Input = styled.input`
     -webkit-appearance: none; 
     margin: 0; 
   }
-`
+`;
 
-const AccountInput = ({...rest}) => {
+const AccountInput = ({ ...rest }) => {
   return (
     <Wrapper>
       <Input {...rest} />

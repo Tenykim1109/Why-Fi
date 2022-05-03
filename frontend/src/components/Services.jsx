@@ -63,8 +63,7 @@ const S = {
 const SERVICES_ITEMS = [
   {
     title: "예금적금",
-    description:
-      "예금적금하기 여기 멘트수정",
+    description: "예금적금하기 여기 멘트수정",
     button: "예금적금",
     link: "/예금",
   },
@@ -103,7 +102,7 @@ const Services = () => {
             <br />
 
             {/* <Link to={item.link}> */}
-              <LoginButton>{item.button}</LoginButton>
+            <LoginButton>{item.button}</LoginButton>
             {/* </Link> */}
           </S.ItemBox>
         ))}
