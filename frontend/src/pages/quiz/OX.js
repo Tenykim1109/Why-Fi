@@ -1,14 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Btn = styled.button`
   border: none;
   font-size: 6rem;
   font-weight: bolder;
   background-color: transparent;
-  color: ${
-    props => props.Color && props.Color
-  }};  
+  color: ${(props) => props.Color && props.Color}};  
   cursor: pointer;
 
   & + & {
@@ -16,14 +14,10 @@ const Btn = styled.button`
   }
 
   user-select: none:
-`
+`;
 
-const OX = ({children, ...rest}) => {
-  return (
-    <Btn {...rest}>
-      {children}
-    </Btn>
-  );
+const OX = ({ children, ...rest }) => {
+  return <Btn {...rest}>{children}</Btn>;
 };
 
 export default OX;

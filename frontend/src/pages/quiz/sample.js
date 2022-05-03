@@ -1,11 +1,10 @@
-import React from 'react';
+import React from "react";
 // import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from "styled-components";
 
 // import QuizButton from './QuizButton';
 
-const sample = ({children}) => {
-
+const sample = ({ children }) => {
   // const navigate = useNavigate()
 
   // const startQuiz = () => {
@@ -18,16 +17,10 @@ const sample = ({children}) => {
   return (
     <DIV flex={true}>
       {children}
-      <Title>
-        {children.title}
-      </Title>
-      <Text>
-      {children.text}
-      </Text>
+      <Title>{children.title}</Title>
+      <Text>{children.text}</Text>
       <Line />
-      <div>
-        {children.content}
-      </div>
+      <div>{children.content}</div>
     </DIV>
   );
 };
@@ -37,18 +30,18 @@ const DIV = styled.div`
   height: 100%;
   margin: auto;
   ${({ flex }) => {
-    return flex ? 
-      `display: flex; flex-direction: column; justify-content: center; align-items: center;` 
+    return flex
+      ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
       : null;
   }}
-`
+`;
 
 const Title = styled.h1`
   font-size: 4em;
   font-weight: bolder;
   margin: 0;
   user-select: none;
-`
+`;
 
 const Line = styled.hr`
   width: 350px;
@@ -56,12 +49,12 @@ const Line = styled.hr`
   margin-bottom: 2rem;
   ::focus {
     outline: none;
-}
-`
+  }
+`;
 
 const Text = styled.p`
   font-weight: bold;
   font-size: 1.4rem;
-`
+`;
 
 export default sample;

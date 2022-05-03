@@ -1,1 +1,1 @@
-export {default as topimage} from "./topimage3.jpg";
+export { default as topimage } from "./topimage3.jpg";
