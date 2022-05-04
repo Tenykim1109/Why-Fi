@@ -1,9 +1,0 @@
-DEBUG=TRUE
-SECRET_KEY=django-insecure-h^5@p-5qgmt@r*g7z%qmf7@yb=bx&9#l%4-+ju#6-9yt&penvg
-ALLOWED_HOSTS=localhost,127.0.0.1
-CORS_ORIGIN_WHITELIST=http://localhost:3000,http://127.0.0.1:3000
-NAME=myproject
-USER=root
-PASSWORD=ssafy
-HOST=localhost
-PORT=3307
