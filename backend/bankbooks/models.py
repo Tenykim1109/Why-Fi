@@ -23,8 +23,8 @@ class Stock(models.Model):
     updated_at = models.DateField(auto_now=True)
     STOCK_TYPES = (
         ('A', '엔터'),
-        ('B', '유통'),
-        ('C', '제조'),
+        ('B', '제조'),
+        ('C', '제약'),
     )
     stock_type = models.CharField(max_length=10, choices=STOCK_TYPES)
 
