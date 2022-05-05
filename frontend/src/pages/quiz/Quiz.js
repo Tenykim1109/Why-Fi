@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import OX from './OX';
 import Choice from './Choice';
 import Answer from './Answer';
+import O_img from '../../components/event_img_o.png'
+import X_img from '../../components/event_img_x.png'
+import axios from 'axios';
 
 const Quiz = () => {
 
@@ -90,6 +93,21 @@ const Quiz = () => {
     },
   ]
 
+  const [quizData, setQuizData] = useState([])
+
+  const getQuiz = async () => {
+    await axios
+    // 주소 설정
+      .get('')
+      .then((res) => {
+        console.log(res.data)
+        setQuizData(res.data)
+      })
+  }
+  useEffect(() => {
+    getQuiz();
+  }, [])
+
   const checkAnswer = (answer) => {
     if (currentQuiz.answer === answer) {
       console.log('정답')
@@ -106,7 +124,7 @@ const Quiz = () => {
 
   const addIndex = () => {
     if (idx >= 4)
-      navigate('/quiz/result')
+      navigate('/quiz/result', { state: checkCorrect })
     else
       setIdx(idx => idx + 1)
     setModalOpen(false)
@@ -118,9 +136,9 @@ const Quiz = () => {
 
   const [modalOpen, setModalOpen] = useState(false)
   console.log(modalOpen)
-  const handleModal = () => {
-    setModalOpen((modalOpen) => !(modalOpen))
-  }
+  // const handleModal = () => {
+  //   setModalOpen((modalOpen) => !(modalOpen))
+  // }
 
   return (
     <DIV flex={true}>
@@ -168,14 +186,13 @@ const Quiz = () => {
           {correct 
           ? 
           <>
-            <img />
-            <p>정답입니다</p>
+            <Comment>정답입니다.</Comment>
+            <img src={O_img} alt='O_img' />
           </>
           :
           <>
-            <img />
-            <p>오답입니다</p>
-            <Text>해설</Text>
+            <Comment>틀렸습니다.</Comment>
+            <img src={X_img} alt='X_img' />
             <div>{currentQuiz.commentary}</div>
           </>
           }
@@ -232,6 +249,12 @@ const Line = styled.hr`
 const Text = styled.p`
   font-weight: bold;
   font-size: 1.4rem;
+`
+
+const Comment = styled.p`
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin: 0;
 `
 
 const Option = styled.p`
