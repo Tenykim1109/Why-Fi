@@ -258,13 +258,6 @@ const IMG = styled.img`
   margin: 0 auto;
 `
 
-// const SubTitle = styled.div`
-//   font-size: 1.5rem;
-//   font-weight: bold;
-//   margin-bottom: 1rem;
-//   text-align: center;
-// `
-
 const PrevBtn = styled.button`
   display: block;
   font-size: 1.1rem;

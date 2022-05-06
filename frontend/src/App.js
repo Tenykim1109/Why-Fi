@@ -8,6 +8,8 @@ import Start from './pages/quiz/Start';
 import Quiz from './pages/quiz/Quiz';
 import Result from './pages/quiz/Result';
 import Border from './components/Border';
+import Mypage from './pages/account/Mypage';
+import Delete from './pages/account/Delete';
 
 import Tutorial from './pages/bankbook/Tutorial';
 import MakeDeposit from './pages/bankbook/MakeDeposit';
@@ -22,6 +24,8 @@ function App() {
           <Route path='/' element={<Homepage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/mypage' element={<Mypage />} />
+          <Route path='/mypage/delete' element={<Delete />} />
 
           <Route path='/quiz/start' element={<Start />} />
           <Route path='/quiz' element={<Quiz />} />
