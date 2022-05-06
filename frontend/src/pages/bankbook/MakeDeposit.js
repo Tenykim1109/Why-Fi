@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import DatePicker from "react-datepicker";
-import { ko } from "date-fns/esm/locale";
+// import DatePicker from "react-datepicker";
+// import { ko } from "date-fns/esm/locale";
 import axios from "axios";
 
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 
 import Div from "./Div";
 import HelpDeposit from "./HelpDeposit";
@@ -180,7 +180,7 @@ const MakeDeposit = () => {
       setMoney(0);
     }
     if (value === "+ 1천원") {
-      setMoney(money + 10000);
+      setMoney(money + 1000);
     }
     if (value === "+ 1만원") {
       setMoney(money + 10000);
@@ -257,6 +257,9 @@ const MakeDeposit = () => {
     getExpectedMoney();
   }, [endDate, money]);
 
+  console.log(startDate);
+  console.log(startDate.getDate());
+
   return (
     <Div flex={true}>
       {help ? (
@@ -269,6 +272,17 @@ const MakeDeposit = () => {
           <Title>예금 가입</Title>
           <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
           <Flex>
+            <Text>시작일자</Text>
+            <Input
+              type="date"
+              value={startDate.toISOString().substring(0, 10)}
+            />
+          </Flex>
+          <Flex>
+            <Text>시작일자</Text>
+            <Input type="date" value={endDate.toISOString().substring(0, 10)} />
+          </Flex>
+          {/* <Flex>
             <Text>시작일자</Text>
             <DatePickerStyled>
               <SelectDate
@@ -290,7 +304,7 @@ const MakeDeposit = () => {
                 onChange={(date) => setEndDate(date)}
               />
             </DatePickerStyled>
-          </Flex>
+          </Flex> */}
           <Flex>
             <Text>가입기간</Text>
             <Box>{btnClicked}</Box>
@@ -358,29 +372,29 @@ const Text = styled.p`
   width: 250px;
 `;
 
-const DatePickerStyled = styled.div`
-  .react-datepicker-wrapper {
-    width: 100%;
-  }
-`;
+// const DatePickerStyled = styled.div`
+//   .react-datepicker-wrapper {
+//     width: 100%;
+//   }
+// `;
 
-const SelectDate = styled(DatePicker)`
-  width: 250px;
-  height: 40px;
-  padding: 6px 12px;
-  font-size: 1.2rem;
-  text-align: center;
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
-  outline: none;
-  cursor: pointer;
-  .react-datepicker__input-container {
-    width: inherit;
-  }
-  .react-datepicker-wrapper {
-    width: 100%;
-  }
-`;
+// const SelectDate = styled(DatePicker)`
+//   width: 250px;
+//   height: 40px;
+//   padding: 6px 12px;
+//   font-size: 1.2rem;
+//   text-align: center;
+//   border: 1px solid #e5e5e5;
+//   border-radius: 10px;
+//   outline: none;
+//   cursor: pointer;
+//   .react-datepicker__input-container {
+//     width: inherit;
+//   }
+//   .react-datepicker-wrapper {
+//     width: 100%;
+//   }
+// `;
 
 const Input = styled.input`
   width: 250px;
@@ -393,6 +407,10 @@ const Input = styled.input`
   outline: none;
   ::-webkit-inner-spin-button {
     -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-calendar-picker-indicator {
+    display: none;
     margin: 0;
   }
 `;
