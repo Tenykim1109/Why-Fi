@@ -6,6 +6,7 @@ import WhaleSmile from '../../components/whale_smile.jpg'
 
 import Container from './Container';
 import Title from './Title';
+import SubTitle from './SubTitle';
 import Describe from './Describe'
 
 const HelpDeposit = () => {
@@ -70,13 +71,6 @@ const HelpDeposit = () => {
     </div>
   );
 };
-
-const SubTitle = styled.div`
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
-`
 
 const IMG = styled.img`
   width: 300px;
