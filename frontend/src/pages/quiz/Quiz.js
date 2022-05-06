@@ -134,8 +134,12 @@ const Quiz = () => {
     setCurrentQuiz(quiz_sample[idx])
   }, [idx])
 
+  // useEffect(() => {
+  //   setCurrentQuiz(quizData[idx])
+  // }, [idx])
+
   const [modalOpen, setModalOpen] = useState(false)
-  console.log(modalOpen)
+  // console.log(modalOpen)
   // const handleModal = () => {
   //   setModalOpen((modalOpen) => !(modalOpen))
   // }
@@ -178,6 +182,7 @@ const Quiz = () => {
               <Option>{currentQuiz.choices_view4}</Option>
             </Flex>
           </Grid>
+          
         </>
       }
       <button onClick={addIndex}>idx test</button>

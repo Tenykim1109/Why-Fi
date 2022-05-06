@@ -1,12 +1,14 @@
-import React, { 
+import React, {
   // useState 
 } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-// import axios from 'axios';
 
 import QuizButton from './QuizButton';
-import VeryGood from '../../components/VeryGood';
+// import VeryGood from '../../components/VeryGood';
+import Whale from '../../components/whale.png'
+import WhaleSmile from '../../components/whale_smile.jpg'
+import WhaleCry from '../../components/whale_cry.jpg'
 
 const Result = () => {
 
@@ -15,6 +17,25 @@ const Result = () => {
   // console.log('state', state)
   // const [correct, setCorrect] = useState(0)
   // console.log(setCorrect)
+
+  const ReturnImg = () => {
+    if (state >= 4) {
+      return (
+        <IMG src={WhaleSmile} alt='whale_smile' />
+      )
+    }
+    else if (state >= 2) {
+      return (
+        <IMG src={Whale} alt='whale' />
+      )
+    }
+    else {
+      return (
+        <IMG src={WhaleCry} alt='whale_cry' />
+      )
+    }
+  }
+  console.log(ReturnImg)
 
   const startQuiz = () => {
     navigate('/quiz/start')
@@ -25,9 +46,10 @@ const Result = () => {
 
   return (
     <DIV flex={true}>
-      <VeryGood />
+      {/* <VeryGood /> */}
+      <ReturnImg />
       <Text>
-        5문제 중 {state}문제 맞았습니다.
+        5문제 중 {state}문제 맞혔어요.
       </Text>
       <Line />
       <div>
@@ -61,7 +83,12 @@ const Line = styled.hr`
 const Text = styled.p`
   font-weight: bold;
   font-size: 1.4rem;
+  margin-top: 0;
 `
 
+const IMG = styled.img`
+  width: 200px;
+  height: 200px;
+`
 
 export default Result;
