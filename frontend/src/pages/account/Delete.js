@@ -1,25 +1,22 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-import Div from '../bankbook/Div';
+import Div from "../bankbook/Div";
 
 const Delete = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const toHome = () => {
-    navigate('/')
-  }
+    navigate("/");
+  };
   const toMypage = () => {
-    navigate('/mypage')
-  }
+    navigate("/mypage");
+  };
 
   return (
     <Div flex={true}>
-      <Content>
-        정말로 탈퇴하시겠어요?
-      </Content>
+      <Content>정말로 탈퇴하시겠어요?</Content>
       <Flex>
         <Yes onClick={toHome}>예</Yes>
         <No onClick={toMypage}>아니요</No>
@@ -33,18 +30,18 @@ const Flex = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Content = styled.p`
   font-size: 2rem;
   font-weight: bold;
-`
+`;
 
 const No = styled.button`
   width: 180px;
   height: 60px;
 
-  background-color: #4CB5F5;
+  background-color: #4cb5f5;
   color: white;
   font-size: 1.3rem;
   font-weight: bold;
@@ -52,12 +49,12 @@ const No = styled.button`
   border-radius: 8px;
   margin: 0 30px;
   cursor: pointer;
-  `
-  
-  const Yes = styled.button`
+`;
+
+const Yes = styled.button`
   width: 180px;
   height: 60px;
-  
+
   background-color: #e74c3c;
   color: white;
   font-size: 1.3rem;
@@ -66,6 +63,6 @@ const No = styled.button`
   border-radius: 8px;
   margin: 0 30px;
   cursor: pointer;
-`
+`;
 
 export default Delete;
