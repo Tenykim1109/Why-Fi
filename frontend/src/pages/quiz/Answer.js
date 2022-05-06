@@ -27,13 +27,13 @@ const Background = styled.div`
 `;
 
 const ModalBlock = styled.div`
-  position: absolute;
+    position: absolute;
 
-  border-radius: 10px;
-  padding: 1.5rem;
-  background-color: white;
-  width: 400px;
-  min-height: 400px;
+    border-radius: 10px;
+    padding: 1.5rem;
+    background-color: white;
+    width: 400px;
+    min-height: 400px;
 `;
 
 const Contents = styled.div`

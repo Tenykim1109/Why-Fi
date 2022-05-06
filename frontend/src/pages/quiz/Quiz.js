@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import OX from "./OX";
-import Choice from "./Choice";
-import Answer from "./Answer";
+import OX from './OX';
+import Choice from './Choice';
+import Answer from './Answer';
+import O_img from '../../components/event_img_o.png'
+import X_img from '../../components/event_img_x.png'
+import axios from 'axios';
 
 const Quiz = () => {
   // 퀴즈 5개 랜덤하게 가져옴
@@ -89,6 +92,21 @@ const Quiz = () => {
     },
   ];
 
+  const [quizData, setQuizData] = useState([])
+
+  const getQuiz = async () => {
+    await axios
+    // 주소 설정
+      .get('')
+      .then((res) => {
+        console.log(res.data)
+        setQuizData(res.data)
+      })
+  }
+  useEffect(() => {
+    getQuiz();
+  }, [])
+
   const checkAnswer = (answer) => {
     if (currentQuiz.answer === answer) {
       console.log("정답");
@@ -103,20 +121,26 @@ const Quiz = () => {
   };
 
   const addIndex = () => {
-    if (idx >= 4) navigate("/quiz/result");
-    else setIdx((idx) => idx + 1);
-    setModalOpen(false);
-  };
+    if (idx >= 4)
+      navigate('/quiz/result', { state: checkCorrect })
+    else
+      setIdx(idx => idx + 1)
+    setModalOpen(false)
+  }
 
   useEffect(() => {
     setCurrentQuiz(quiz_sample[idx]);
   }, [idx]);
 
-  const [modalOpen, setModalOpen] = useState(false);
-  console.log(modalOpen);
-  const handleModal = () => {
-    setModalOpen((modalOpen) => !modalOpen);
-  };
+  // useEffect(() => {
+  //   setCurrentQuiz(quizData[idx])
+  // }, [idx])
+
+  const [modalOpen, setModalOpen] = useState(false)
+  // console.log(modalOpen)
+  // const handleModal = () => {
+  //   setModalOpen((modalOpen) => !(modalOpen))
+  // }
 
   return (
     <DIV flex={true}>
@@ -161,24 +185,26 @@ const Quiz = () => {
               <Option>{currentQuiz.choices_view4}</Option>
             </Flex>
           </Grid>
+          
         </>
       )}
       <button onClick={addIndex}>idx test</button>
       {modalOpen && (
         <Answer toNextQuestion={addIndex}>
-          {correct ? (
-            <>
-              <img />
-              <p>정답입니다</p>
-            </>
-          ) : (
-            <>
-              <img />
-              <p>오답입니다</p>
-              <Text>해설</Text>
-              <div>{currentQuiz.commentary}</div>
-            </>
-          )}
+          {correct 
+          ? 
+          <>
+            <Comment>정답입니다.</Comment>
+            <img src={O_img} alt='O_img' />
+          </>
+          :
+          <>
+            <Comment>틀렸습니다.</Comment>
+            <img src={X_img} alt='X_img' />
+            <div>{currentQuiz.commentary}</div>
+          </>
+          }
+          
         </Answer>
       )}
     </DIV>
@@ -232,6 +258,12 @@ const Text = styled.p`
   font-weight: bold;
   font-size: 1.4rem;
 `;
+
+const Comment = styled.p`
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin: 0;
+`
 
 const Option = styled.p`
   font-size: 1.5rem;
