@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Div = styled.div`
   width: 100%;
@@ -7,14 +7,10 @@ const Div = styled.div`
   text-align: center;
   margin: 10px 0;
   white-space: pre-line;
-`
+`;
 
-const Describe = ({children, ...rest}) => {
-  return (
-    <Div {...rest}>
-      {children}
-    </Div>
-  );
+const Describe = ({ children, ...rest }) => {
+  return <Div {...rest}>{children}</Div>;
 };
 
 export default Describe;

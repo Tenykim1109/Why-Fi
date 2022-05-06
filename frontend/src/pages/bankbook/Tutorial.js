@@ -1,235 +1,215 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import axios from 'axios'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
 
-import Whale from '../../components/whale.png'
-// import WhaleSmile from '../../components/whale_smile.jpg'
+import Whale from "../../components/whale.png";
+// import WhaleSmile from "../../components/whale_smile.jpg";
 
-import HelpBankbook from './HelpBackbook';
-import Div from './Div';
-import CloseBtn from './CloseBtn';
-import HelpBtn from './HelpBtn';
-import Container from './Container';
-import Title from './Title';
-import Describe from './Describe';
-import Bold from './Bold';
+import HelpBankbook from "./HelpBackbook";
+import Div from "./Div";
+import CloseBtn from "./CloseBtn";
+import HelpBtn from "./HelpBtn";
+import Container from "./Container";
+import Title from "./Title";
+import Describe from "./Describe";
+import Bold from "./Bold";
 
 const Tutorial = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const [page, setPage] = useState(1);
+  const [pageMain, setPageMain] = useState(0);
 
-  const [page, setPage] = useState(1)
-  const [pageMain, setPageMain] = useState(0)
+  const [help, setHelp] = useState(true);
+  const [close, setClose] = useState(false);
+  const [name, setName] = useState("");
+  const [birth, setBirth] = useState("");
+  const [pw, setPw] = useState("");
 
-  const [help, setHelp] = useState(true)
-  const [close, setClose] = useState(false)
-  const [name, setName] = useState('')
-  const [birth, setBirth] = useState('')
-  const [pw, setPw] = useState('')
-
-  const [nameError, setNameError] = useState(0)
-  const [errorMsg, setErrorMsg] = useState('')
-  const [birthError, setBirthError] = useState(0)
-  const [pwError, setPwError] = useState(0)
-  // const [pwErrorMsg, setPwErrorMsg] = useState('')
-
+  const [nameError, setNameError] = useState(0);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [birthError, setBirthError] = useState(0);
+  const [pwError, setPwError] = useState(0);
+  // const [pwErrorMsg, setPwErrorMsg] = useState("");
 
   const nameHandle = (event) => {
-    const inputName = event.target.value
-    setName(inputName)
-    
+    const inputName = event.target.value;
+    setName(inputName);
+
     // 이름 유효성 검사
     var nameValid = /^[가-힣]{2,15}$/;
     if (!nameValid.test(inputName)) {
-      setErrorMsg('한글만 입력해주세요.')
-      setNameError(1)
+      setErrorMsg("한글만 입력해주세요.");
+      setNameError(1);
+    } else {
+      setErrorMsg("");
+      setNameError(2);
     }
-    else {
-      setErrorMsg('')
-      setNameError(2)
-    }
-  }
+  };
   const birthHandle = (event) => {
-    const inputBirth = event.target.value
+    const inputBirth = event.target.value;
     if (inputBirth.length >= 6) {
-      const validBirth = inputBirth.substr(0, 6)
-      setBirth(validBirth)
-      setBirthError(2)
+      const validBirth = inputBirth.substr(0, 6);
+      setBirth(validBirth);
+      setBirthError(2);
+    } else {
+      setBirth(inputBirth);
+      setBirthError(1);
     }
-    else {
-      setBirth(inputBirth)
-      setBirthError(1)
-    }  
-  }
+  };
 
   const pwHandle = (event) => {
-    const inputPW = event.target.value
+    const inputPW = event.target.value;
 
     if (isFinite(inputPW)) {
-      console.log('ok')
-      setPw(inputPW)
+      console.log("ok");
+      setPw(inputPW);
 
       if (inputPW.length >= 4) {
-        const validPw = inputPW.substr(0, 4)
-        setPw(validPw)
-        setPwError(2)
+        const validPw = inputPW.substr(0, 4);
+        setPw(validPw);
+        setPwError(2);
+      } else {
+        setPw(inputPW);
+        setPwError(1);
       }
-      else {
-        setPw(inputPW)
-        setPwError(1)
-      }
+    } else {
+      setPwError(1);
     }
-    else {
-      setPwError(1)
-    }
-  }
+  };
 
   const closeHandle = () => {
-    setHelp(help => !help)
-    setPage(1)
-  }
+    setHelp((help) => !help);
+    setPage(1);
+  };
 
   const next = () => {
-    setPageMain(1)
-  }
+    setPageMain(1);
+  };
   const prev = () => {
-    setPageMain(0)
-  }
+    setPageMain(0);
+  };
 
   const makeBankBook = () => {
     axios({
-      url: '',
-      method: 'post',
+      url: "",
+      method: "post",
       data: {
         name: name,
         birth: birth,
         password: pw,
-      }
+      },
     })
       .then((res) => {
-        navigate('/savings/success', { state: '통장' })
+        navigate("/savings/success", { state: "통장" });
       })
       .catch((err) => {
-        console.log(err)
-      })
-    // navigate('/savings/success', { state: '통장' })
-  }
+        console.log(err);
+      });
+    // navigate("/savings/success", { state: "통장" });
+  };
 
   return (
     <Div flex={true}>
-      {help
-        ?
-          <>
-            <HelpBankbook 
-              page={page} setPage={setPage} setClose={setClose}
-            />
-            {
-              close &&
-              <CloseBtn
-                onClick={closeHandle}
-              >
-                닫기
-              </CloseBtn>
-            }
-          </>
-        :
-          <>
-            <Title>통장 가입</Title>
-            <HelpBtn
-              onClick={() => setHelp(help => !help)}
-            >
-              도움말
-            </HelpBtn>
-            {!pageMain
-              ?
-              <form>
-                <Flex>
-                  <Text>이름</Text>
-                  <Input 
-                    type='text'
-                    value={name}
-                    onChange={nameHandle}
-                    placeholder='이름'
-                    />
-                </Flex>
-                <ErrorMsg>{errorMsg}</ErrorMsg>
-                <Flex>
-                  <Text>생년월일</Text>
-                  <Input 
-                    type='number'
-                    maxlength='6'
-                    value={birth}
-                    onChange={birthHandle}
-                    placeholder='생년월일 6자리'
-                  />
-                </Flex>
-                <NextBtn 
-                  disabled={!(nameError === 2 && birthError === 2)}
-                  onClick={next}
-                >
-                  다음
-                </NextBtn>
-              </form>
-              :
-              <form>
-                <Flex>
-                  <Text>비밀번호</Text>
-                  <Input 
-                    type='password'
-                    maxlength='4'
-                    value={pw}
-                    onChange={pwHandle}
-                    placeholder='비밀번호 숫자 4자리'
-                    autoComplete='on'
-                  />
-                </Flex>
-                <Flex>
-                  <PrevBtn 
-                    onClick={prev}
-                  >
-                    이전
-                  </PrevBtn>
-                  <MakeBtn
-                    onClick={makeBankBook}
-                    disabled={!(nameError === 2 && pwError === 2 && birthError === 2)}
-                  >가입하기</MakeBtn>
-                </Flex>
-              </form>
-            }
-            <IMG src={Whale} alt='whale' />
-            <Container>
-              <Describe>
-                {!pageMain
-                  ?
-                  <>
-                    실제로는 <Bold>신분증</Bold>과 <Bold>주민등록등본</Bold>과 같은 서류들과 <br /> <Bold>추가적인 정보</Bold>들이 더 필요해요.
-                  </>
-                  :
-                  <>
-                    비밀번호 네 자리로 <Bold>연속된 숫자</Bold>나 <Bold>쉬운 숫자</Bold>는 <br />피해야 해요.
-                  </>
-                }
-              </Describe>
-            </Container>
-          </>
-      }
+      {help ? (
+        <>
+          <HelpBankbook page={page} setPage={setPage} setClose={setClose} />
+          {close && <CloseBtn onClick={closeHandle}>닫기</CloseBtn>}
+        </>
+      ) : (
+        <>
+          <Title>통장 가입</Title>
+          <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
+          {!pageMain ? (
+            <form>
+              <Flex>
+                <Text>이름</Text>
+                <Input
+                  type="text"
+                  value={name}
+                  onChange={nameHandle}
+                  placeholder="이름"
+                />
+              </Flex>
+              <ErrorMsg>{errorMsg}</ErrorMsg>
+              <Flex>
+                <Text>생년월일</Text>
+                <Input
+                  type="number"
+                  maxlength="6"
+                  value={birth}
+                  onChange={birthHandle}
+                  placeholder="생년월일 6자리"
+                />
+              </Flex>
+              <NextBtn
+                disabled={!(nameError === 2 && birthError === 2)}
+                onClick={next}>
+                다음
+              </NextBtn>
+            </form>
+          ) : (
+            <form>
+              <Flex>
+                <Text>비밀번호</Text>
+                <Input
+                  type="password"
+                  maxlength="4"
+                  value={pw}
+                  onChange={pwHandle}
+                  placeholder="비밀번호 숫자 4자리"
+                  autoComplete="on"
+                />
+              </Flex>
+              <Flex>
+                <PrevBtn onClick={prev}>이전</PrevBtn>
+                <MakeBtn
+                  onClick={makeBankBook}
+                  disabled={
+                    !(nameError === 2 && pwError === 2 && birthError === 2)
+                  }>
+                  가입하기
+                </MakeBtn>
+              </Flex>
+            </form>
+          )}
+          <IMG src={Whale} alt="whale" />
+          <Container>
+            <Describe>
+              {!pageMain ? (
+                <>
+                  실제로는 <Bold>신분증</Bold>과 <Bold>주민등록등본</Bold>과
+                  같은 서류들과 <br /> <Bold>추가적인 정보</Bold>들이 더
+                  필요해요.
+                </>
+              ) : (
+                <>
+                  비밀번호 네 자리로 <Bold>연속된 숫자</Bold>나
+                  <Bold>쉬운 숫자</Bold>는
+                  <br />
+                  피해야 해요.
+                </>
+              )}
+            </Describe>
+          </Container>
+        </>
+      )}
     </Div>
   );
 };
-
 
 const Flex = styled.div`
   width: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const Text = styled.p`
   font-size: 1.1rem;
   width: 250px;
-`
+`;
 
 const Input = styled.input`
   width: 250px;
@@ -240,23 +220,23 @@ const Input = styled.input`
   border: 1px solid #e5e5e5;
   border-radius: 10px;
   outline: none;
-  ::-webkit-inner-spin-button{
-    -webkit-appearance: none; 
-    margin: 0; 
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
-`
+`;
 
 const ErrorMsg = styled.p`
   color: red;
   text-align: center;
   margin: 0;
-`
+`;
 
 const IMG = styled.img`
   width: 300px;
   height: 300px;
   margin: 0 auto;
-`
+`;
 
 const PrevBtn = styled.button`
   display: block;
@@ -264,7 +244,7 @@ const PrevBtn = styled.button`
   font-weight: bold;
   width: 75px;
   height: 50px;
-  background-color: #4CB5F5;
+  background-color: #4cb5f5;
   color: white;
   border: 0px;
   border-radius: 8px;
@@ -273,10 +253,10 @@ const PrevBtn = styled.button`
   cursor: pointer;
 
   :disabled {
-    background-color : gray;
+    background-color: gray;
     cursor: default;
   }
-`
+`;
 
 const NextBtn = styled.button`
   display: block;
@@ -284,7 +264,7 @@ const NextBtn = styled.button`
   font-weight: bold;
   width: 75px;
   height: 50px;
-  background-color: #4CB5F5;
+  background-color: #4cb5f5;
   color: white;
   border: 0px;
   border-radius: 8px;
@@ -293,10 +273,10 @@ const NextBtn = styled.button`
   cursor: pointer;
 
   :disabled {
-    background-color : gray;
+    background-color: gray;
     cursor: default;
   }
-`
+`;
 
 const MakeBtn = styled.button`
   width: 100px;
@@ -304,16 +284,16 @@ const MakeBtn = styled.button`
 
   font-size: 1.1rem;
   font-weight: bold;
-  background-color: #4CB5F5;
+  background-color: #4cb5f5;
   color: white;
   border: 0px;
   border-radius: 8px;
   cursor: pointer;
 
   :disabled {
-    background-color : gray;
+    background-color: gray;
     cursor: default;
   }
-`
+`;
 
 export default Tutorial;

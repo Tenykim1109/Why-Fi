@@ -1,41 +1,31 @@
-import React, {
-  // useState 
-} from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import styled from "styled-components";
 
-import QuizButton from './QuizButton';
-// import VeryGood from '../../components/VeryGood';
-import Whale from '../../components/whale.png'
-import WhaleSmile from '../../components/whale_smile.jpg'
-import WhaleCry from '../../components/whale_cry.jpg'
+import QuizButton from "./QuizButton";
+// import VeryGood from "../../components/VeryGood";
+import Whale from "../../components/whale.png";
+import WhaleSmile from "../../components/whale_smile.jpg";
+import WhaleCry from "../../components/whale_cry.jpg";
 
 const Result = () => {
-
-  const navigate = useNavigate()
-  const { state } = useLocation()
-  // console.log('state', state)
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  // console.log("state", state)
   // const [correct, setCorrect] = useState(0)
   // console.log(setCorrect)
 
   const ReturnImg = () => {
     if (state >= 4) {
-      return (
-        <IMG src={WhaleSmile} alt='whale_smile' />
-      )
+      return <IMG src={WhaleSmile} alt="whale_smile" />;
+    } else if (state >= 2) {
+      return <IMG src={Whale} alt="whale" />;
+    } else {
+      return <IMG src={WhaleCry} alt="whale_cry" />;
     }
-    else if (state >= 2) {
-      return (
-        <IMG src={Whale} alt='whale' />
-      )
-    }
-    else {
-      return (
-        <IMG src={WhaleCry} alt='whale_cry' />
-      )
-    }
-  }
-  console.log(ReturnImg)
+  };
+
+  console.log(ReturnImg);
 
   const startQuiz = () => {
     navigate("/quiz/start");
@@ -48,9 +38,7 @@ const Result = () => {
     <DIV flex={true}>
       {/* <VeryGood /> */}
       <ReturnImg />
-      <Text>
-        5문제 중 {state}문제 맞혔어요.
-      </Text>
+      <Text>5문제 중 {state}문제 맞혔어요.</Text>
       <Line />
       <div>
         <QuizButton onClick={startQuiz}>다시하기</QuizButton>
@@ -84,11 +72,11 @@ const Text = styled.p`
   font-weight: bold;
   font-size: 1.4rem;
   margin-top: 0;
-`
+`;
 
 const IMG = styled.img`
   width: 200px;
   height: 200px;
-`
+`;
 
 export default Result;

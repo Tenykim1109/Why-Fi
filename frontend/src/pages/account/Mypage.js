@@ -1,41 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import styled from "styled-components";
 
-import Div from '../bankbook/Div';
-import Title from '../bankbook/Title';
-import SubTitle from '../bankbook/SubTitle';
-import Describe from '../bankbook/Describe';
+import Div from "../bankbook/Div";
+import Title from "../bankbook/Title";
+import SubTitle from "../bankbook/SubTitle";
+// import Describe from "../bankbook/Describe";
 
 const Mypage = () => {
-
-  const [userData, setUserData] = useState()
+  const [userData, setUserData] = useState();
 
   const getUserData = () => {
     axios({
-      url: '',
-      method: 'post',
+      url: "",
+      method: "post",
       headers: {
-        'Authorization': `Bearer `
-      }
+        // "Authorization": `Bearer `
+      },
     })
-    .then((res) => {
-      setUserData(res.data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getUserData();
-  }, [])
+  }, []);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const toDelete = () => {
-    navigate('/mypage/delete')
-  }
+    navigate("/mypage/delete");
+  };
 
   return (
     <Div flex={true}>
@@ -61,11 +61,11 @@ const UL = styled.ul`
   padding: 0;
   margin: 0;
   margin-bottom: 1rem;
-`
+`;
 
 const OL = styled.ol`
   font-size: 1.2rem;
-`
+`;
 
 const Button = styled.button`
   width: 180px;
@@ -80,6 +80,6 @@ const Button = styled.button`
   border: 0px;
   border-radius: 8px;
   cursor: pointer;
-`
+`;
 
 export default Mypage;
