@@ -9,6 +9,8 @@ import Quiz from './pages/quiz/Quiz';
 import Result from './pages/quiz/Result';
 import Border from './components/Border';
 
+import Stock from './pages/stock/Stock';
+
 function App() {
   return (
     <Router>
@@ -21,9 +23,11 @@ function App() {
           <Route path='/quiz/start' element={<Start />} />
           <Route path='/quiz/' element={<Quiz />} />
           <Route path='/quiz/result' element={<Result />} />
+          <Route path='/stock' element={<Stock/>} />
         </Routes>
       </Border>
     </Router>
+    // <StockMain></StockMain>
   );
 }
 

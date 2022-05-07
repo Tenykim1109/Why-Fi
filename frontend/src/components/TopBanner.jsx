@@ -43,11 +43,11 @@ const TopBanner = () => {
         <S.Description>
           Why-Fi 는 어린이들을 위한 금융교육 플랫폼입니다
         </S.Description>
-        
+        <Link to="/login">
           <LoginButton fill="solid" type ="button">
             시작하기
           </LoginButton>
-        
+        </Link>
       </S.Wrapper>
     </S.Background>
    
