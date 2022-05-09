@@ -7,5 +7,5 @@ from .serializers import QuizSerializer
 @api_view(['GET'])
 def test(request):
     tests = Quiz.objects.order_by('?')[:5]
-    serializer = QuizSerializer(tests)
+    serializer = QuizSerializer(tests, many=True)
     return Response(serializer.data)
