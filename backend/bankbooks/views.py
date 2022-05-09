@@ -102,18 +102,18 @@ def delete(request, book_type):
     if user.name == name and user.birthday == datetime.date.fromisoformat(birthday) and user.book_password == book_password:
         book = get_object_or_404(BankBook, user=user, book_type=book_type)
 
-        if datetime.date.fromisoformat(book.deadline) < datetime.date.today():
+        if book.deadline < datetime.date.today():
             user.balance += book.balance
             user.save()
             book.delete()
             return Response({'response: 중도 해지'}, status=status.HTTP_204_NO_CONTENT)
 
-        elif datetime.date.fromisoformat(book.deadline) >= datetime.date.today():
+        elif book.deadline >= datetime.date.today():
             user.balance += (book.balance + book.interest)
             user.save()
             book.delete()
             return Response({'response: 만기 해지'}, status=status.HTTP_204_NO_CONTENT)
-    
+
     else:
         return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
 
