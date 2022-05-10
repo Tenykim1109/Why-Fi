@@ -6,7 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import PhaserGame from "./ingame/PhaserGame";
+import GameApp from "./ingame/GameApp";
 import Homepage from "./pages/Homepage";
 import Signup from "./pages/account/Signup";
 import Login from "./pages/account/Login";
@@ -36,7 +36,7 @@ export default function App() {
             <Route path="/quiz/start" element={<Start />} />
             <Route path="/quiz/" element={<Quiz />} />
             <Route path="/quiz/result" element={<Result />} />
-            <Route path="/ingame" element={<PhaserGame />} />
+            <Route path="/ingame" element={<GameApp />} />
           </Routes>
         </Border>
       </Router>

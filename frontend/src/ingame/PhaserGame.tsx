@@ -1,7 +1,32 @@
+import React from "react";
 import Phaser from "phaser";
 import Preloader from "./scenes/Preloader";
 import Game from "./scenes/Game";
-import React from "react";
+
+// const config: Phaser.Types.Core.GameConfig = {
+//   type: Phaser.AUTO,
+//   parent: "phaser-container",
+//   pixelArt: true,
+//   scale: {
+//     mode: Phaser.Scale.ScaleModes.RESIZE,
+//     width: window.innerWidth,
+//     height: window.innerHeight,
+//   },
+//   physics: {
+//     default: "arcade",
+//     arcade: {
+//       gravity: { y: 0 },
+//       debug: false,
+//     },
+//   },
+//   autoFocus: true,
+//   scene: [Start, Preloader, Game],
+// };
+
+// const phaserGame = new Phaser.Game(config);
+// (window as any).game = phaserGame;
+
+// export default phaserGame;
 
 export default class PhaserGame extends React.Component {
   componentDidMount() {
@@ -10,7 +35,7 @@ export default class PhaserGame extends React.Component {
       parent: "phaser-game",
       pixelArt: true,
       scale: {
-        // mode: Phaser.Scale.ScaleModes.RESIZE,
+        mode: Phaser.Scale.ScaleModes.RESIZE,
         width: window.innerWidth,
         height: window.innerHeight,
       },
@@ -25,7 +50,6 @@ export default class PhaserGame extends React.Component {
       scene: [Preloader, Game],
     };
 
-    console.log("안녕");
     new Phaser.Game(config);
   }
 
