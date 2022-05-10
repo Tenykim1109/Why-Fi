@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     # TokenRefreshView,
-    # TokenVerifyView
+    # TokenVerifyView,
 )
 from . import views
 
@@ -17,5 +17,6 @@ urlpatterns = [
     path('self/', views.self),
     path('profile/<username>/', views.profile),
     path('setpassword/', views.setpassword),
+    path('bookcheck/<book_number>/', views.bookcheck),
     path('remittance/', views.remittance),
 ]
