@@ -22,12 +22,11 @@
     - name
     - birthday
     - book_password
+  - 송금 대상 확인 [GET] : accounts/bookcheck/<str : book_number>/
   - 송금 [POST] : accounts/remittance/
-    - name
-    - birthday
     - book_number
     - book_password
-    - money
+    - money  (0 < money <= 본인 계좌 잔액)
 
 
 
