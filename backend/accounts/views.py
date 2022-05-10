@@ -159,7 +159,7 @@ def remittance(request):
     if not User.objects.filter(book_number=book_number).exists() or user.book_number == book_number:
         return Response({'error: 잘못된 계좌번호 입력'}, status=status.HTTP_400_BAD_REQUEST)
     
-    if user.balance < money:
+    if not money or user.balance < money:
         return Response({'error: 잘못된 송금 금액 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
     if user.book_password == book_password:
