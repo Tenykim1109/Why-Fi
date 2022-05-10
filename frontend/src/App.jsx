@@ -60,7 +60,7 @@ export default function App() {
             <Route path="/savings/start" element={<MakeSavings />} />
             <Route path="/savings/success" element={<Success />} />
 
-            <Route path="/ingame" element={<PhaserGame />} />
+            <Route path="/ingame" element={<GameApp />} />
           </Routes>
         </Border>
       </Router>
