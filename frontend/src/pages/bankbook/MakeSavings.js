@@ -166,6 +166,8 @@ const MakeSavings = () => {
     }
   };
 
+  // console.log(endDate.toISOString().slice(0, 10));
+
   const [money, setMoney] = useState(0);
 
   const moneyInputHandle = (event) => {
@@ -175,12 +177,12 @@ const MakeSavings = () => {
   const moneyBtnHandle = (event) => {
     const { value } = event.target;
     setMoney(event.target.value);
-    console.log(money);
+    // console.log(money);
     if (value === "초기화") {
       setMoney(0);
     }
     if (value === "+ 1천원") {
-      setMoney(money + 10000);
+      setMoney(money + 1000);
     }
     if (value === "+ 1만원") {
       setMoney(money + 10000);
@@ -209,50 +211,73 @@ const MakeSavings = () => {
     if (!money) alert("맡길 금액을 설정해주세요.");
     else
       axios({
-        // 주소 설정
-        url: "",
+        url: "http://127.0.0.1:8000/api/bankbooks/create/",
         method: "post",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
         data: {
-          // 변수명 다시 설정
-          data: btnClicked.slice(0, -1),
-          money: money,
+          payment: money,
+          deadline: endDate.toISOString().slice(0, 10),
+          book_type: "savings",
         },
       })
-        .then(navigate("/savings/success", { state: "적금" }))
+        .then((res) => {
+          console.log(res.data);
+          navigate("/savings/success", { state: "적금" });
+        })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data);
         });
-    // navigate("/savings/success", { state: "적금" })
   };
 
-  const [interest, setInterest] = useState(0);
+  // 잔액 조회
+  // const [balance, setBalance] = useState(0);
+  // const getBalance = async () => {
+  //   await axios({
+  //     url: "http://127.0.0.1:8000/api/accounts/self/",
+  //     method: "get",
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+  //     },
+  //   }).then((res) => {
+  //     // console.log(res.data.balance);
+  //     setBalance(res.data.balance);
+  //   });
+  // };
 
-  const getInterest = async () => {
-    await axios
-      // 주소 설정
-      .get("")
-      .then((res) => {
-        console.log(res.data);
-        setInterest(res.data.interest);
-      });
-  };
-  useEffect(() => {
-    getInterest();
-  }, []);
+  // useEffect(() => {
+  //   getBalance();
+  // }, []);
 
+  // 최대 설정 가능 금액
+  // const [alertMoney, setAlertMoney] = useState("");
+  // console.log(Math.ceil(balance / (btnClicked.slice(0, -1) * 7)));
+  // useEffect(() => {
+  //   setAlertMoney(Math.ceil(balance / (btnClicked.slice(0, -1) * 7)));
+  // }, [balance, btnClicked]);
+
+  // 예상 금액 조회
   const [expectedMoney, setExpectedMoney] = useState(0);
 
-  const getExpectedMoney = async () => {
-    await axios
-      // 주소 설정
-      .get("")
-      .then((res) => {
-        console.log(res.data);
-        setExpectedMoney(res.data.interest);
-      });
-  };
-
   useEffect(() => {
+    const getExpectedMoney = async () => {
+      await axios({
+        url: "http://127.0.0.1:8000/api/bankbooks/getinterest/",
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+        data: {
+          payment: money,
+          deadline: endDate.toISOString().slice(0, 10),
+          book_type: "savings",
+        },
+      }).then((res) => {
+        // console.log(res.data);
+        setExpectedMoney(res.data);
+      });
+    };
     getExpectedMoney();
   }, [endDate, money]);
 
@@ -272,35 +297,17 @@ const MakeSavings = () => {
             <Input
               type="date"
               value={startDate.toISOString().substring(0, 10)}
+              readOnly={true}
             />
           </Flex>
           <Flex>
-            <Text>시작일자</Text>
-            <Input type="date" value={endDate.toISOString().substring(0, 10)} />
-          </Flex>
-          {/* <Flex>
-            <Text>시작일자</Text>
-            <DatePickerStyled>
-              <SelectDate
-                readOnly={true}
-                locale={ko}
-                dateFormat="yyyy-MM-dd"
-                selected={startDate}
-              />
-            </DatePickerStyled>
-          </Flex>
-          <Flex>
             <Text>종료일자</Text>
-            <DatePickerStyled>
-              <SelectDate
-                readOnly={true}
-                locale={ko}
-                dateFormat="yyyy-MM-dd"
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-              />
-            </DatePickerStyled>
-          </Flex> */}
+            <Input
+              type="date"
+              value={endDate.toISOString().substring(0, 10)}
+              readOnly={true}
+            />
+          </Flex>
           <Flex>
             <Text>가입기간</Text>
             <Box>{btnClicked}</Box>
@@ -324,14 +331,6 @@ const MakeSavings = () => {
               value={money}
             />
           </Flex>
-          <Flex>
-            <Text>이자율</Text>
-            <Box>{interest}%</Box>
-          </Flex>
-          <Flex>
-            <Text>예상 금액</Text>
-            <Box>{expectedMoney}</Box>
-          </Flex>
           <div>
             {MoneyFilterData.map((filter, idx) => (
               <InputBtn
@@ -342,6 +341,18 @@ const MakeSavings = () => {
               />
             ))}
           </div>
+          <Flex>
+            <Text>이자율</Text>
+            <Box> 1%</Box>
+          </Flex>
+          <Flex>
+            <Text>예상 금액</Text>
+            <Box>{expectedMoney}</Box>
+          </Flex>
+          <ErrorMsg>
+            정해진 시간 (저녁 12시)에 잔액이 부족하여 <br />
+            금액이 납부되지 않으면 자동으로 해지될 수 있어요.
+          </ErrorMsg>
           <Button onClick={make}>가입하기</Button>
         </>
       )}
@@ -353,31 +364,6 @@ const Text = styled.p`
   font-size: 1.1rem;
   width: 250px;
 `;
-
-// const DatePickerStyled = styled.div`
-//   .react-datepicker-wrapper {
-//     width: 100%;
-//   }
-// `;
-
-// const SelectDate = styled(DatePicker)`
-//   width: 250px;
-//   height: 40px;
-//   padding: 6px 12px;
-//   font-size: 1.2rem;
-//   text-align: center;
-//   border: 1px solid #e5e5e5;
-//   border-radius: 10px;
-//   outline: none;
-//   cursor: pointer;
-
-//   .react-datepicker__input-container {
-//     width: inherit;
-//   }
-//   .react-datepicker-wrapper {
-//     width: 100%;
-//   }
-// `;
 
 const Input = styled.input`
   width: 250px;
@@ -445,6 +431,11 @@ const Box = styled.div`
     -webkit-appearance: none;
     margin: 0;
   }
+`;
+
+const ErrorMsg = styled.p`
+  color: red;
+  text-align: center;
 `;
 
 export default MakeSavings;

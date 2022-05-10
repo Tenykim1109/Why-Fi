@@ -34,80 +34,86 @@ const Quiz = () => {
   const [correct, setCorrect] = useState(false);
 
   // Quiz 샘플
-  const quiz_sample = [
-    {
-      id: "1",
-      quiz_type: "choices",
-      question: "다음 중 어떠한 것의 정답은?",
-      answer: "222",
-      commentary: "111이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-      choices_view1: "111",
-      choices_view2: "222",
-      choices_view3: "333",
-      choices_view4: "444",
-    },
-    {
-      id: "2",
-      quiz_type: "ox",
-      question: "다음 중 어떠한 것의 정답은?",
-      answer: true,
-      commentary: "222이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-      choices_view1: true,
-      choices_view2: false,
-      choices_view3: null,
-      choices_view4: null,
-    },
-    {
-      id: "3",
-      quiz_type: "choices",
-      question: "다음 중 어떠한 것의 정답은?",
-      answer: "333",
-      commentary: "333이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-      choices_view1: "111",
-      choices_view2: "222",
-      choices_view3: "333",
-      choices_view4: "444",
-    },
-    {
-      id: "4",
-      quiz_type: "ox",
-      question: "다음 중 어떠한 것의 정답은?",
-      answer: true,
-      commentary: "444이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-      choices_view1: true,
-      choices_view2: false,
-      choices_view3: null,
-      choices_view4: null,
-    },
-    {
-      id: "5",
-      quiz_type: "choices",
-      question: "다음 중 어떠한 것의 정답은?",
-      answer: "444",
-      commentary: "555이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-      choices_view1: "111",
-      choices_view2: "222",
-      choices_view3: "333",
-      choices_view4: "444",
-    },
-  ];
+  // const quiz_sample = [
+  //   {
+  //     id: "1",
+  //     quiz_type: "choices",
+  //     question: "다음 중 어떠한 것의 정답은?",
+  //     answer: "222",
+  //     commentary: "111이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
+  //     choices_view1: "111",
+  //     choices_view2: "222",
+  //     choices_view3: "333",
+  //     choices_view4: "444",
+  //   },
+  //   {
+  //     id: "2",
+  //     quiz_type: "ox",
+  //     question: "다음 중 어떠한 것의 정답은?",
+  //     answer: true,
+  //     commentary: "222이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
+  //     choices_view1: true,
+  //     choices_view2: false,
+  //     choices_view3: null,
+  //     choices_view4: null,
+  //   },
+  //   {
+  //     id: "3",
+  //     quiz_type: "choices",
+  //     question: "다음 중 어떠한 것의 정답은?",
+  //     answer: "333",
+  //     commentary: "333이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
+  //     choices_view1: "111",
+  //     choices_view2: "222",
+  //     choices_view3: "333",
+  //     choices_view4: "444",
+  //   },
+  //   {
+  //     id: "4",
+  //     quiz_type: "ox",
+  //     question: "다음 중 어떠한 것의 정답은?",
+  //     answer: true,
+  //     commentary: "444이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
+  //     choices_view1: true,
+  //     choices_view2: false,
+  //     choices_view3: null,
+  //     choices_view4: null,
+  //   },
+  //   {
+  //     id: "5",
+  //     quiz_type: "choices",
+  //     question: "다음 중 어떠한 것의 정답은?",
+  //     answer: "444",
+  //     commentary: "555이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
+  //     choices_view1: "111",
+  //     choices_view2: "222",
+  //     choices_view3: "333",
+  //     choices_view4: "444",
+  //   },
+  // ];
 
   const [quizData, setQuizData] = useState([]);
 
-  const getQuiz = async () => {
-    await axios
-      // 주소 설정
-      .get("")
-      .then((res) => {
-        console.log(res.data);
+  useEffect(() => {
+    const getQuiz = async () => {
+      await axios({
+        url: "http://127.0.0.1:8000/api/quiz/",
+        method: "get",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+      }).then((res) => {
+        // console.log(res.data);
         setQuizData(res.data);
       });
-  };
-  useEffect(() => {
+    };
     getQuiz();
   }, []);
 
+  // 정답 체크
   const checkAnswer = (answer) => {
+    console.log("퀴즈 답", currentQuiz.answer);
+    console.log("내가 고른 답", answer);
     if (currentQuiz.answer === answer) {
       console.log("정답");
       setCheckCorrect((checkCorrect) => checkCorrect + 1);
@@ -127,12 +133,8 @@ const Quiz = () => {
   };
 
   useEffect(() => {
-    setCurrentQuiz(quiz_sample[idx]);
-  }, [idx]);
-
-  // useEffect(() => {
-  //   setCurrentQuiz(quizData[idx])
-  // }, [idx]);
+    setCurrentQuiz(quizData[idx]);
+  }, [quizData, idx]);
 
   const [modalOpen, setModalOpen] = useState(false);
   // console.log(modalOpen);
@@ -140,67 +142,79 @@ const Quiz = () => {
   //   setModalOpen((modalOpen) => !(modalOpen));
   // };
 
+  // console.log("맞힌 문제", checkCorrect);
+
   return (
     <DIV flex={true}>
-      <Title>
-        {currentQuiz.quiz_type === "ox" ? "[ OX 퀴즈 ]" : "[ 객관식 퀴즈 ]"}
-      </Title>
-      <Text>Q. {currentQuiz.question}</Text>
-      <Line />
-
-      {currentQuiz.quiz_type === "ox" ? (
-        <div>
-          <OX
-            onClick={() => checkAnswer(currentQuiz.choices_view1)}
-            Color="#2ecc71">
-            O
-          </OX>
-          <OX
-            onClick={() => checkAnswer(currentQuiz.choices_view2)}
-            Color="#e74c3c">
-            X
-          </OX>
-        </div>
-      ) : (
+      {currentQuiz && (
         <>
-          <Grid>
-            <Flex onClick={() => checkAnswer(currentQuiz.choices_view1)}>
-              <Choice>1</Choice>
-              <Option>예금통장</Option>
-            </Flex>
-            <Flex onClick={() => checkAnswer(currentQuiz.choices_view2)}>
-              <Choice>2</Choice>
-              <Option>적금통장</Option>
-            </Flex>
-          </Grid>
-          <Grid>
-            <Flex onClick={() => checkAnswer(currentQuiz.choices_view3)}>
-              <Choice>3</Choice>
-              <Option>{currentQuiz.choices_view3}</Option>
-            </Flex>
-            <Flex onClick={() => checkAnswer(currentQuiz.choices_view4)}>
-              <Choice>4</Choice>
-              <Option>{currentQuiz.choices_view4}</Option>
-            </Flex>
-          </Grid>
-        </>
-      )}
-      <button onClick={addIndex}>idx test</button>
-      {modalOpen && (
-        <Answer toNextQuestion={addIndex}>
-          {correct ? (
-            <>
-              <Comment>정답입니다.</Comment>
-              <img src={O_img} alt="O_img" />
-            </>
+          <Title>
+            {currentQuiz.quiz_type === "ox" ? "[ OX 퀴즈 ]" : "[ 객관식 퀴즈 ]"}
+          </Title>
+          <Text>Q. {currentQuiz.question}</Text>
+          <Line />
+
+          {currentQuiz.quiz_type === "ox" ? (
+            <div>
+              <OX
+                // onClick={() => checkAnswer(currentQuiz.choices_view1)}
+                onClick={() => checkAnswer("O")}
+                Color="#2ecc71">
+                O
+              </OX>
+              <OX
+                // onClick={() => checkAnswer(currentQuiz.choices_view2)}
+                onClick={() => checkAnswer("X")}
+                Color="#e74c3c">
+                X
+              </OX>
+            </div>
           ) : (
             <>
-              <Comment>틀렸습니다.</Comment>
-              <img src={X_img} alt="X_img" />
-              <div>{currentQuiz.commentary}</div>
+              <Grid>
+                {/* <Flex onClick={() => checkAnswer(currentQuiz.choices_view1)}> */}
+                <Flex onClick={() => checkAnswer("1")}>
+                  <Choice>1</Choice>
+                  <Option>{currentQuiz.choices_view1}</Option>
+                </Flex>
+                {/* <Flex onClick={() => checkAnswer(currentQuiz.choices_view2)}> */}
+                <Flex onClick={() => checkAnswer("2")}>
+                  <Choice>2</Choice>
+                  <Option>{currentQuiz.choices_view2}</Option>
+                </Flex>
+              </Grid>
+              <Grid>
+                {/* <Flex onClick={() => checkAnswer(currentQuiz.choices_view3)}> */}
+                <Flex onClick={() => checkAnswer("3")}>
+                  <Choice>3</Choice>
+                  <Option>{currentQuiz.choices_view3}</Option>
+                </Flex>
+                {/* <Flex onClick={() => checkAnswer(currentQuiz.choices_view4)}> */}
+                <Flex onClick={() => checkAnswer("4")}>
+                  <Choice>4</Choice>
+                  <Option>{currentQuiz.choices_view4}</Option>
+                </Flex>
+              </Grid>
             </>
           )}
-        </Answer>
+          {/* <button onClick={addIndex}>idx test</button> */}
+          {modalOpen && (
+            <Answer toNextQuestion={addIndex}>
+              {correct ? (
+                <>
+                  <Comment>정답입니다.</Comment>
+                  <img src={O_img} alt="O_img" />
+                </>
+              ) : (
+                <>
+                  <Comment>틀렸습니다.</Comment>
+                  <img src={X_img} alt="X_img" />
+                  <div>{currentQuiz.commentary}</div>
+                </>
+              )}
+            </Answer>
+          )}
+        </>
       )}
     </DIV>
   );

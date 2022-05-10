@@ -10,16 +10,18 @@ import SubTitle from "../bankbook/SubTitle";
 
 const Mypage = () => {
   const [userData, setUserData] = useState();
+  // const user = localStorage.getItem("username");
 
   const getUserData = () => {
     axios({
-      url: "",
-      method: "post",
+      url: `http://127.0.0.1:8000/api/accounts/self/`,
+      method: "GET",
       headers: {
-        // "Authorization": `Bearer `
+        Authorization: `Bearer ${localStorage.getItem("access-token")}`,
       },
     })
       .then((res) => {
+        console.log(res.data);
         setUserData(res.data);
       })
       .catch((err) => {
@@ -39,9 +41,9 @@ const Mypage = () => {
 
   return (
     <Div flex={true}>
-      <Title>님의 통장</Title>
-      <SubTitle>계좌번호 : </SubTitle>
-      <SubTitle>잔액 : </SubTitle>
+      <Title>{userData && userData.username}님의 통장</Title>
+      <SubTitle>계좌번호 : {userData && userData.book_number}</SubTitle>
+      <SubTitle>잔액 : {userData && userData.balance}원</SubTitle>
       <UL>
         <SubTitle>자산 현황</SubTitle>
         <OL>예금 : </OL>
@@ -65,6 +67,7 @@ const UL = styled.ul`
 
 const OL = styled.ol`
   font-size: 1.2rem;
+  padding: 0;
 `;
 
 const Button = styled.button`

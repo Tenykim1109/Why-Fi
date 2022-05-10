@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -11,7 +11,7 @@ import WhaleCry from "../../components/whale_cry.jpg";
 const Result = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  // console.log("state", state)
+  console.log("state", state);
   // const [correct, setCorrect] = useState(0)
   // console.log(setCorrect)
 
@@ -25,7 +25,7 @@ const Result = () => {
     }
   };
 
-  console.log(ReturnImg);
+  // console.log(ReturnImg);
 
   const startQuiz = () => {
     navigate("/quiz/start");
@@ -38,7 +38,7 @@ const Result = () => {
     <DIV flex={true}>
       {/* <VeryGood /> */}
       <ReturnImg />
-      <Text>5문제 중 {state}문제 맞혔어요.</Text>
+      <Text>5문제 중 {state ? state : 0}문제 맞혔어요.</Text>
       <Line />
       <div>
         <QuizButton onClick={startQuiz}>다시하기</QuizButton>

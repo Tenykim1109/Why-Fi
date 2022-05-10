@@ -49,8 +49,8 @@ const Tutorial = () => {
   };
   const birthHandle = (event) => {
     const inputBirth = event.target.value;
-    if (inputBirth.length >= 6) {
-      const validBirth = inputBirth.substr(0, 6);
+    if (inputBirth.length >= 8) {
+      const validBirth = inputBirth.substr(0, 8);
       setBirth(validBirth);
       setBirthError(2);
     } else {
@@ -91,21 +91,31 @@ const Tutorial = () => {
     setPageMain(0);
   };
 
-  const makeBankBook = () => {
+  const makeBankBook = (event) => {
+    event.preventDefault();
+    const year = birth.substr(0, 4);
+    const month = birth.substr(4, 2);
+    const date = birth.substr(6, 2);
+    const birthChange = year + "-" + month + "-" + date;
+    console.log(birthChange);
     axios({
-      url: "",
-      method: "post",
+      url: "http://127.0.0.1:8000/api/accounts/setpassword/",
+      method: "PUT",
       data: {
         name: name,
-        birth: birth,
-        password: pw,
+        birthday: birthChange,
+        book_password: pw,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access-token")}`,
       },
     })
       .then((res) => {
+        console.log(res.data);
         navigate("/savings/success", { state: "통장" });
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data);
       });
     // navigate("/savings/success", { state: "통장" });
   };
