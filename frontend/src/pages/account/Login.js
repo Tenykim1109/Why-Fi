@@ -35,24 +35,26 @@ const Login = () => {
   const login = () => {
     axios({
       method: "post",
-      url: "http://localhost:8080/login",
+      url: "http://127.0.0.1:8000/api/accounts/signin/",
       data: {
-        name: id,
+        username: id,
         password: password,
       },
     })
       .then((res) => {
-        console.log(res.data);
-        if (res.data.access_token) {
+        // console.log(res.data);
+        if (res.data) {
           localStorage.clear();
-          localStorage.setItem("token", res.data.access_token);
+          localStorage.setItem("refresh-token", res.data.refresh);
+          localStorage.setItem("access-token", res.data.access);
+          localStorage.setItem("username", id);
         }
         alert("로그인 성공.");
         navigate("/");
       })
       .catch((err) => {
         console.log(err);
-        alert("로그인 실패.");
+        alert(err.response.data);
       });
   };
 

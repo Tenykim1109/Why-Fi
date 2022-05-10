@@ -210,55 +210,65 @@ const MakeDeposit = () => {
     if (!money) alert("맡길 금액을 설정해주세요.");
     else
       axios({
-        // 주소 설정
-        url: "",
+        url: "http://127.0.0.1:8000/api/bankbooks/create/",
         method: "post",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
         data: {
-          // 변수명 다시 설정
-          data: btnClicked.slice(0, -1),
-          money: money,
+          payment: money,
+          deadline: endDate.toISOString().slice(0, 10),
+          book_type: "deposit",
         },
       })
-        .then(navigate("/deposit/success", { state: "예금" }))
+        .then((res) => {
+          console.log(res.data);
+          navigate("/deposit/success", { state: "예금" });
+        })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response.data);
         });
-    // navigate("/deposit/success", { state: "예금" });
   };
 
-  const [interest, setInterest] = useState(0);
+  // 이자 조회
+  // const [interest, setInterest] = useState(0);
 
-  const getInterest = async () => {
-    await axios
-      // 주소 넣기
-      .get("")
-      .then((res) => {
-        console.log(res.data);
-        setInterest(res.data.interest);
-      });
-  };
-  useEffect(() => {
-    getInterest();
-  }, []);
+  // const getInterest = async () => {
+  //   await axios
+  //     // 주소 넣기
+  //     .get("")
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setInterest(res.data.interest);
+  //     });
+  // };
+  // useEffect(() => {
+  //   getInterest();
+  // }, []);
 
+  // 예상 금액 조회
   const [expectedMoney, setExpectedMoney] = useState(0);
 
-  const getExpectedMoney = async () => {
-    await axios
-      // 주소 넣기
-      .get("")
-      .then((res) => {
-        console.log(res.data);
-        setExpectedMoney(res.data.interest);
-      });
-  };
-
   useEffect(() => {
+    const getExpectedMoney = async () => {
+      await axios({
+        url: "http://127.0.0.1:8000/api/bankbooks/getinterest/",
+        method: "post",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+        data: {
+          payment: money,
+          deadline: endDate.toISOString().slice(0, 10),
+          book_type: "deposit",
+        },
+      }).then((res) => {
+        // console.log(res.data);
+        setExpectedMoney(res.data);
+      });
+    };
     getExpectedMoney();
   }, [endDate, money]);
-
-  console.log(startDate);
-  console.log(startDate.getDate());
 
   return (
     <Div flex={true}>
@@ -282,29 +292,6 @@ const MakeDeposit = () => {
             <Text>시작일자</Text>
             <Input type="date" value={endDate.toISOString().substring(0, 10)} />
           </Flex>
-          {/* <Flex>
-            <Text>시작일자</Text>
-            <DatePickerStyled>
-              <SelectDate
-                readOnly={true}
-                locale={ko}
-                dateFormat="yyyy-MM-dd"
-                selected={startDate}
-              />
-            </DatePickerStyled>
-          </Flex>
-          <Flex>
-            <Text>종료일자</Text>
-            <DatePickerStyled>
-              <SelectDate
-                readOnly={true}
-                locale={ko}
-                dateFormat="yyyy-MM-dd"
-                selected={endDate}
-                onChange={(date) => setEndDate(date)}
-              />
-            </DatePickerStyled>
-          </Flex> */}
           <Flex>
             <Text>가입기간</Text>
             <Box>{btnClicked}</Box>
@@ -340,26 +327,16 @@ const MakeDeposit = () => {
           </div>
           <Flex>
             <Text>이자율</Text>
-            {/* <Input 
-              type="number"
-              onChange={moneyInputHandle}
-              // value={money + "원"}
-              placeholder="7%"
-              value={"7%"}
-            /> */}
-            <Box>{interest}%</Box>
+            <Box> 5%</Box>
           </Flex>
           <Flex>
             <Text>예상 금액 (이자 계산)</Text>
-            {/* <Input 
-              type="number"
-              onChange={moneyInputHandle}
-              // value={money + "원"}
-              placeholder="backend에서 가져오기"
-              value="이자 계산해서 return"
-            /> */}
             <Box>{expectedMoney}</Box>
           </Flex>
+          <ErrorMsg>
+            정해진 시간 (저녁 12시)에 잔액이 부족하여 <br />
+            금액이 납부되지 않으면 자동으로 해지될 수 있어요.
+          </ErrorMsg>
           <Button onClick={make}>가입하기</Button>
         </>
       )}
@@ -465,6 +442,11 @@ const Box = styled.div`
     -webkit-appearance: none;
     margin: 0;
   }
+`;
+
+const ErrorMsg = styled.p`
+  color: red;
+  text-align: center;
 `;
 
 export default MakeDeposit;

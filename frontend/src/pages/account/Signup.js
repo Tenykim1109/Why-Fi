@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import axios from "axios"
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import AccountInput from "./AccountInput";
 import AccountButton from "./AccountButton";
@@ -8,7 +8,7 @@ import AccountButton from "./AccountButton";
 import Logo from "../../components/Logo";
 
 const Signup = () => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // 이름, 아이디, 생년월일, 비밀번호, 비밀번호 확인
   const [name, setName] = useState("");
@@ -20,11 +20,13 @@ const Signup = () => {
   // 유효성 검사 0-pass, 1-error, 2-success
   const [idError, setIdError] = useState(0);
   const [idDuplicate, setIdDuplicate] = useState(0);
+  const [nameError, setNameError] = useState(0);
   const [pwError, setPwError] = useState(0);
   const [pwConfirmError, setPwConfirmError] = useState(0);
 
   // 에러메시지
   const [idMsg, setIdMsg] = useState("");
+  const [nameMsg, setNameMsg] = useState("");
   const [pwMsg, setPwMsg] = useState("");
   const [pwConfirmMsg, setPwConfirmMsg] = useState("");
 
@@ -46,8 +48,20 @@ const Signup = () => {
       setIdError(2);
     }
   };
+
   const nameHandle = (event) => {
-    setName(event.target.value);
+    const nameInput = event.target.value;
+    setName(nameInput);
+
+    // 이름 유효성 검사
+    var nameValid = /^[가-힣a-zA-z]+$/;
+    if (!nameValid.test(nameInput)) {
+      setNameMsg("이름을 다시 작성해주세요.");
+      setNameError(1);
+    } else {
+      setNameMsg("");
+      setNameError(2);
+    }
   };
 
   // 생년월일 숫자 6자리
@@ -55,7 +69,7 @@ const Signup = () => {
     const birthInput = event.target.value;
     // 생년월일 자리수 제한
     if (birthInput.length > 6) {
-      const validBirth = birthInput.substr(0, 6);
+      const validBirth = birthInput.substr(0, 8);
       setBirth(validBirth);
     } else {
       setBirth(birthInput);
@@ -69,7 +83,7 @@ const Signup = () => {
     // console.log(pwInput)
 
     // 비밀번호 유효성 검사
-    var pwValid = /^[a-zA-Z0-9]*$/;
+    var pwValid = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]*$/;
     if (!pwValid.test(pwInput)) {
       setPwMsg("비밀번호는 영어와 숫자만 입력해주세요.");
       setPwError(1);
@@ -98,51 +112,54 @@ const Signup = () => {
   };
 
   const duplicateCheck = () => {
-    console.log("중복검사");
-    setIdDuplicate(2);
-    // axios({
-    //   method: "post",
-    //   // 주소 변경해야
-    //   url: "http://localhost:8080/idcheck",
-    //   data: {
-    //     name: id,
-    //   },
-    // })
-    // .then((res) => {
-    //   console.log(res.data)
-    //   alert("사용할 수 있는 아이디에요.")
-    //   setIdDuplicate(2)
-    // })
-    // .catch((err) => {
-    //   console.log(err)
-    //   alert("이미 가입된 아이디에요.")
-    //   setIdDuplicate(1)
-    // })
+    // console.log("중복검사");
+    // setIdDuplicate(2);
+    axios({
+      method: "get",
+      // 주소 변경해야
+      url: `http://127.0.0.1:8000/api/accounts/idcheck/${id}`,
+      // data: {
+      //   username: id,
+      // },
+    })
+      .then((res) => {
+        console.log(res.data);
+        alert("사용할 수 있는 아이디에요.");
+        setIdDuplicate(2);
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("이미 가입된 아이디에요.");
+        setIdDuplicate(1);
+      });
   };
-  // navigate("/");
 
   const signup = () => {
-    console.log("회원가입");
-    // axios({
-    //   method: "post",
-    //   url: "http://localhost:8080/signup",
-    //   data: {
-    //     name: id,
-    //     birthday: birth,
-    //     username: name,
-    //     password: password,
-    //     password_confirm: passwordConfirm,
-    //   },
-    // })
-    // .then((res) => {
-    //   console.log(res.data)
-    //   alert("회원가입 성공.")
-    //   navigate("/");
-    // })
-    // .catch((err) => {
-    //   console.log(err)
-    //   alert("회원가입 실패.")
-    // })
+    // console.log("회원가입");
+    const year = birth.substr(0, 4);
+    const month = birth.substr(4, 2);
+    const date = birth.substr(6, 2);
+    const birthChange = year + "-" + month + "-" + date;
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/api/accounts/signup/",
+      data: {
+        username: id,
+        birthday: birthChange,
+        name: name,
+        password: password,
+        password_confirm: passwordConfirm,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+        alert("회원가입 성공했어요.");
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        alert(err.response.data);
+      });
   };
 
   return (
@@ -177,20 +194,21 @@ const Signup = () => {
           onChange={nameHandle}
           placeholder="이름"
         />
+        {nameMsg && <ErrorMsg>{nameMsg}</ErrorMsg>}
         <AccountInput
           type="number"
           name="birth_input"
-          maxlength="6"
+          maxlength="8"
           value={birth}
           onChange={birthHandle}
-          placeholder="생년월일 6자리"
+          placeholder="생년월일 8자리 (예시) 20220509"
         />
         <AccountInput
           type="password"
           name="password_input"
           value={password}
           onChange={passwordHandle}
-          placeholder="비밀번호"
+          placeholder="영어와 숫자를 포함한 8~20자리의 비밀번호"
           autoComplete="on"
         />
         {pwMsg && <ErrorMsg>{pwMsg}</ErrorMsg>}
@@ -210,6 +228,7 @@ const Signup = () => {
           disabled={
             !(
               idError === 2 &&
+              nameError === 2 &&
               pwError === 2 &&
               pwConfirmError === 2 &&
               idDuplicate === 2
