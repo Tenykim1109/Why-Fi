@@ -139,12 +139,12 @@ def bookcheck(request, book_number):
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
 
-    if not User.objects.filter(book_number=book_number).exists() or user.book_number == book_number:
-        return Response({'error: 잘못된 계좌번호 입력'}, status=status.HTTP_400_BAD_REQUEST)
-
-    else:
+    if User.objects.filter(book_number=book_number).exists() and user.book_number != book_number:
         other_user = get_object_or_404(User, book_number=book_number)
         return Response({other_user.name})
+
+    else:
+        return Response({'error: 잘못된 계좌번호 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(method='POST', request_body=RemittanceSerializer)
@@ -158,8 +158,8 @@ def remittance(request):
 
     if not User.objects.filter(book_number=book_number).exists() or user.book_number == book_number:
         return Response({'error: 잘못된 계좌번호 입력'}, status=status.HTTP_400_BAD_REQUEST)
-    
-    if not money or user.balance < money:
+
+    if money <= 0 or user.balance < money:
         return Response({'error: 잘못된 송금 금액 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
     if user.book_password == book_password:
