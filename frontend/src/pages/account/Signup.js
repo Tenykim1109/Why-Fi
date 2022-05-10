@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-// import { useNavigate } from 'react-router-dom';
-// import axios from 'axios'
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios"
 import styled from "styled-components";
 import AccountInput from "./AccountInput";
 import AccountButton from "./AccountButton";
@@ -101,31 +101,31 @@ const Signup = () => {
     console.log("중복검사");
     setIdDuplicate(2);
     // axios({
-    //   method: 'post',
+    //   method: "post",
     //   // 주소 변경해야
-    //   url: 'http://localhost:8080/idcheck',
+    //   url: "http://localhost:8080/idcheck",
     //   data: {
     //     name: id,
     //   },
     // })
     // .then((res) => {
     //   console.log(res.data)
-    //   alert('사용할 수 있는 아이디에요.')
+    //   alert("사용할 수 있는 아이디에요.")
     //   setIdDuplicate(2)
     // })
     // .catch((err) => {
     //   console.log(err)
-    //   alert('이미 가입된 아이디에요.')
+    //   alert("이미 가입된 아이디에요.")
     //   setIdDuplicate(1)
     // })
   };
-  // navigate('/');
+  // navigate("/");
 
   const signup = () => {
     console.log("회원가입");
     // axios({
-    //   method: 'post',
-    //   url: 'http://localhost:8080/signup',
+    //   method: "post",
+    //   url: "http://localhost:8080/signup",
     //   data: {
     //     name: id,
     //     birthday: birth,
@@ -136,12 +136,12 @@ const Signup = () => {
     // })
     // .then((res) => {
     //   console.log(res.data)
-    //   alert('회원가입 성공.')
-    //   navigate('/');
+    //   alert("회원가입 성공.")
+    //   navigate("/");
     // })
     // .catch((err) => {
     //   console.log(err)
-    //   alert('회원가입 실패.')
+    //   alert("회원가입 실패.")
     // })
   };
 

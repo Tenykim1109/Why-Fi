@@ -5,13 +5,16 @@ import styled from "styled-components";
 import OX from "./OX";
 import Choice from "./Choice";
 import Answer from "./Answer";
+import O_img from "../../components/event_img_o.png";
+import X_img from "../../components/event_img_x.png";
+import axios from "axios";
 
 const Quiz = () => {
   // 퀴즈 5개 랜덤하게 가져옴
   // 반복문으로 출력
   // QUIZ_TYPES = (
-  //   ('ox', 'OX'),
-  //   ('choices', '객관식'),
+  //   ("ox", "OX"),
+  //   ("choices", "객관식"),
   // )
   // OX / 객관식에 따라서 다르게 출력
   // 사용자의 답을 누르면 정답/오답 여부 출력
@@ -89,6 +92,21 @@ const Quiz = () => {
     },
   ];
 
+  const [quizData, setQuizData] = useState([]);
+
+  const getQuiz = async () => {
+    await axios
+      // 주소 설정
+      .get("")
+      .then((res) => {
+        console.log(res.data);
+        setQuizData(res.data);
+      });
+  };
+  useEffect(() => {
+    getQuiz();
+  }, []);
+
   const checkAnswer = (answer) => {
     if (currentQuiz.answer === answer) {
       console.log("정답");
@@ -103,7 +121,7 @@ const Quiz = () => {
   };
 
   const addIndex = () => {
-    if (idx >= 4) navigate("/quiz/result");
+    if (idx >= 4) navigate("/quiz/result", { state: checkCorrect });
     else setIdx((idx) => idx + 1);
     setModalOpen(false);
   };
@@ -112,11 +130,15 @@ const Quiz = () => {
     setCurrentQuiz(quiz_sample[idx]);
   }, [idx]);
 
+  // useEffect(() => {
+  //   setCurrentQuiz(quizData[idx])
+  // }, [idx]);
+
   const [modalOpen, setModalOpen] = useState(false);
-  console.log(modalOpen);
-  const handleModal = () => {
-    setModalOpen((modalOpen) => !modalOpen);
-  };
+  // console.log(modalOpen);
+  // const handleModal = () => {
+  //   setModalOpen((modalOpen) => !(modalOpen));
+  // };
 
   return (
     <DIV flex={true}>
@@ -168,14 +190,13 @@ const Quiz = () => {
         <Answer toNextQuestion={addIndex}>
           {correct ? (
             <>
-              <img />
-              <p>정답입니다</p>
+              <Comment>정답입니다.</Comment>
+              <img src={O_img} alt="O_img" />
             </>
           ) : (
             <>
-              <img />
-              <p>오답입니다</p>
-              <Text>해설</Text>
+              <Comment>틀렸습니다.</Comment>
+              <img src={X_img} alt="X_img" />
               <div>{currentQuiz.commentary}</div>
             </>
           )}
@@ -231,6 +252,12 @@ const Line = styled.hr`
 const Text = styled.p`
   font-weight: bold;
   font-size: 1.4rem;
+`;
+
+const Comment = styled.p`
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin: 0;
 `;
 
 const Option = styled.p`

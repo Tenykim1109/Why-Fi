@@ -1,17 +1,17 @@
 import React from "react";
-// import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-// import QuizButton from './QuizButton';
+// import QuizButton from "./QuizButton";
 
 const sample = ({ children }) => {
   // const navigate = useNavigate()
 
   // const startQuiz = () => {
-  //   navigate('/quiz')
+  //   navigate("/quiz")
   // }
   // const toHome = () => {
-  //   navigate('/')
+  //   navigate("/")
   // }
 
   return (
