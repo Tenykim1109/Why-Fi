@@ -6,7 +6,7 @@ import {
   // useLocation,
 } from "react-router-dom";
 
-import PhaserGame from "./ingame/PhaserGame";
+import GameApp from "./ingame/GameApp";
 import Homepage from "./pages/Homepage";
 
 import Signup from "./pages/account/Signup";
