@@ -1,8 +1,10 @@
 import Phaser from "phaser";
 
 export enum ItemType {
-  CASHMACHINE,
-  BOARD,
+  CASHMACHINE, // atm
+  POLICE_NPC, // 청원경찰 npc
+  BANKER, // 은행원
+  BOARD, // 주식
 }
 
 export default class Item extends Phaser.Physics.Arcade.Sprite {

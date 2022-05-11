@@ -25,8 +25,29 @@ export default class Preloader extends Phaser.Scene {
     this.load.image("items", "assets/tiles/walltexture.png"); // 벽
     this.load.image("obstacle", "assets/tiles/gather_plants_1.2.png"); // 장애물
 
+    // background image 불러오기
+    this.load.image("cloud", "assets/background/clouds.png");
+    this.load.image("cloud_day_bottom", "assets/background/Clouds5b.png");
+    this.load.image("cloud_day_upper", "assets/background/Cloud1.png");
+    this.load.image("sky_day", "assets/background/Sky1.png");
+
     // object 표시할 이미지 spritesheet로 가져오기
     this.load.spritesheet("boards", "assets/tiles/atm.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("gameItem", "assets/tiles/gather_games_1.1.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("npc", "assets/tiles/gather_avatars_1.0.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("deco", "assets/tiles/gather_decoration_1.21.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
@@ -36,67 +57,6 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start("Game"); // map과 character가 포함된 scene 시작
-
-    // // 캐릭터 기본 정지상태
-    // this.anims.create({
-    //   key: "down-idle",
-    //   frames: [{ key: TEXTURE_BOY, frame: 0 }],
-    // });
-    // // 캐릭터 아래로 이동
-    // this.anims.create({
-    //   key: "down-walk",
-    //   frames: this.anims.generateFrameNumbers(TEXTURE_BOY, {
-    //     start: 0,
-    //     end: 3,
-    //   }),
-    //   frameRate: 10,
-    //   repeat: -1,
-    // });
-    // // 캐릭터 왼쪽 정지
-    // this.anims.create({
-    //   key: "left-idle",
-    //   frames: [{ key: TEXTURE_BOY, frame: 4 }],
-    // });
-    // // 캐릭터 왼쪽 이동
-    // this.anims.create({
-    //   key: "left-walk",
-    //   frames: this.anims.generateFrameNumbers(TEXTURE_BOY, {
-    //     start: 4,
-    //     end: 7,
-    //   }),
-    //   frameRate: 10,
-    //   repeat: -1,
-    // });
-    // // 캐릭터 오른쪽 정지
-    // this.anims.create({
-    //   key: "right-idle",
-    //   frames: [{ key: TEXTURE_BOY, frame: 8 }],
-    // });
-    // // 캐릭터 오른쪽 이동
-    // this.anims.create({
-    //   key: "right-walk",
-    //   frames: this.anims.generateFrameNumbers(TEXTURE_BOY, {
-    //     start: 8,
-    //     end: 11,
-    //   }),
-    //   frameRate: 10,
-    //   repeat: -1,
-    // });
-    // // 캐릭터 위로 정지
-    // this.anims.create({
-    //   key: "up-idle",
-    //   frames: [{ key: TEXTURE_BOY, frame: 12 }],
-    // });
-    // // 캐릭터 위로 이동
-    // this.anims.create({
-    //   key: "up-walk",
-    //   frames: this.anims.generateFrameNumbers(TEXTURE_BOY, {
-    //     start: 12,
-    //     end: 15,
-    //   }),
-    //   frameRate: 10,
-    //   repeat: -1,
-    // });
+    this.scene.launch("Game"); // map과 character가 포함된 scene 시작
   }
 }

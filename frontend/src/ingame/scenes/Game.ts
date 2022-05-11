@@ -1,17 +1,23 @@
 import Phaser from "phaser";
-import { TEXTURE_BOY } from "../constants";
+import { TEXTURE_BOY, TEXTURE_GIRL } from "../constants";
 import CashMachine from "../items/CashMachine";
 import "../player/MyPlayer";
 import MyPlayer from "../player/MyPlayer";
 import PlayerSelector from "../player/PlayerSelector";
 import Item from "../items/Item";
 import { store } from "../../modules/store";
+import Board from "../items/Board";
+import PoliceNPC from "../items/PoliceNPC";
+import Banker from "../items/Banker";
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private keyE!: Phaser.Input.Keyboard.Key;
   private keyR!: Phaser.Input.Keyboard.Key;
   private map!: Phaser.Tilemaps.Tilemap;
+  private sky!: Phaser.GameObjects.Sprite;
+  private cloudUpper!: Phaser.GameObjects.TileSprite;
+  private backgroundCloud!: Phaser.GameObjects.TileSprite;
   myPlayer!: MyPlayer;
   player!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   private playerSelector!: Phaser.GameObjects.Zone;
@@ -40,6 +46,7 @@ export default class Game extends Phaser.Scene {
 
   init() {
     this.registerKeys();
+    // this.physics.world.setFPS(60);
   }
 
   create() {
@@ -47,7 +54,12 @@ export default class Game extends Phaser.Scene {
     console.log(store.getState().user.userNick);
     const { width, height } = this.scale;
 
-    this.cameras.main.zoom = 1.5;
+    console.log(width, height);
+
+    this.cameras.main.zoom = 1.4;
+
+    this.sky = this.add.sprite(width * 0.5, height * 0.5, "sky_day");
+    this.sky.setDisplaySize(width * 1.5, height * 1.6);
 
     // map 생성
     this.map = this.make.tilemap({ key: "bank" });
@@ -63,6 +75,9 @@ export default class Game extends Phaser.Scene {
       obstacle,
     ]);
 
+    groundLayer.x = width * 0.5 - 960;
+    groundLayer.y = height * 0.5 - 528;
+
     const wallLayer = this.map.createLayer("Wall", [
       floor,
       items,
@@ -72,18 +87,27 @@ export default class Game extends Phaser.Scene {
 
     // groundLayer.fixedToCamera = false;
 
+    wallLayer.x = width * 0.5 - 960;
+    wallLayer.y = height * 0.5 - 528;
+
     // 벽 너머로 넘어갈 수 없도록 설정
     wallLayer.setCollisionByExclusion([-1]);
 
+    console.log(wallLayer.width, wallLayer.height);
+
     // Character 생성
-    this.myPlayer = this.add.myPlayer(640, 896, TEXTURE_BOY, "1");
+    this.myPlayer = this.add.myPlayer(
+      width * 0.5,
+      height * 0.5 + 384,
+      TEXTURE_BOY,
+      "1"
+    );
     this.myPlayer.setPlayerName("TEST123");
-    this.myPlayer.setPlayerTexture(TEXTURE_BOY);
+    this.myPlayer.setPlayerTexture(TEXTURE_GIRL);
     this.playerSelector = new PlayerSelector(this, 0, 0, 32, 32);
 
     // 화면 바깥으로 나갈 수 없도록 설정
     this.myPlayer.setCollideWorldBounds(true);
-    this.physics.add.collider(this.myPlayer, wallLayer);
 
     // Tiled Object 화면에 보여주기
     const atms = this.physics.add.staticGroup({
@@ -91,16 +115,71 @@ export default class Game extends Phaser.Scene {
     });
     const atmLayer = this.map.getObjectLayer("ATMS");
     atmLayer.objects.forEach((atmObj) => {
-      const item = this.addObjectFromTiled(atms, atmObj, "boards", "atm");
+      const item = this.addObjectFromTiled(atms, atmObj, "gameItem", "games");
+    });
+
+    const boards = this.physics.add.staticGroup({
+      classType: Board,
+    });
+    const boardLayer = this.map.getObjectLayer("Board");
+    boardLayer.objects.forEach((boardObj) => {
+      const item = this.addObjectFromTiled(boards, boardObj, "boards", "atm");
+    });
+
+    const policeNpcs = this.physics.add.staticGroup({
+      classType: PoliceNPC,
+    });
+    const npcLayer = this.map.getObjectLayer("NPC");
+    npcLayer.objects.forEach((npcObj) => {
+      const item = this.addObjectFromTiled(
+        policeNpcs,
+        npcObj,
+        "npc",
+        "npc_avatar"
+      );
+    });
+
+    const bankers = this.physics.add.staticGroup({
+      classType: Banker,
+    });
+    const bankerLayer = this.map.getObjectLayer("Banker");
+    bankerLayer.objects.forEach((banker) => {
+      const item = this.addObjectFromTiled(
+        bankers,
+        banker,
+        "npc",
+        "npc_avatar"
+      );
+    });
+
+    const decoItems = this.physics.add.staticGroup({});
+    const decoLayer = this.map.getObjectLayer("Decoration");
+    decoLayer.objects.forEach((decoObj) => {
+      const item = this.addObjectFromTiled(
+        decoItems,
+        decoObj,
+        "deco",
+        "decoration"
+      );
     });
 
     // 카메라가 캐릭터를 따라 이동함
     this.cameras.main.startFollow(this.myPlayer, true);
 
+    this.physics.add.collider(
+      [this.myPlayer, this.myPlayer.playerContainer],
+      wallLayer
+    );
+
+    this.physics.add.collider(
+      [this.myPlayer, this.myPlayer.playerContainer],
+      [decoItems]
+    );
+
     // Object에 닿았을 때 이벤트 처리 코드
     this.physics.add.overlap(
       this.playerSelector,
-      [atms],
+      [atms, boards, policeNpcs, bankers],
       this.handleItemSelectorOverlap,
       undefined,
       this
@@ -116,8 +195,13 @@ export default class Game extends Phaser.Scene {
     key: string,
     tilesetName: string
   ) {
-    const actualX = object.x! - object.width! * 0.5;
-    const actualY = object.y! - object.height! * 0.5;
+    console.log(object.x, object.height);
+
+    // const actualX = object.x! - object.width! * 0.25;
+    // const actualY = object.y! - object.height! * 0.25;
+
+    const actualX = object.x! + object.width! * 6.3;
+    const actualY = object.y! + object.height! * 1.125;
     const obj = group
       .get(
         actualX,
@@ -150,6 +234,7 @@ export default class Game extends Phaser.Scene {
   }
 
   update() {
+    // 주기적으로 캐릭터 정보 업데이트
     if (this.myPlayer) {
       this.playerSelector.update(this.myPlayer, this.cursors);
       this.myPlayer.update(
@@ -159,6 +244,15 @@ export default class Game extends Phaser.Scene {
         this.keyR
       );
     }
+
+    // Modal이 열려있을 때는 캐릭터가 움직일 수 없음.
+    if (store.getState().modal.isOpen) {
+      this.disableKeys();
+    } else {
+      this.enableKeys();
+    }
+
+    // this.backgroundCloud.
 
     let worldPoint = this.input.activePointer.positionToCamera(
       this.cameras.main
