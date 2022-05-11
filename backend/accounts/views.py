@@ -152,7 +152,7 @@ def bookcheck(request, book_number):
 def remittance(request):
     book_number = request.data.get('book_number')
     book_password = request.data.get('book_password')
-    money = request.data.get('money')
+    money = int(request.data.get('money'))
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
 

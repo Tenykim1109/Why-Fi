@@ -137,7 +137,7 @@ def buystocks(request):
     if stock_type not in ['A', 'B', 'C']:
         return Response({'error: 잘못된 기업 선택'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if stocks <= 0:
+    if stocks <= 0 or user.balance < stock.current_price * stocks:
         return Response({'error: 잘못된 주식수 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
     if MyStock.objects.filter(user=user, stock=stock).exists():
