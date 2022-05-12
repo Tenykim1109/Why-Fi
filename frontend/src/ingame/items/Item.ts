@@ -5,6 +5,8 @@ export enum ItemType {
   POLICE_NPC, // 청원경찰 npc
   BANKER, // 은행원
   BOARD, // 주식
+  QUIZMACHINE, // 퀴즈 푸는 기계
+  COMPUTER, // 컴퓨터
 }
 
 export default class Item extends Phaser.Physics.Arcade.Sprite {

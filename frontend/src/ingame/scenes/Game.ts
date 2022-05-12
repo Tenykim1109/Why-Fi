@@ -9,6 +9,8 @@ import { store } from "../../modules/store";
 import Board from "../items/Board";
 import PoliceNPC from "../items/PoliceNPC";
 import Banker from "../items/Banker";
+import QuizMachine from "../items/QuizMachine";
+import Computer from "../items/Computer";
 
 export default class Game extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -67,6 +69,8 @@ export default class Game extends Phaser.Scene {
     const ceil = this.map.addTilesetImage("toppers", "ceil"); // 천장
     const items = this.map.addTilesetImage("walltexture", "items"); // 벽
     const obstacle = this.map.addTilesetImage("gather_plants_1.2", "obstacle"); // 장애물
+    const chairs = this.map.addTilesetImage("chairs", "chairItem");
+    const tables = this.map.addTilesetImage("decoration", "deco");
 
     const groundLayer = this.map.createLayer("Ground", [
       floor,
@@ -78,11 +82,17 @@ export default class Game extends Phaser.Scene {
     groundLayer.x = width * 0.5 - 960;
     groundLayer.y = height * 0.5 - 528;
 
+    const tableLayer = this.map.createLayer("Table", [tables]);
+    tableLayer.x = width * 0.5 - 960;
+    tableLayer.y = height * 0.5 - 528;
+    tableLayer.setCollisionByExclusion([-1]);
+
     const wallLayer = this.map.createLayer("Wall", [
       floor,
       items,
       ceil,
       obstacle,
+      chairs,
     ]);
 
     // groundLayer.fixedToCamera = false;
@@ -150,6 +160,21 @@ export default class Game extends Phaser.Scene {
         "npc",
         "npc_avatar"
       );
+
+      // console.log(item);
+    });
+
+    const quizMachines = this.physics.add.staticGroup({
+      classType: QuizMachine,
+    });
+    const quizLayer = this.map.getObjectLayer("Quiz");
+    quizLayer.objects.forEach((quizItem) => {
+      const item = this.addObjectFromTiled(
+        quizMachines,
+        quizItem,
+        "deco",
+        "decoration"
+      );
     });
 
     const decoItems = this.physics.add.staticGroup({});
@@ -163,23 +188,43 @@ export default class Game extends Phaser.Scene {
       );
     });
 
+    const computers = this.physics.add.staticGroup({
+      classType: Computer,
+    });
+    const computerLayer = this.map.getObjectLayer("Computers");
+    computerLayer.objects.forEach((computer) => {
+      const item = this.addObjectFromTiled(
+        computers,
+        computer,
+        "deco",
+        "decoration",
+        -0.2
+      );
+    });
+
+    const plants = this.physics.add.staticGroup({});
+    const plantLayer = this.map.getObjectLayer("Plants");
+    plantLayer.objects.forEach((p) => {
+      const item = this.addObjectFromTiled(plants, p, "plant", "plants");
+    });
+
     // 카메라가 캐릭터를 따라 이동함
     this.cameras.main.startFollow(this.myPlayer, true);
 
     this.physics.add.collider(
       [this.myPlayer, this.myPlayer.playerContainer],
-      wallLayer
+      [wallLayer, tableLayer]
     );
 
     this.physics.add.collider(
       [this.myPlayer, this.myPlayer.playerContainer],
-      [decoItems]
+      [decoItems, quizMachines]
     );
 
     // Object에 닿았을 때 이벤트 처리 코드
     this.physics.add.overlap(
       this.playerSelector,
-      [atms, boards, policeNpcs, bankers],
+      [atms, boards, policeNpcs, bankers, quizMachines, computers],
       this.handleItemSelectorOverlap,
       undefined,
       this
@@ -193,23 +238,50 @@ export default class Game extends Phaser.Scene {
     group: Phaser.Physics.Arcade.StaticGroup,
     object: Phaser.Types.Tilemaps.TiledObject,
     key: string,
-    tilesetName: string
+    tilesetName: string,
+    offsetX?: number,
+    offsetY?: number
   ) {
-    console.log(object.x, object.height);
-
     // const actualX = object.x! - object.width! * 0.25;
     // const actualY = object.y! - object.height! * 0.25;
 
-    const actualX = object.x! + object.width! * 6.3;
-    const actualY = object.y! + object.height! * 1.125;
-    const obj = group
-      .get(
-        actualX,
-        actualY,
-        key,
-        object.gid! - this.map.getTileset(tilesetName).firstgid
-      )
-      .setDepth(actualY);
+    if (offsetX === undefined) {
+      offsetX = 0;
+    }
+
+    if (offsetY === undefined) {
+      offsetY = 0;
+    }
+
+    const actualX = object.x! + object.width! * (6.3 + offsetX);
+    const actualY = object.y! + object.height! * (1.125 + offsetY);
+
+    let obj = undefined;
+    if (object.text !== undefined) {
+      this.add.text(
+        object.x! + object.width! * 2.35,
+        object.y! + object.height! * 1.55,
+        object.text.text,
+        {
+          fontFamily: "DungGeunMo",
+          fontSize: `${object.text.pixelsize + 4}px`,
+          color: "rgb(0,0,0)",
+        }
+      );
+    } else {
+      obj = group
+        .get(
+          actualX,
+          actualY,
+          key,
+          object.gid! - this.map.getTileset(tilesetName).firstgid
+        )
+        .setDepth(actualY);
+    }
+
+    if (group.classType === Banker) {
+      obj.bankerType = object.type;
+    }
 
     return obj;
   }

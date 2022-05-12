@@ -3,9 +3,7 @@ import { ItemType } from "./Item";
 import { store } from "../../modules/store";
 import { open } from "../../modules/slices/modalSlice";
 
-export default class Banker extends Item {
-  bankerType!: string;
-
+export default class QuizMachine extends Item {
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -15,12 +13,11 @@ export default class Banker extends Item {
   ) {
     super(scene, x, y, texture, frame);
 
-    this.itemType = ItemType.BANKER;
-    console.log(this);
+    this.itemType = ItemType.QUIZMACHINE;
   }
 
   onOverlapDialog() {
-    this.setDialogBox("E를 눌러 계좌를 만드세요.");
+    this.setDialogBox("E를 눌러 퀴즈를 풀어보세요.");
   }
 
   openDialog() {

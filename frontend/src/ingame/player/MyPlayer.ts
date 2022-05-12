@@ -8,6 +8,8 @@ import { TEXTURE_BOY, TEXTURE_GIRL } from "../constants";
 import Board from "../items/Board";
 import PoliceNPC from "../items/PoliceNPC";
 import Banker from "../items/Banker";
+import QuizMachine from "../items/QuizMachine";
+import Computer from "../items/Computer";
 
 export default class MyPlayer extends Player {
   playContainerBody;
@@ -73,6 +75,14 @@ export default class MyPlayer extends Player {
         case ItemType.BANKER:
           const banker = item as Banker;
           banker.openDialog();
+          break;
+        case ItemType.QUIZMACHINE:
+          const quizItem = item as QuizMachine;
+          quizItem.openDialog();
+          break;
+        case ItemType.COMPUTER:
+          const computer = item as Computer;
+          computer.onOpenSite();
           break;
       }
     }

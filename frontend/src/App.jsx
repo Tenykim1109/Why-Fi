@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import GameApp from "./ingame/GameApp";
+import ChooseCharacter from "./ingame/ChooseCharacter";
 import Homepage from "./pages/Homepage";
 
 import Signup from "./pages/account/Signup";
@@ -60,7 +61,9 @@ export default function App() {
             <Route path="/savings/start" element={<MakeSavings />} />
             <Route path="/savings/success" element={<Success />} />
 
+            {/* Phaser 관련 */}
             <Route path="/ingame" element={<GameApp />} />
+            <Route path="/select" element={<ChooseCharacter />} />
           </Routes>
         </Border>
       </Router>
