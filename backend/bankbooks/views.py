@@ -7,6 +7,7 @@ from rest_framework import status
 from .models import BankBook, Stock, MyStock
 from .serializers import (
     BankBookSerializer,
+    StockSerializer,
     MyStockSerializer,
 )
 from accounts.serializers import PasswordSerializer
@@ -119,6 +120,13 @@ def delete(request, book_type):
 
 
 @api_view(['GET'])
+def stockinfo(request, stock_type):
+    stocks = Stock.objects.filter(stock_type=stock_type)
+    serializer = StockSerializer(stocks, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 def mystocklist(request):
     mystocks = MyStock.objects.filter(user=request.user)
     serializer = MyStockSerializer(mystocks, many=True)
@@ -128,7 +136,7 @@ def mystocklist(request):
 @swagger_auto_schema(method='POST', request_body=MyStockSerializer)
 @api_view(['POST'])
 def buystocks(request):
-    stock_type = request.data.get('stock').get('stock_type')
+    stock_type = request.data.get('stock_type')
     stocks = request.data.get('stocks')
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
@@ -140,8 +148,8 @@ def buystocks(request):
     if stocks <= 0 or user.balance < stock.current_price * stocks:
         return Response({'error: 잘못된 주식수 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if MyStock.objects.filter(user=user, stock=stock).exists():
-        mystock = get_object_or_404(MyStock, user=user, stock=stock)
+    if MyStock.objects.filter(user=user, stock_type=stock_type).exists():
+        mystock = get_object_or_404(MyStock, user=user, stock_type=stock_type)
         serializer = MyStockSerializer(mystock, data=request.data)
 
         if serializer.is_valid(raise_exception=True):
@@ -149,7 +157,7 @@ def buystocks(request):
             new_purchase_price = (mystock.purchase_price * mystock.stocks + stock.current_price * stocks) / new_stocks
             user.balance -= stock.current_price * stocks
             user.save()
-            serializer.save(user=user, stock=stock, purchase_price=new_purchase_price, stocks=new_stocks)
+            serializer.save(user=user, purchase_price=new_purchase_price, stocks=new_stocks)
             return Response(status=status.HTTP_200_OK)
 
     else:
@@ -158,19 +166,19 @@ def buystocks(request):
         if serializer.is_valid(raise_exception=True):
             user.balance -= stock.current_price * stocks
             user.save()
-            serializer.save(user=user, stock=stock, purchase_price=stock.current_price)
+            serializer.save(user=user, purchase_price=stock.current_price)
             return Response(status=status.HTTP_201_CREATED)
 
 
 @swagger_auto_schema(method='DELETE', request_body=MyStockSerializer)
 @api_view(['DELETE'])
 def sellstocks(request):
-    stock_type = request.data.get('stock').get('stock_type')
+    stock_type = request.data.get('stock_type')
     stocks = request.data.get('stocks')
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
     stock = get_object_or_404(Stock, stock_type=stock_type)
-    mystock = get_object_or_404(MyStock, user=user, stock=stock)
+    mystock = get_object_or_404(MyStock, user=user, stock_type=stock_type)
 
     if stock_type not in ['A', 'B', 'C']:
         return Response({'error: 잘못된 기업 선택'}, status=status.HTTP_400_BAD_REQUEST)
