@@ -1,4 +1,5 @@
 import React from "react";
+import StockCompany from "./StockCompany";
 import StockMain from "./StockMain";
 import StockNav from "./StockNav";
 
