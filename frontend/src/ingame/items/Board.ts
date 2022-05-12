@@ -3,7 +3,7 @@ import { ItemType } from "./Item";
 import { store } from "../../modules/store";
 import { open } from "../../modules/slices/modalSlice";
 
-export default class CashMachine extends Item {
+export default class Board extends Item {
   constructor(
     scene: Phaser.Scene,
     x: number,
@@ -13,11 +13,11 @@ export default class CashMachine extends Item {
   ) {
     super(scene, x, y, texture, frame);
 
-    this.itemType = ItemType.CASHMACHINE;
+    this.itemType = ItemType.BOARD;
   }
 
   onOverlapDialog() {
-    this.setDialogBox("E를 눌러 ATM기를 사용할 수 있어요.");
+    this.setDialogBox("E를 눌러 주식 정보를 확인하세요.");
   }
 
   openDialog() {

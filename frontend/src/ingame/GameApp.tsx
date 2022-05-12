@@ -3,18 +3,28 @@ import { useSelector, useDispatch } from "react-redux";
 import { open, close } from "../modules/slices/modalSlice";
 import { store } from "../modules/store";
 import { useParams } from "react-router-dom";
-import { Modal, Typography, Box, Button } from "@mui/material";
+import {
+  Modal,
+  Typography,
+  Box,
+  Button,
+  IconButton,
+  Grid,
+} from "@mui/material";
+import MakeSavings from "../pages/bankbook/MakeSavings";
+import MakeDeposit from "../pages/bankbook/MakeDeposit";
 import CloseIcon from "@mui/icons-material/Close";
 import { RootState } from "../modules/store";
 import PhaserGame from "./PhaserGame";
 import { TEXTURE_BOY, TEXTURE_GIRL } from "./constants";
+import { LoadingText, ToolTip } from "./constants/loadingText";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
+  width: 1200,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -23,6 +33,9 @@ const style = {
 
 // 로딩 화면
 const Loading = () => {
+  const load_idx = Math.floor(Math.random() * LoadingText.length); // 배열에서 랜덤하게 값 출력
+  const tooltip_idx = Math.floor(Math.random() * ToolTip.length);
+
   return (
     <div
       className="loading"
@@ -30,11 +43,16 @@ const Loading = () => {
         display: "flex",
         alignContent: "center",
         justifyContent: "center",
-        flexDirection: "row",
         height: "100vh",
       }}>
-      {/* <img src="assets/mascot/dolphin_default_blue.png" alt="My Image" /> */}
-      <h2>로딩중...</h2>
+      <div
+        className="loading-item"
+        style={{
+          textAlign: "center",
+        }}>
+        <h2>{LoadingText[load_idx]}</h2>
+        <h3>{`TIP: ${ToolTip[tooltip_idx]}`}</h3>
+      </div>
     </div>
   );
 };
@@ -74,12 +92,12 @@ export default function GameApp() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          <Grid container justifyContent="flex-end">
+            <IconButton aria-label="close" onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+          <MakeSavings />
         </Box>
       </Modal>
     </>

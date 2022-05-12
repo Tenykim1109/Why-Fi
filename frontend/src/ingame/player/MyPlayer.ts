@@ -4,7 +4,12 @@ import PlayerSelector from "./PlayerSelector";
 import { ItemType } from "../items/Item";
 import CashMachine from "../items/CashMachine";
 import { createCharacterAnims } from "../anims/createCharacterAnims";
-import { TEXTURE_BOY } from "../constants";
+import { TEXTURE_BOY, TEXTURE_GIRL } from "../constants";
+import Board from "../items/Board";
+import PoliceNPC from "../items/PoliceNPC";
+import Banker from "../items/Banker";
+import QuizMachine from "../items/QuizMachine";
+import Computer from "../items/Computer";
 
 export default class MyPlayer extends Player {
   playContainerBody;
@@ -32,13 +37,11 @@ export default class MyPlayer extends Player {
   }
 
   setPlayerTexture(texture: string) {
-    if (texture !== "") {
+    if (texture === TEXTURE_BOY || texture === TEXTURE_GIRL) {
       this.playerTexture = texture;
     } else {
       this.playerTexture = TEXTURE_BOY;
     }
-    console.log(this.playerTexture);
-    console.log(this.anims);
 
     this.anims.play(`${this.playerTexture}-down-idle`, true);
   }
@@ -55,13 +58,37 @@ export default class MyPlayer extends Player {
 
     // E키 눌렀을 때
     if (Phaser.Input.Keyboard.JustDown(keyE)) {
+      console.log(this);
       switch (item?.itemType) {
         case ItemType.CASHMACHINE:
           const cashMachine = item as CashMachine;
           cashMachine.openDialog();
           break;
+        case ItemType.BOARD:
+          const board = item as Board;
+          board.openDialog();
+          break;
+        case ItemType.POLICE_NPC:
+          const npc = item as PoliceNPC;
+          npc.openDialog();
+          break;
+        case ItemType.BANKER:
+          const banker = item as Banker;
+          banker.openDialog();
+          break;
+        case ItemType.QUIZMACHINE:
+          const quizItem = item as QuizMachine;
+          quizItem.openDialog();
+          break;
+        case ItemType.COMPUTER:
+          const computer = item as Computer;
+          computer.onOpenSite();
+          break;
       }
     }
+
+    // console.log(this.x, this.y);
+    // console.log(this.playerName.x, this.playerName.y);
 
     const speed = 200;
     let vx = 0;
