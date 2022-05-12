@@ -44,6 +44,7 @@
     - name
     - birthday
     - book_password
+  - 주식 변동 정보 [GET] : bankbooks/stockinfo/<str : stock_type>/
   - 본인 보유 주식 확인 [GET] : bankbooks/mystocklist/
   - 주식 구매 [POST] : bankbooks/buystocks/
     - stock[stock_type] (이중 딕셔너리)

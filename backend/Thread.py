@@ -1,5 +1,4 @@
 import os
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 import django
 django.setup()
@@ -9,28 +8,40 @@ import concurrent.futures, datetime, time
 
 
 def daily():
-    savings = BankBook.objects.filter(book_type='savings')
+    if not Stock.objects.filter(created_at=datetime.date.today()).exists():
+        stocks = get_list_or_404(Stock, created_at=(datetime.date.today() - datetime.timedelta(1)))
 
-    for saving in savings:
-        if saving.updated_at != datetime.date.today() and saving.deadline > datetime.date.today():
-            user = saving.user
+        for stock in stocks:
+            stocksituation = StockSituation.objects.filter(stock_type=stock.stock_type).order_by('?')[0]
 
-            if saving.payment <= user.balance:
-                user.balance -= saving.payment
-                user.save()
-                saving.balance += saving.payment
-                saving.save()
+            new_stock = Stock(
+                situation=stocksituation.id,
+                current_price=(stock.current_price + ((stock.current_price * stocksituation.change) // 100)),
+                stock_type=stock.stock_type
+            )
 
-    stocks = get_list_or_404(Stock)
+            new_stock.save()
 
-    for stock in stocks:
-        if stock.updated_at != datetime.date.today():
-            stocksituation = StockSituation.objects.filter(stock=stock).order_by('?')[0]
-            stock.current_price += (stock.current_price * stocksituation.change) // 100
-            stock.situation = stocksituation.id
-            stock.save()
+        savings = BankBook.objects.filter(book_type='savings')
 
-    time.sleep(3600)
+        for saving in savings:
+            if saving.deadline > datetime.date.today():
+                user = saving.user
+
+                if saving.payment <= user.balance:
+                    user.balance -= saving.payment
+                    user.save()
+                    saving.balance += saving.payment
+                    saving.save()
+
+                else:
+                    saving.interest -= (saving.payment * (1.01 ** (saving.deadline - datetime.date.today()).days) - saving.payment)
+                    saving.save()
+
+    else:
+        print("pass")
+
+    time.sleep(60)
 
 
 if __name__ == "__main__":
