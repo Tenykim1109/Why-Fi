@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { topimage } from "../assets";
 import LoginButton from "./LoginButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const S = {
   Background: styled.section`
@@ -35,6 +35,7 @@ const S = {
   `,
 };
 const TopBanner = () => {
+  const navigate = useNavigate();
   return (
     <S.Background>
       <S.Wrapper>
@@ -43,7 +44,14 @@ const TopBanner = () => {
           Why-Fi 는 어린이들을 위한 금융교육 플랫폼입니다
         </S.Description>
 
-        <LoginButton fill="solid" type="button">
+        <LoginButton
+          fill="solid"
+          type="button"
+          onClick={() => {
+            // 테스트용 ingame 이동
+            console.log("이동");
+            navigate("/ingame");
+          }}>
           시작하기
         </LoginButton>
       </S.Wrapper>
