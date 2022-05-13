@@ -194,8 +194,7 @@ export default class Game extends Phaser.Scene {
         computers,
         computer,
         "deco",
-        "decoration",
-        -0.2
+        "decoration"
       );
     });
 
@@ -257,7 +256,7 @@ export default class Game extends Phaser.Scene {
     if (object.text !== undefined) {
       this.add.text(
         object.x! + object.width! * 3.7,
-        object.y! + object.height! * 3.7,
+        object.y! + object.height! * 3.9,
         object.text.text,
         {
           fontFamily: "DungGeunMo",
