@@ -251,7 +251,7 @@ export default class Game extends Phaser.Scene {
     }
 
     const actualX = object.x! + object.width! * (9.7 + offsetX);
-    const actualY = object.y! + object.height! * (2.75 + offsetY);
+    const actualY = object.y! + object.height! * (2.85 + offsetY);
 
     let obj = undefined;
     if (object.text !== undefined) {
