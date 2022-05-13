@@ -49,6 +49,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
+
 import {
   Chart as ChartJS,
   LineController,
@@ -79,7 +80,7 @@ function StockChart() {
   useEffect(()=>{
    
     const fetchData =async ()=> {
-      await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
+      await fetch('https://jsonplaceholder.typicode.com/todos/1')
         .then((response)=>response.json())
         .then((data)=>console.log('stockchart:',data));
      

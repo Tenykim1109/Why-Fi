@@ -1,76 +1,51 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import { Link } from "react-router-dom";
-import {Container , makeStyles, List,ListItem, ListItemText} from "@mui/material";
+import {Container , Card, List,ListItem, ListItemText, CardContent} from "@mui/material";
 import StockChart from "./StockChart";
 import InfoBox from "./InfoBox";
 import "./StockCompany.css";
+import StockOrder from "./StockOrder";
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     flexGrow: 1,
-//   },
-//   menuButton: {
-//     marginRight: theme.spacing(2),
-//   },
-//   title: {
-//     flexGrow: 1,
-//   },
-// }));
 
-// const CompanyItem = ()=> {
-     
-//     return (
-//       <ListItem 
-//         company_sample={company_sample}
-//         button={true}
-//         component = {Link}
-//         to={`/stock/${company_sample.id}`}
-//       >
-
-//       </ListItem>
-//     )
-//   };
-// const company_sample =[
-//     {
-//       'id' : 0,
-//       'name' : '엔터',
-//       'current_price' : '1000원',
-//     },
-//     {
-//       'id' : 1,
-//       'name' : '제조',
-//       'current_price' : '1000원',
-//     },
-//     {
-//       'id' : 2,
-//       'name' : '제약',
-//       'current_price' : '1000원',
-//     },
-//   ] ;
-const StockCompany = () => {
-  
+function StockCompany() {
+  const [companyType, setCompanyType]=useState("엔터");
   return (
    <div>
     <div className="company_name">
       <InfoBox
         isRed
+        active={companyType==="엔터"}
+        onClick={(e) => setCompanyType("엔터")}
         title="엔터주"
         // currentPrice={}
-        currentPrice="1000원"
+        currentPrice="1000"
         
       />
       <InfoBox
         isRed
+        active={companyType==="제조"}
+        onClick={(e) => setCompanyType("제조")}
         title="제조주"
-        currentPrice="1000원"
+        currentPrice="1000"
       />
       <InfoBox
         isRed
+        active={companyType==="제약"}
+        onClick={(e) => setCompanyType("제약")}
         title="제약주"
-        currentPrice="1000원"
+        currentPrice="1000"
       />
     </div>
-    <StockChart/>
+    <Card>
+      <CardContent>
+        <h3>{companyType}의 주식차트</h3>
+        <StockChart/>
+      </CardContent>
+      <CardContent>
+        <StockOrder/>
+      </CardContent>
+    </Card>
+    
     
   </div>
   );
