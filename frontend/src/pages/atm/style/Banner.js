@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import LogoImg from "../../components/why-fi_logo.png";
+import LogoImg from "../../../components/why-fi_logo.png";
 
 const Banner = () => {
   return (
