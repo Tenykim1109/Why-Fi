@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import AccountInput from "./AccountInput";
-import AccountButton from "./AccountButton";
+import AccountInput from "./style/AccountInput";
+import AccountButton from "./style/AccountButton";
 
 import Logo from "../../components/Logo";
 

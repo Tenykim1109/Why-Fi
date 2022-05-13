@@ -3,10 +3,18 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
+import Input from "./style/Input";
+import Button from "./style/Button";
+import ConfirmBtn from "./style/ConfirmBtn";
+import Component1 from "./style/Component1";
+import Component2 from "./style/Component2";
+
 const Transfer = () => {
+  // 통장 번호
   const [accountNum, setAccountNum] = useState("");
 
   const numpad = (num) => {
+    // 통장 번호 10자리
     if (accountNum.length >= 10) {
       const numLimit = accountNum.substr(0, 10);
       setAccountNum(numLimit);
@@ -15,99 +23,104 @@ const Transfer = () => {
     }
   };
 
+  // 숫자 하나만 제거
   const deleteNum = () => {
     setAccountNum((prev) => prev.slice(0, -1));
   };
 
+  // 숫자 전부 제거
   const clearNum = () => {
     setAccountNum("");
   };
-  // console.log(accountNum);
 
   const navigate = useNavigate();
-  const toSetMoney = () => {
-    if (accountNum.length === 10) {
-      navigate("/atm/setmoney", { state: accountNum });
-    }
-  };
 
+  // 받을 사람 정보 가져오기
   const nameConfirm = () => {
-    axios({
-      method: "get",
-      url: `http://127.0.0.1:8000/api/accounts/bookcheck/${accountNum}/`,
-    })
-      .then((res) => {
-        console.log(res.data);
+    if (accountNum.length === 10) {
+      axios({
+        method: "get",
+        url: `http://127.0.0.1:8000/api/accounts/bookcheck/${accountNum}/`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
       })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+        .then((res) => {
+          console.log(res.data);
+          const name = res.data[0];
+          // 유저 정보가 존재하면 state로 같이 넘겨줌
+          navigate("/atm/nameconfirm", {
+            state: { booknum: accountNum, name: name },
+          });
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          // 유저 정보가 없으면 그냥 이동
+          navigate("/atm/nameconfirm");
+        });
+    }
   };
 
   return (
     <>
-      <FlexRow>
+      <Flex>
         <Component1>
-          <h1>
-            받는 사람의 계좌번호를 누르고
-            <br />
-            [확인]을 눌러주세요.
-          </h1>
-          <input value={accountNum} readOnly={true} />
+          <H1>받는 사람의 계좌번호를 누르고 [확인]을 눌러주세요.</H1>
+          <Input value={accountNum} readOnly={true} />
         </Component1>
         <Component2>
-          <FlexRow>
+          <FlexBtn>
             <Button onClick={() => numpad(1)}>1</Button>
             <Button onClick={() => numpad(2)}>2</Button>
             <Button onClick={() => numpad(3)}>3</Button>
-          </FlexRow>
-          <FlexRow>
+          </FlexBtn>
+          <FlexBtn>
             <Button onClick={() => numpad(4)}>4</Button>
             <Button onClick={() => numpad(5)}>5</Button>
             <Button onClick={() => numpad(6)}>6</Button>
-          </FlexRow>
-          <FlexRow>
+          </FlexBtn>
+          <FlexBtn>
             <Button onClick={() => numpad(7)}>7</Button>
             <Button onClick={() => numpad(8)}>8</Button>
             <Button onClick={() => numpad(9)}>9</Button>
-          </FlexRow>
-          <FlexRow>
-            <Button onClick={deleteNum}>취소</Button>
+          </FlexBtn>
+          <FlexBtn>
+            <Button onClick={deleteNum}>{String.fromCharCode(8592)}</Button>
             <Button onClick={() => numpad(0)}>0</Button>
             <Button onClick={clearNum}>정정</Button>
-          </FlexRow>
+          </FlexBtn>
         </Component2>
-      </FlexRow>
-      <div>
-        <button>취소</button>
-        <button onClick={toSetMoney}>확인</button>
-      </div>
+      </Flex>
+      <FlexConfirm>
+        <ConfirmBtn>취소</ConfirmBtn>
+        <ConfirmBtn onClick={nameConfirm}>확인</ConfirmBtn>
+      </FlexConfirm>
     </>
   );
 };
 
-const FlexRow = styled.div`
+const Flex = styled.div`
+  display: flex;
+  width: 600px;
+  justify-content: space-between;
+`;
+
+const FlexBtn = styled.div`
   display: flex;
   // width: 100%;
+  justify-content: space-between;
 `;
 
-const Component1 = styled.div`
-  max-width: 60%;
-`;
-const Component2 = styled.div`
-  max-width: 40%;
+const FlexConfirm = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  margin-top: 1rem;
 `;
 
-const Button = styled.button`
-  width: 80px;
-  height: 60px;
-  background-color: #4cb5f5;
-  color: white;
-  font-size: 1.7rem;
-  font-weight: bold;
-  border-radius: 8px;
-  border: 2px solid white;
-  cursor: pointer;
+const H1 = styled.h1`
+  // margin: 0 10px;
+  margin-bottom: 1rem;
 `;
 
 export default Transfer;

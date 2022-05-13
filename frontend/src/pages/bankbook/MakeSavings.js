@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-// import DatePicker from "react-datepicker";
-// import { ko } from "date-fns/esm/locale";
 import axios from "axios";
 
-// import "react-datepicker/dist/react-datepicker.css";
-
-import Div from "./Div";
+import Div from "./style/Div";
 import HelpSavings from "./HelpSavings";
-import HelpBtn from "./HelpBtn";
-import CloseBtn from "./CloseBtn";
-import Title from "./Title";
+import HelpBtn from "./style/HelpBtn";
+import CloseBtn from "./style/CloseBtn";
+import Title from "./style/Title";
 
 const MakeSavings = () => {
-  // 가지고 있는 (금액 / 기간)을 초과하지 못하게
-
   const DateFilterData = [
     // {
     //   id: 1,
@@ -58,26 +52,30 @@ const MakeSavings = () => {
     },
     {
       id: 2,
-      value: "+ 1만원",
+      value: "+ 5천원",
     },
     {
       id: 3,
-      value: "+ 5만원",
+      value: "+ 1만원",
     },
     {
       id: 4,
-      value: "+ 10만원",
+      value: "+ 5만원",
     },
     {
       id: 5,
-      value: "+ 20만원",
+      value: "+ 10만원",
     },
     // {
     //   id: 6,
-    //   value: "+ 50만원",
+    //   value: "+ 20만원",
     // },
     // {
     //   id: 7,
+    //   value: "+ 50만원",
+    // },
+    // {
+    //   id: 8,
     //   value: "+ 100만원",
     // },
   ];
@@ -117,11 +115,6 @@ const MakeSavings = () => {
       const weeks = new Date(
         currentDate.getTime() + 4 * 7 * 24 * 60 * 60 * 1000
       );
-      // let month = new Date(
-      //   new Date().getFullYear(),
-      //   new Date().getMonth() + 1,
-      //   new Date().getDate()
-      // );
       setStartDate(new Date());
       setEndDate(weeks);
     }
@@ -130,11 +123,6 @@ const MakeSavings = () => {
       const weeks = new Date(
         currentDate.getTime() + 8 * 7 * 24 * 60 * 60 * 1000
       );
-      // let month = new Date(
-      //   new Date().getFullYear(),
-      //   new Date().getMonth() + 2,
-      //   new Date().getDate()
-      // );
       setStartDate(new Date());
       setEndDate(weeks);
     }
@@ -143,11 +131,6 @@ const MakeSavings = () => {
       const weeks = new Date(
         currentDate.getTime() + 12 * 7 * 24 * 60 * 60 * 1000
       );
-      // let month = new Date(
-      //   new Date().getFullYear(),
-      //   new Date().getMonth() + 3,
-      //   new Date().getDate()
-      // );
       setStartDate(new Date());
       setEndDate(weeks);
     }
@@ -156,17 +139,10 @@ const MakeSavings = () => {
       const weeks = new Date(
         currentDate.getTime() + 24 * 7 * 24 * 60 * 60 * 1000
       );
-      // let threeMonth = new Date(
-      //   new Date().getFullYear(),
-      //   new Date().getMonth() + 6,
-      //   new Date().getDate()
-      // );
       setStartDate(new Date());
       setEndDate(weeks);
     }
   };
-
-  // console.log(endDate.toISOString().slice(0, 10));
 
   const [money, setMoney] = useState(0);
 
@@ -177,12 +153,14 @@ const MakeSavings = () => {
   const moneyBtnHandle = (event) => {
     const { value } = event.target;
     setMoney(event.target.value);
-    // console.log(money);
     if (value === "초기화") {
       setMoney(0);
     }
     if (value === "+ 1천원") {
       setMoney(money + 1000);
+    }
+    if (value === "+ 5천원") {
+      setMoney(money + 5000);
     }
     if (value === "+ 1만원") {
       setMoney(money + 10000);
@@ -193,9 +171,9 @@ const MakeSavings = () => {
     if (value === "+ 10만원") {
       setMoney(money + 100000);
     }
-    if (value === "+ 20만원") {
-      setMoney(money + 200000);
-    }
+    // if (value === "+ 20만원") {
+    //   setMoney(money + 200000);
+    // }
     // if (value === "+ 50만원") {
     //   setMoney(money + 500000);
     // }
@@ -274,11 +252,14 @@ const MakeSavings = () => {
           book_type: "savings",
         },
       }).then((res) => {
-        // console.log(res.data);
         setExpectedMoney(res.data);
       });
     };
-    getExpectedMoney();
+    if (money) {
+      getExpectedMoney();
+    } else {
+      setExpectedMoney(0);
+    }
   }, [endDate, money]);
 
   return (
@@ -301,7 +282,7 @@ const MakeSavings = () => {
             />
           </Flex>
           <Flex>
-            <Text>종료일자</Text>
+            <Text>만기일자</Text>
             <Input
               type="date"
               value={endDate.toISOString().substring(0, 10)}
@@ -323,7 +304,7 @@ const MakeSavings = () => {
             ))}
           </div>
           <Flex>
-            <Text>넣을 금액</Text>
+            <Text>매 주 넣을 금액</Text>
             <Input
               type="number"
               onChange={moneyInputHandle}
@@ -343,7 +324,7 @@ const MakeSavings = () => {
           </div>
           <Flex>
             <Text>이자율</Text>
-            <Box> 1%</Box>
+            <Box> 7%</Box>
           </Flex>
           <Flex>
             <Text>예상 금액</Text>
@@ -402,7 +383,7 @@ const InputBtn = styled.input`
 `;
 
 const Button = styled.button`
-  margin-top: 30px;
+  // margin-top: 30px;
   margin-left: auto;
   margin-right: 0;
   font-size: 1rem;

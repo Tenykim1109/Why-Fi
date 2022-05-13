@@ -7,13 +7,13 @@ import Whale from "../../components/whale.png";
 // import WhaleSmile from "../../components/whale_smile.jpg";
 
 import HelpBankbook from "./HelpBackbook";
-import Div from "./Div";
-import CloseBtn from "./CloseBtn";
-import HelpBtn from "./HelpBtn";
-import Container from "./Container";
-import Title from "./Title";
-import Describe from "./Describe";
-import Bold from "./Bold";
+import Div from "./style/Div";
+import CloseBtn from "./style/CloseBtn";
+import HelpBtn from "./style/HelpBtn";
+import Container from "./style/Container";
+import Title from "./style/Title";
+import Describe from "./style/Describe";
+import Bold from "./style/Bold";
 
 const Tutorial = () => {
   const navigate = useNavigate();
@@ -116,6 +116,7 @@ const Tutorial = () => {
       })
       .catch((err) => {
         console.log(err.response.data);
+        alert("이름과 생년월일을 확인해주세요.");
       });
     // navigate("/savings/success", { state: "통장" });
   };
@@ -150,7 +151,7 @@ const Tutorial = () => {
                   maxlength="6"
                   value={birth}
                   onChange={birthHandle}
-                  placeholder="생년월일 6자리"
+                  placeholder="생년월일 8자리"
                 />
               </Flex>
               <NextBtn

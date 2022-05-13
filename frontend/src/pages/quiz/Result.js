@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-import QuizButton from "./QuizButton";
+import QuizButton from "./style/QuizButton";
 // import VeryGood from "../../components/VeryGood";
 import Whale from "../../components/whale.png";
 import WhaleSmile from "../../components/whale_smile.jpg";

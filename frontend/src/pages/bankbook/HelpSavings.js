@@ -4,10 +4,11 @@ import styled from "styled-components";
 import Whale from "../../components/whale.png";
 import WhaleSmile from "../../components/whale_smile.jpg";
 
-import Container from "./Container";
-import Title from "./Title";
-import SubTitle from "./SubTitle";
-import Describe from "./Describe";
+import Container from "./style/Container";
+import Title from "./style/Title";
+import SubTitle from "./style/SubTitle";
+import Describe from "./style/Describe";
+import Bold from "./style/Bold";
 
 const HelpSavings = () => {
   const [page, setPage] = useState(1);
@@ -33,14 +34,36 @@ const HelpSavings = () => {
       return (
         <Container>
           <Title>{savings.title}</Title>
-          <Describe>{savings.what}</Describe>
+          <Describe>
+            규칙적으로 적은 돈을 모아 큰 돈으로 만드는 것을 말해요.
+            <br />
+            정해진 기간 동안 돈을 맡길 수 있고 돈을 맡기면 <Bold>이자</Bold>
+            라고 하는 것을 받을 수 있어요.
+            <br /> 이자는 <Bold>금리</Bold>라고 하는 이율이 커질 수록 커져요.
+          </Describe>
         </Container>
       );
     } else if (page === 2) {
       return (
         <Container>
+          <Describe>
+            정해진 기간에 규칙적으로 입금하지 않으면 예상보다 적은 돈이 모이게
+            돼요.
+            <br /> 정해진 기간이 끝나기 전에 해지한다면 이자를 받을 수 없게
+            돼요.
+          </Describe>
+        </Container>
+      );
+    } else if (page === 3) {
+      return (
+        <Container>
           <SubTitle>"정기적금"이란?</SubTitle>
           <Describe>{savings.fixedtime}</Describe>
+        </Container>
+      );
+    } else if (page === 4) {
+      return (
+        <Container>
           <SubTitle>"만기일"이란?</SubTitle>
           <Describe>{savings.expiration}</Describe>
         </Container>
@@ -52,15 +75,15 @@ const HelpSavings = () => {
     <div>
       <Content />
       <Flex>
-        <Button disabled={!(page === 2)} onClick={Prev}>
+        <Button disabled={page === 1} onClick={Prev}>
           &lt; 이전
         </Button>
-        {page === 1 ? (
+        {page % 2 === 1 ? (
           <IMG src={Whale} alt="whale" />
         ) : (
           <IMG src={WhaleSmile} alt="whale_smile" />
         )}
-        <Button disabled={!(page === 1)} onClick={Next}>
+        <Button disabled={page === 4} onClick={Next}>
           다음 &gt;
         </Button>
       </Flex>

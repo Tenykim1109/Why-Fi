@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import QuizButton from "./QuizButton";
+import QuizButton from "./style/QuizButton";
 
 const Start = () => {
   const navigate = useNavigate();

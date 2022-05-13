@@ -6,7 +6,7 @@ const Btn = styled.button`
   height: 60px;
   margin-left: auto;
   margin-right: 0;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
 
   background-color: #4cb5f5;
   color: white;

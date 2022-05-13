@@ -4,11 +4,11 @@ import styled from "styled-components";
 import Whale from "../../components/whale.png";
 import WhaleSmile from "../../components/whale_smile.jpg";
 
-import Container from "./Container";
-import Title from "./Title";
-import SubTitle from "./SubTitle";
-import Describe from "./Describe";
-import Bold from "./Bold";
+import Container from "./style/Container";
+import Title from "./style/Title";
+import SubTitle from "./style/SubTitle";
+import Describe from "./style/Describe";
+import Bold from "./style/Bold";
 
 const HelpBackbook = (props) => {
   // const [page, setPage] = useState(1)
