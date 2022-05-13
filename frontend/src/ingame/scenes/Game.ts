@@ -250,14 +250,14 @@ export default class Game extends Phaser.Scene {
       offsetY = 0;
     }
 
-    const actualX = object.x! + object.width! * (10 + offsetX);
-    const actualY = object.y! + object.height! * (7.75 + offsetY);
+    const actualX = object.x! + object.width! * (9.7 + offsetX);
+    const actualY = object.y! + object.height! * (5.75 + offsetY);
 
     let obj = undefined;
     if (object.text !== undefined) {
       this.add.text(
-        object.x! + object.width! * 5.65,
-        object.y! + object.height! * 5.5,
+        object.x! + object.width! * 3.65,
+        object.y! + object.height! * 3.5,
         object.text.text,
         {
           fontFamily: "DungGeunMo",
