@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
-import Div from "../bankbook/Div";
-import AccountInput from "./AccountInput";
+import Div from "../bankbook/style/Div";
+import AccountInput from "./style/AccountInput";
 
 const Delete = () => {
   const navigate = useNavigate();

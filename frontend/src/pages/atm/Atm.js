@@ -1,8 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-import Banner from "./Banner";
-import Div from "./Div";
+import Banner from "./style/Banner";
+import Div from "./style/Div";
 // import Start from "./Start";
 
 const Atm = () => {

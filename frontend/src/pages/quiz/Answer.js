@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import QuizButton from "./QuizButton";
+import QuizButton from "./style/QuizButton";
 
 const Container = styled.div`
   position: absolute;

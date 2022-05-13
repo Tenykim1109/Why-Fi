@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
-import Div from "../bankbook/Div";
-import Title from "../bankbook/Title";
-import SubTitle from "../bankbook/SubTitle";
+import Div from "../bankbook/style/Div";
+import Title from "../bankbook/style/Title";
+import SubTitle from "../bankbook/style/SubTitle";
 // import Describe from "../bankbook/Describe";
 
 const Mypage = () => {

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import OX from "./OX";
-import Choice from "./Choice";
+import OX from "./style/OX";
+import Choice from "./style/Choice";
 import Answer from "./Answer";
 import O_img from "../../components/event_img_o.png";
 import X_img from "../../components/event_img_x.png";
