@@ -8,16 +8,23 @@ import {
   ButtonBase,
   Typography,
 } from "@mui/material";
+import { RootState } from "../modules/store";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setCharacterType } from "../modules/slices/userSlice";
+import { TEXTURE_BOY, TEXTURE_GIRL } from "./constants";
 
 const images = [
   {
     url: "/assets/boy.png",
     title: "남자",
+    type: TEXTURE_BOY,
     width: "30%",
   },
   {
     url: "/assets/woman.png",
     title: "여자",
+    type: TEXTURE_GIRL,
     width: "30%",
   },
 ];
@@ -38,9 +45,6 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
     "& .MuiImageMarked-root": {
       opacity: 0,
     },
-    // "& .MuiTypography-root": {
-    //   border: "4px solid currentColor",
-    // },
   },
 }));
 
@@ -88,6 +92,10 @@ const ImageMarked = styled("span")(({ theme }) => ({
 }));
 
 export default function ChooseCharacter() {
+  const state = useSelector((state) => state.user.characterType);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <div
       className="container"
@@ -114,6 +122,11 @@ export default function ChooseCharacter() {
             key={image.title}
             style={{
               width: image.width,
+            }}
+            onClick={() => {
+              dispatch(setCharacterType(image.type));
+              console.log(state);
+              navigate("/ingame");
             }}>
             <ImageSrc
               style={{ backgroundImage: `url(${image.url})`, padding: "4px" }}

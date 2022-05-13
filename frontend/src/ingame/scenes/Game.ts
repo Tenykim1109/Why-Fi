@@ -20,6 +20,7 @@ export default class Game extends Phaser.Scene {
   private sky!: Phaser.GameObjects.Sprite;
   private cloudUpper!: Phaser.GameObjects.TileSprite;
   private backgroundCloud!: Phaser.GameObjects.TileSprite;
+  private characterType!: string;
   myPlayer!: MyPlayer;
   player!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   private playerSelector!: Phaser.GameObjects.Zone;
@@ -53,11 +54,10 @@ export default class Game extends Phaser.Scene {
 
   create() {
     // 화면 크기
-    console.log(store.getState().user.userNick);
+    console.log(store.getState().user.characterType);
     const { width, height } = this.scale;
 
-    console.log(width, height);
-
+    this.characterType = store.getState().user.characterType;
     this.cameras.main.zoom = 1.4;
 
     this.sky = this.add.sprite(width * 0.5, height * 0.5, "sky_day");
@@ -68,16 +68,11 @@ export default class Game extends Phaser.Scene {
     const floor = this.map.addTilesetImage("Carpet", "floor"); // 바닥
     const ceil = this.map.addTilesetImage("toppers", "ceil"); // 천장
     const items = this.map.addTilesetImage("walltexture", "items"); // 벽
-    const obstacle = this.map.addTilesetImage("gather_plants_1.2", "obstacle"); // 장애물
+    // const obstacle = this.map.addTilesetImage("gather_plants_1.2", "obstacle"); // 장애물
     const chairs = this.map.addTilesetImage("chairs", "chairItem");
     const tables = this.map.addTilesetImage("decoration", "deco");
 
-    const groundLayer = this.map.createLayer("Ground", [
-      floor,
-      items,
-      ceil,
-      obstacle,
-    ]);
+    const groundLayer = this.map.createLayer("Ground", [floor, items, ceil]);
 
     groundLayer.x = width * 0.5 - 960;
     groundLayer.y = height * 0.5 - 528;
@@ -91,7 +86,6 @@ export default class Game extends Phaser.Scene {
       floor,
       items,
       ceil,
-      obstacle,
       chairs,
     ]);
 
@@ -105,15 +99,18 @@ export default class Game extends Phaser.Scene {
 
     console.log(wallLayer.width, wallLayer.height);
 
+    if (this.characterType === "") {
+      this.characterType = TEXTURE_BOY;
+    }
+
     // Character 생성
     this.myPlayer = this.add.myPlayer(
       width * 0.5,
       height * 0.5 + 384,
-      TEXTURE_BOY,
+      this.characterType,
       "1"
     );
-    this.myPlayer.setPlayerName("TEST123");
-    this.myPlayer.setPlayerTexture(TEXTURE_GIRL);
+    this.myPlayer.setPlayerTexture(this.characterType);
     this.playerSelector = new PlayerSelector(this, 0, 0, 32, 32);
 
     // 화면 바깥으로 나갈 수 없도록 설정
@@ -253,14 +250,14 @@ export default class Game extends Phaser.Scene {
       offsetY = 0;
     }
 
-    const actualX = object.x! + object.width! * (6.3 + offsetX);
-    const actualY = object.y! + object.height! * (1.125 + offsetY);
+    const actualX = object.x! + object.width! * (7 + offsetX);
+    const actualY = object.y! + object.height! * (1.75 + offsetY);
 
     let obj = undefined;
     if (object.text !== undefined) {
       this.add.text(
-        object.x! + object.width! * 2.35,
-        object.y! + object.height! * 1.55,
+        object.x! + object.width! * 2.65,
+        object.y! + object.height! * 2.5,
         object.text.text,
         {
           fontFamily: "DungGeunMo",
