@@ -257,7 +257,7 @@ export default class Game extends Phaser.Scene {
     if (object.text !== undefined) {
       this.add.text(
         object.x! + object.width! * 3.65,
-        object.y! + object.height! * 4,
+        object.y! + object.height! * 3.5,
         object.text.text,
         {
           fontFamily: "DungGeunMo",
