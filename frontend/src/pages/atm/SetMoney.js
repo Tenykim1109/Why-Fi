@@ -2,37 +2,72 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
+import Input from "./style/Input";
+import Button from "./style/Button";
+import ConfirmBtn from "./style/ConfirmBtn";
+import Component1 from "./style/Component1";
+import Component2 from "./style/Component2";
+import axios from "axios";
+
 const SetMoney = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
+  // console.log(state);
 
   const [money, setMoney] = useState("");
 
+  // 숫자 입력 버튼
   const numpad = (num) => {
-    // if (accountNum.length >= 10) {
-    //   const numLimit = accountNum.substr(0, 10);
-    //   setMoney(numLimit);
-    // } else {
-    //   setMoney((prev) => prev + num);
-    // }
     setMoney((prev) => prev + num);
   };
 
+  // 숫자 하나만 제거
   const deleteNum = () => {
     setMoney((prev) => prev.slice(0, -1));
   };
 
+  // 숫자 전부 제거
   const clearNum = () => {
     setMoney("");
   };
 
+  // 비밀번호 입력 화면으로
   const toPassword = () => {
     if (money > 0)
-      navigate("/atm/password", { state: { booknum: state, money: money } });
+      // navigate("/atm/password", { state: { booknum: state, money: money } });
+      moneyCheck();
   };
 
+  // 계좌 번호 입력 화면으로
   const toTransfer = () => {
     navigate("/atm/transfer");
+  };
+
+  // 잔액 확인
+  const moneyCheck = () => {
+    axios({
+      url: `http://127.0.0.1:8000/api/accounts/self/`,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+      },
+    })
+      .then((res) => {
+        const balance = res.data.balance;
+        // 잔액 보다 많은 돈을 송금하려 할 때
+        if (money > res.data.balance) {
+          navigate("/atm/moneycheck", {
+            state: { booknum: state, balance: balance },
+          });
+        } else {
+          navigate("/atm/password", {
+            state: { booknum: state, money: money },
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -44,7 +79,7 @@ const SetMoney = () => {
             <br />
             [확인]을 눌러주세요.
           </h1>
-          <input value={money} readOnly={true} />
+          <Input value={money} readOnly={true} />
         </Component1>
         <Component2>
           <FlexRow>
@@ -69,10 +104,10 @@ const SetMoney = () => {
           </FlexRow>
         </Component2>
       </FlexRow>
-      <div>
-        <button onClick={toTransfer}>취소</button>
-        <button onClick={toPassword}>확인</button>
-      </div>
+      <FlexConfirm>
+        <ConfirmBtn onClick={toTransfer}>취소</ConfirmBtn>
+        <ConfirmBtn onClick={toPassword}>확인</ConfirmBtn>
+      </FlexConfirm>
     </>
   );
 };
@@ -82,23 +117,11 @@ const FlexRow = styled.div`
   // width: 100%;
 `;
 
-const Component1 = styled.div`
-  max-width: 60%;
-`;
-const Component2 = styled.div`
-  max-width: 40%;
-`;
-
-const Button = styled.button`
-  width: 80px;
-  height: 60px;
-  background-color: #4cb5f5;
-  color: white;
-  font-size: 1.7rem;
-  font-weight: bold;
-  border-radius: 8px;
-  border: 2px solid white;
-  cursor: pointer;
+const FlexConfirm = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  margin-top: 1rem;
 `;
 
 export default SetMoney;

@@ -3,9 +3,15 @@ import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
+import Input from "./style/Input";
+import Button from "./style/Button";
+import ConfirmBtn from "./style/ConfirmBtn";
+import Component1 from "./style/Component1";
+import Component2 from "./style/Component2";
+
 const Password = () => {
   const { state } = useLocation();
-  // console.log(state);
+  console.log(state);
 
   const [password, setPassword] = useState("");
 
@@ -31,23 +37,18 @@ const Password = () => {
     navigate("/atm/setmoney", { state: state.booknum });
   };
 
-  // 페이지 이동 임시 테스트
-  const toResult = () => {
-    navigate("/atm/result", { state: state });
-  };
-
-  // 송금 기능
-  const remittance = () => {
+  // 송금
+  const remittanceMoney = () => {
     axios({
       method: "post",
       url: "http://127.0.0.1:8000/api/accounts/remittance/",
-      header: {
-        Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-      },
       data: {
-        book_number: state.booknum,
+        book_number: state.booknum.booknum,
         book_password: password,
-        money: state.money,
+        money: Number(state.money),
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access-token")}`,
       },
     })
       .then((res) => {
@@ -70,7 +71,7 @@ const Password = () => {
             [확인]을 눌러주세요.
           </h1>
           <form>
-            <input
+            <Input
               type="password"
               value={password}
               readOnly={true}
@@ -101,10 +102,10 @@ const Password = () => {
           </FlexRow>
         </Component2>
       </FlexRow>
-      <div>
-        <button onClick={toSetMoney}>취소</button>
-        <button onClick={toResult}>확인</button>
-      </div>
+      <FlexConfirm>
+        <ConfirmBtn onClick={toSetMoney}>취소</ConfirmBtn>
+        <ConfirmBtn onClick={remittanceMoney}>확인</ConfirmBtn>
+      </FlexConfirm>
     </>
   );
 };
@@ -114,23 +115,11 @@ const FlexRow = styled.div`
   // width: 100%;
 `;
 
-const Component1 = styled.div`
-  max-width: 60%;
-`;
-const Component2 = styled.div`
-  max-width: 40%;
-`;
-
-const Button = styled.button`
-  width: 80px;
-  height: 60px;
-  background-color: #4cb5f5;
-  color: white;
-  font-size: 1.7rem;
-  font-weight: bold;
-  border-radius: 8px;
-  border: 2px solid white;
-  cursor: pointer;
+const FlexConfirm = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+  margin-top: 1rem;
 `;
 
 export default Password;
