@@ -49,12 +49,10 @@ export default class Game extends Phaser.Scene {
 
   init() {
     this.registerKeys();
-    // this.physics.world.setFPS(60);
   }
 
   create() {
     // 화면 크기
-    console.log(store.getState().user.characterType);
     const { width, height } = this.scale;
 
     this.characterType = store.getState().user.characterType;
@@ -68,7 +66,6 @@ export default class Game extends Phaser.Scene {
     const floor = this.map.addTilesetImage("Carpet", "floor"); // 바닥
     const ceil = this.map.addTilesetImage("toppers", "ceil"); // 천장
     const items = this.map.addTilesetImage("walltexture", "items"); // 벽
-    // const obstacle = this.map.addTilesetImage("gather_plants_1.2", "obstacle"); // 장애물
     const chairs = this.map.addTilesetImage("chairs", "chairItem");
     const tables = this.map.addTilesetImage("decoration", "deco");
 
@@ -96,8 +93,6 @@ export default class Game extends Phaser.Scene {
 
     // 벽 너머로 넘어갈 수 없도록 설정
     wallLayer.setCollisionByExclusion([-1]);
-
-    console.log(wallLayer.width, wallLayer.height);
 
     if (this.characterType === "") {
       this.characterType = TEXTURE_BOY;
@@ -157,8 +152,6 @@ export default class Game extends Phaser.Scene {
         "npc",
         "npc_avatar"
       );
-
-      // console.log(item);
     });
 
     const quizMachines = this.physics.add.staticGroup({
