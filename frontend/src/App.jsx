@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import GameApp from "./ingame/GameApp";
+import ChooseCharacter from "./ingame/ChooseCharacter";
 import Homepage from "./pages/Homepage";
 
 import Signup from "./pages/account/Signup";
@@ -27,7 +28,9 @@ import Success from "./pages/bankbook/Success";
 import Atm from "./pages/atm/Atm";
 import AtmStart from "./pages/atm/Start";
 import Transfer from "./pages/atm/Transfer";
+import NameConfirm from "./pages/atm/NameConfirm";
 import SetMoney from "./pages/atm/SetMoney";
+import MoneyCheck from "./pages/atm/MoneyCheck";
 import Password from "./pages/atm/Password";
 import AtmResult from "./pages/atm/Result";
 
@@ -73,12 +76,16 @@ export default function App() {
             <Route element={<Atm />}>
               <Route path="/atm/start" element={<AtmStart />} />
               <Route path="/atm/transfer" element={<Transfer />} />
+              <Route path="/atm/nameconfirm" element={<NameConfirm />} />
               <Route path="/atm/setmoney" element={<SetMoney />} />
+              <Route path="/atm/moneycheck" element={<MoneyCheck />} />
               <Route path="/atm/password" element={<Password />} />
               <Route path="/atm/result" element={<AtmResult />} />
             </Route>
 
+            {/* Phaser 관련 */}
             <Route path="/ingame" element={<GameApp />} />
+            <Route path="/select" element={<ChooseCharacter />} />
           </Routes>
         </Border>
       </Router>
