@@ -58,7 +58,6 @@ export default class MyPlayer extends Player {
 
     // E키 눌렀을 때
     if (Phaser.Input.Keyboard.JustDown(keyE)) {
-      console.log(this);
       switch (item?.itemType) {
         case ItemType.CASHMACHINE:
           const cashMachine = item as CashMachine;

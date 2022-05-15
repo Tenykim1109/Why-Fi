@@ -1,7 +1,11 @@
 import Item from "./Item";
 import { ItemType } from "./Item";
 import { store } from "../../modules/store";
-import { open } from "../../modules/slices/modalSlice";
+import {
+  openDeposit,
+  openSavings,
+  openRemittance,
+} from "../../modules/slices/modalSlice";
 
 export default class Banker extends Item {
   bankerType!: string;
@@ -16,7 +20,6 @@ export default class Banker extends Item {
     super(scene, x, y, texture, frame);
 
     this.itemType = ItemType.BANKER;
-    console.log(this);
   }
 
   onOverlapDialog() {
@@ -24,6 +27,17 @@ export default class Banker extends Item {
   }
 
   openDialog() {
-    store.dispatch(open());
+    // store.dispatch(setComponent(this.bankerType));
+    switch (this.bankerType) {
+      case "deposit":
+        store.dispatch(openDeposit());
+        break;
+      case "savings":
+        store.dispatch(openSavings());
+        break;
+      case "remittance":
+        store.dispatch(openRemittance());
+        break;
+    }
   }
 }

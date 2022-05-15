@@ -21,6 +21,6 @@ export default class QuizMachine extends Item {
   }
 
   openDialog() {
-    store.dispatch(open());
+    window.location.href = "/quiz/start";
   }
 }

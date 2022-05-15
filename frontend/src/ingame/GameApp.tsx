@@ -10,15 +10,18 @@ import {
   Button,
   IconButton,
   Grid,
+  styled,
 } from "@mui/material";
-import MakeSavings from "../pages/bankbook/MakeSavings";
-import MakeDeposit from "../pages/bankbook/MakeDeposit";
 import CloseIcon from "@mui/icons-material/Close";
 import { RootState } from "../modules/store";
 import PhaserGame from "./PhaserGame";
-import { TEXTURE_BOY, TEXTURE_GIRL } from "./constants";
 import { LoadingText, ToolTip } from "./constants/loadingText";
-import { QnAModal } from "./modal/QnAModal";
+import QnAModal from "./modal/QnAModal";
+import ModalBody from "./modal/ModalBody";
+import SavingsModal from "./modal/SavingsModal";
+import CashMachineModal from "./modal/CashMachineModal";
+import DepositModal from "./modal/DepositModal";
+import RemittanceModal from "./modal/RemittanceModal";
 
 const style = {
   position: "absolute",
@@ -32,6 +35,21 @@ const style = {
   p: 4,
 };
 
+const ImageAnimated = styled("img")({
+  width: "300px",
+  objectFit: "cover",
+  "@keyframes motion": {
+    "0%": {
+      marginTop: "0px",
+    },
+    "100%": {
+      marginTop: "10px",
+    },
+  },
+  animation: "motion 0.3s linear 0s infinite alternate",
+  marginTop: "0px",
+});
+
 // 로딩 화면
 const Loading = () => {
   const load_idx = Math.floor(Math.random() * LoadingText.length); // 배열에서 랜덤하게 값 출력
@@ -42,6 +60,7 @@ const Loading = () => {
       className="loading"
       style={{
         display: "flex",
+        flexDirection: "column",
         alignContent: "center",
         justifyContent: "center",
         height: "100vh",
@@ -51,14 +70,9 @@ const Loading = () => {
         style={{
           textAlign: "center",
         }}>
-        <img
-          className="mascot_loading"
+        <ImageAnimated
           src="assets/mascot/dolphin_default_blue.png"
           alt="asdf.png"
-          style={{
-            width: "300px",
-            objectFit: "cover",
-          }}
         />
         <h2>{LoadingText[load_idx]}</h2>
         <h3>{`TIP: ${ToolTip[tooltip_idx]}`}</h3>
@@ -69,9 +83,6 @@ const Loading = () => {
 
 export default function GameApp() {
   const [loading, setLoading] = useState(true);
-  const isOpen = useSelector((state: RootState) => state.modal.isOpen);
-  const component = useSelector((state: RootState) => state.modal.component);
-  const dispatch = useDispatch();
 
   // 로딩화면 띄우는 용도
   useEffect(() => {
@@ -83,42 +94,14 @@ export default function GameApp() {
     }, 5000);
   }, []);
 
-  const handleClose = () => {
-    dispatch(close());
-  };
-
-  let modalBody: JSX.Element;
-
-  switch (component) {
-    default:
-      modalBody = <div>아이템 준비중</div>;
-  }
-
   return (
     <>
-      {/* <Button
-        onClick={() => {
-          dispatch(open());
-          console.log(isOpen);
-        }}>
-        클릭
-      </Button> */}
       {loading ? <Loading /> : <PhaserGame />}
-      <Modal
-        open={isOpen}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
-        <Box sx={style}>
-          <Grid container justifyContent="flex-end">
-            <IconButton aria-label="close" onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-          {/* <MakeSavings /> */}
-          <QnAModal />
-        </Box>
-      </Modal>
+      <QnAModal />
+      <SavingsModal />
+      <CashMachineModal />
+      <DepositModal />
+      <RemittanceModal />
     </>
   );
 }

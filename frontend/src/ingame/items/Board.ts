@@ -1,7 +1,7 @@
 import Item from "./Item";
 import { ItemType } from "./Item";
 import { store } from "../../modules/store";
-import { open } from "../../modules/slices/modalSlice";
+import { openStock } from "../../modules/slices/modalSlice";
 
 export default class Board extends Item {
   constructor(
@@ -21,6 +21,7 @@ export default class Board extends Item {
   }
 
   openDialog() {
-    store.dispatch(open());
+    // store.dispatch(setComponent("Stock"));
+    store.dispatch(openStock());
   }
 }
