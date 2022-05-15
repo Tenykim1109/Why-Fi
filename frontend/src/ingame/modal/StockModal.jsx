@@ -18,7 +18,7 @@ const style = {
   p: 4,
 };
 
-export default function RemittanceModal() {
+export default function StockModal() {
   const [item, setItem] = useState("");
   const stockState = useSelector((state) => state.modal.stock);
   const dispatch = useDispatch();
