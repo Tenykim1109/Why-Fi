@@ -79,10 +79,11 @@ const StockOrderForm =({buyType})=>{
       <div className="Form__Submit">
         <button
           type="submit"
-          style={{backgroudColor : buyType ==="BUY" ? '#f14f4f' : '#7878e3'}}
+          // style={{backgroudColor : buyType ==="BUY" ? '#f14f4f' : '#7878e3'}}
           // onClick 이벤트드가야함
         >
-          {typeToStr()}
+          {/* {typeToStr()} */}
+          매수
         </button>
       </div>
     </div>

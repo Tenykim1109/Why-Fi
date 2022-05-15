@@ -7,7 +7,7 @@ const Stock = () => {
   return (
     <div>
       <StockNav/>
-      <StockMain/>
+      <StockCompany/>
     </div>
   );
 };
