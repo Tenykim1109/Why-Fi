@@ -1,39 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { open, close } from "../modules/slices/modalSlice";
-import { store } from "../modules/store";
-import { useParams } from "react-router-dom";
-import {
-  Modal,
-  Typography,
-  Box,
-  Button,
-  IconButton,
-  Grid,
-  styled,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { RootState } from "../modules/store";
+import { styled } from "@mui/material";
 import PhaserGame from "./PhaserGame";
 import { LoadingText, ToolTip } from "./constants/loadingText";
 import QnAModal from "./modal/QnAModal";
-import ModalBody from "./modal/ModalBody";
 import SavingsModal from "./modal/SavingsModal";
 import CashMachineModal from "./modal/CashMachineModal";
 import DepositModal from "./modal/DepositModal";
 import RemittanceModal from "./modal/RemittanceModal";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 1200,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import StockModal from "./modal/StockModal";
 
 const ImageAnimated = styled("img")({
   width: "300px",
@@ -88,7 +62,7 @@ export default function GameApp() {
   useEffect(() => {
     setLoading(true);
 
-    //게임 연결
+    //게임 연결 - 5초동안 로딩
     setTimeout(() => {
       setLoading(false);
     }, 5000);
@@ -102,6 +76,7 @@ export default function GameApp() {
       <CashMachineModal />
       <DepositModal />
       <RemittanceModal />
+      <StockModal />
     </>
   );
 }
