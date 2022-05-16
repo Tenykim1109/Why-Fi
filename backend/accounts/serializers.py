@@ -19,21 +19,28 @@ class SignupSerializer(UserSerializer):
         fields = ('username', 'password', 'password_confirm', 'name', 'birthday', )
 
 
-class CheckSerializer(UserSerializer):
+class PasswordSerializer(UserSerializer):
 
     class Meta:
         model = get_user_model()
         fields = ('username', 'password', )
 
 
-class PasswordSerializer(UserSerializer):
+class SelfcheckSerializer(UserSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('name', 'birthday', 'book_password', )
+        fields = ('name', 'birthday', )
 
 
-class RemittanceSerializer(PasswordSerializer):
+class SetpasswordSerializer(UserSerializer):
+    
+    class Meta:
+        model = get_user_model()
+        fields = ('book_password', )
+
+
+class RemittanceSerializer(UserSerializer):
     money = serializers.IntegerField()
     
     class Meta:

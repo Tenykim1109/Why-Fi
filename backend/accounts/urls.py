@@ -16,6 +16,7 @@ urlpatterns = [
     path('delete/', views.delete),
     path('self/', views.self),
     path('profile/<username>/', views.profile),
+    path('selfcheck/', views.selfcheck),
     path('setpassword/', views.setpassword),
     path('bookcheck/<book_number>/', views.bookcheck),
     path('remittance/', views.remittance),
