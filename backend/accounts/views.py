@@ -137,11 +137,16 @@ def setpassword(request):
 
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    serializer = PasswordSerializer(user, data=request.data)
+    serializer = SetpasswordSerializer(user, data=request.data)
 
     if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        return Response(status=status.HTTP_201_CREATED)
+        if user.book_password:
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+
+        else:
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
