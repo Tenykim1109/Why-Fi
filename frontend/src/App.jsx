@@ -32,7 +32,6 @@ import Password from "./pages/atm/Password";
 import AtmResult from "./pages/atm/Result";
 
 import Border from "./components/Border";
-import Stock from "./pages/stock/Stock";
 
 // 예전에 사용하던 css
 // style={{
@@ -69,7 +68,6 @@ export default function App() {
             <Route path="/deposit/success" element={<Success />} />
             <Route path="/savings/start" element={<MakeSavings />} />
             <Route path="/savings/success" element={<Success />} />
-            <Route path="/stock" element={<Stock />} />
 
             {/* ATM 관련 */}
             <Route element={<Atm />}>
