@@ -1,6 +1,8 @@
-# api url
+# api url (로컬)
 
-### 공통 (중복되는 부분) : http://127.0.0.1:8000/api/
+### 관리자 페이지 : http://localhost:8000/admin/
+
+### 공통 (중복되는 부분) : http://localhost:8000/api/
 
 - 계정 (User)
   - 로그인 [POST] : accounts/signin/
@@ -18,9 +20,10 @@
     - password
   - 본인 정보 [GET] : accounts/self/
   - 프로필 [GET] : accounts/profile/<str : username>/
-  - 계좌 비밀번호 설정 [PUT] : accounts/setpassword/
+  - 본인 확인 [POST] : accounts/selfcheck/
     - name
     - birthday
+  - 계좌 비밀번호 설정 [PUT] : accounts/setpassword/
     - book_password
   - 송금 대상 확인 [GET] : accounts/bookcheck/<str : book_number>/
   - 송금 [POST] : accounts/remittance/
@@ -59,5 +62,5 @@
 - 퀴즈 (Quiz)
   - 문제 생성  [GET] : quiz/
     - 전체 퀴즈 중에 랜덤으로 5개 선택하여 문제 생성
-    - 퀴즈 추가는 admin 페이지를 활용 : admin/
+    - 퀴즈 추가는 admin 페이지를 활용
 
