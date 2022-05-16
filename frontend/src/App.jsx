@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import GameApp from "./ingame/GameApp";
+import ChooseCharacter from "./ingame/ChooseCharacter";
 import Homepage from "./pages/Homepage";
 
 import Signup from "./pages/account/Signup";
@@ -23,11 +24,15 @@ import Tutorial from "./pages/bankbook/Tutorial";
 import MakeDeposit from "./pages/bankbook/MakeDeposit";
 import MakeSavings from "./pages/bankbook/MakeSavings";
 import Success from "./pages/bankbook/Success";
+import ResetPw from "./pages/bankbook/ResetPw";
+import ResetSuccess from "./pages/bankbook/ResetSuccess";
 
 import Atm from "./pages/atm/Atm";
 import AtmStart from "./pages/atm/Start";
 import Transfer from "./pages/atm/Transfer";
+import NameConfirm from "./pages/atm/NameConfirm";
 import SetMoney from "./pages/atm/SetMoney";
+import MoneyCheck from "./pages/atm/MoneyCheck";
 import Password from "./pages/atm/Password";
 import AtmResult from "./pages/atm/Result";
 
@@ -68,17 +73,23 @@ export default function App() {
             <Route path="/deposit/success" element={<Success />} />
             <Route path="/savings/start" element={<MakeSavings />} />
             <Route path="/savings/success" element={<Success />} />
+            <Route path="/reset/password" element={<ResetPw />} />
+            <Route path="/reset/success" element={<ResetSuccess />} />
 
             {/* ATM 관련 */}
             <Route element={<Atm />}>
               <Route path="/atm/start" element={<AtmStart />} />
               <Route path="/atm/transfer" element={<Transfer />} />
+              <Route path="/atm/nameconfirm" element={<NameConfirm />} />
               <Route path="/atm/setmoney" element={<SetMoney />} />
+              <Route path="/atm/moneycheck" element={<MoneyCheck />} />
               <Route path="/atm/password" element={<Password />} />
               <Route path="/atm/result" element={<AtmResult />} />
             </Route>
 
+            {/* Phaser 관련 */}
             <Route path="/ingame" element={<GameApp />} />
+            <Route path="/select" element={<ChooseCharacter />} />
           </Routes>
         </Border>
       </Router>

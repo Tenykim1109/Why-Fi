@@ -8,8 +8,9 @@ from rest_framework import status
 from .serializers import (
     UserSerializer,
     SignupSerializer,
-    CheckSerializer,
     PasswordSerializer,
+    SelfcheckSerializer,
+    SetpasswordSerializer,
     RemittanceSerializer,
 )
 import random, re, datetime
@@ -81,7 +82,7 @@ def signup(request):
         return Response(status=status.HTTP_201_CREATED)
 
 
-@swagger_auto_schema(method='DELETE', request_body=CheckSerializer)
+@swagger_auto_schema(method='DELETE', request_body=PasswordSerializer)
 @api_view(['DELETE'])
 def delete(request):
     User = get_user_model()
@@ -111,27 +112,41 @@ def profile(request, username):
     return Response(serializer.data)
 
 
-@swagger_auto_schema(method='PUT', request_body=PasswordSerializer)
-@api_view(['PUT'])
-def setpassword(request):
+@swagger_auto_schema(method='POST', request_body=SelfcheckSerializer)
+@api_view(['POST'])
+def selfcheck(request):
     name = request.data.get('name')
     birthday = request.data.get('birthday')
-    book_password = request.data.get('book_password')
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
+
+    if user.name == name and user.birthday == datetime.date.fromisoformat(birthday):
+        return Response(status=status.HTTP_200_OK)
+
+    else:
+        return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@swagger_auto_schema(method='PUT', request_body=SetpasswordSerializer)
+@api_view(['PUT'])
+def setpassword(request):
+    book_password = request.data.get('book_password')
 
     if len(book_password) != 4 or re.findall('[a-zA-Z]+', book_password) or re.findall('[{-~[-`:-@!-/]+', book_password):
         return Response({'error: 통장 비밀번호 형식 오류'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if user.name == name and user.birthday == datetime.date.fromisoformat(birthday):
-        serializer = PasswordSerializer(user, data=request.data)
+    User = get_user_model()
+    user = get_object_or_404(User, pk=request.user.pk)
+    serializer = SetpasswordSerializer(user, data=request.data)
 
-        if serializer.is_valid(raise_exception=True):
+    if serializer.is_valid(raise_exception=True):
+        if user.book_password:
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)
+
+        else:
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
-
-    else:
-        return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(['GET'])
