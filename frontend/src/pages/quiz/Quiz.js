@@ -7,6 +7,7 @@ import Choice from "./style/Choice";
 import Answer from "./Answer";
 import O_img from "../../components/event_img_o.png";
 import X_img from "../../components/event_img_x.png";
+import Div from "../bankbook/style/Div";
 import axios from "axios";
 
 const Quiz = () => {
@@ -32,65 +33,6 @@ const Quiz = () => {
   const [checkCorrect, setCheckCorrect] = useState(0);
   // 정답여부
   const [correct, setCorrect] = useState(false);
-
-  // Quiz 샘플
-  // const quiz_sample = [
-  //   {
-  //     id: "1",
-  //     quiz_type: "choices",
-  //     question: "다음 중 어떠한 것의 정답은?",
-  //     answer: "222",
-  //     commentary: "111이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-  //     choices_view1: "111",
-  //     choices_view2: "222",
-  //     choices_view3: "333",
-  //     choices_view4: "444",
-  //   },
-  //   {
-  //     id: "2",
-  //     quiz_type: "ox",
-  //     question: "다음 중 어떠한 것의 정답은?",
-  //     answer: true,
-  //     commentary: "222이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-  //     choices_view1: true,
-  //     choices_view2: false,
-  //     choices_view3: null,
-  //     choices_view4: null,
-  //   },
-  //   {
-  //     id: "3",
-  //     quiz_type: "choices",
-  //     question: "다음 중 어떠한 것의 정답은?",
-  //     answer: "333",
-  //     commentary: "333이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-  //     choices_view1: "111",
-  //     choices_view2: "222",
-  //     choices_view3: "333",
-  //     choices_view4: "444",
-  //   },
-  //   {
-  //     id: "4",
-  //     quiz_type: "ox",
-  //     question: "다음 중 어떠한 것의 정답은?",
-  //     answer: true,
-  //     commentary: "444이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-  //     choices_view1: true,
-  //     choices_view2: false,
-  //     choices_view3: null,
-  //     choices_view4: null,
-  //   },
-  //   {
-  //     id: "5",
-  //     quiz_type: "choices",
-  //     question: "다음 중 어떠한 것의 정답은?",
-  //     answer: "444",
-  //     commentary: "555이거는 이거고, 저거는 저거고 그래서 정답은 그거입니다.",
-  //     choices_view1: "111",
-  //     choices_view2: "222",
-  //     choices_view3: "333",
-  //     choices_view4: "444",
-  //   },
-  // ];
 
   const [quizData, setQuizData] = useState([]);
 
@@ -145,7 +87,7 @@ const Quiz = () => {
   // console.log("맞힌 문제", checkCorrect);
 
   return (
-    <DIV flex={true}>
+    <Div flex={true}>
       {currentQuiz && (
         <>
           <Title>
@@ -204,6 +146,7 @@ const Quiz = () => {
                 <>
                   <Comment>정답입니다.</Comment>
                   <img src={O_img} alt="O_img" />
+                  <div>{currentQuiz.commentary}</div>
                 </>
               ) : (
                 <>
@@ -216,20 +159,20 @@ const Quiz = () => {
           )}
         </>
       )}
-    </DIV>
+    </Div>
   );
 };
 
-const DIV = styled.div`
-  width: 400px;
-  height: 100%;
-  margin: auto;
-  ${({ flex }) => {
-    return flex
-      ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
-      : null;
-  }}
-`;
+// const DIV = styled.div`
+//   width: 400px;
+//   height: 100%;
+//   margin: auto;
+//   ${({ flex }) => {
+//     return flex
+//       ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
+//       : null;
+//   }}
+// `;
 
 const Grid = styled.div`
   display: grid;
@@ -243,7 +186,7 @@ const Flex = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  width: 200px;
+  width: 280px;
   user-select: none;
 `;
 
@@ -255,7 +198,7 @@ const Title = styled.h2`
 `;
 
 const Line = styled.hr`
-  width: 350px;
+  width: 500px;
   border: 1px solid;
   margin-bottom: 2rem;
   ::focus {

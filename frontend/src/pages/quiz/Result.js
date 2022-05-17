@@ -7,6 +7,7 @@ import QuizButton from "./style/QuizButton";
 import Whale from "../../components/whale.png";
 import WhaleSmile from "../../components/whale_smile.jpg";
 import WhaleCry from "../../components/whale_cry.jpg";
+import Div from "../bankbook/style/Div";
 
 const Result = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const Result = () => {
   };
 
   return (
-    <DIV flex={true}>
+    <Div flex={true}>
       {/* <VeryGood /> */}
       <ReturnImg />
       <Text>5문제 중 {state ? state : 0}문제 맞혔어요.</Text>
@@ -44,20 +45,20 @@ const Result = () => {
         <QuizButton onClick={startQuiz}>다시하기</QuizButton>
         <QuizButton onClick={toHome}>돌아가기</QuizButton>
       </div>
-    </DIV>
+    </Div>
   );
 };
 
-const DIV = styled.div`
-  width: 400px;
-  height: 100%;
-  margin: auto;
-  ${({ flex }) => {
-    return flex
-      ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
-      : null;
-  }}
-`;
+// const DIV = styled.div`
+//   width: 400px;
+//   height: 100%;
+//   margin: auto;
+//   ${({ flex }) => {
+//     return flex
+//       ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
+//       : null;
+//   }}
+// `;
 
 const Line = styled.hr`
   width: 350px;

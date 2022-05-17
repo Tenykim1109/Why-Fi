@@ -66,11 +66,39 @@ const ResetPw = () => {
     }
   };
 
-  const next = () => {
-    setPage(2);
-  };
+  // const next = () => {
+  //   setPage(2);
+  // };
   const prev = () => {
     setPage(1);
+  };
+
+  const authentication = (event) => {
+    event.preventDefault();
+    const year = birth.substr(0, 4);
+    const month = birth.substr(4, 2);
+    const date = birth.substr(6, 2);
+    const birthChange = year + "-" + month + "-" + date;
+    axios({
+      url: "http://127.0.0.1:8000/api/accounts/selfcheck/",
+      method: "POST",
+      data: {
+        name: name,
+        birthday: birthChange,
+        // book_password: pw,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setPage(2);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        alert("이름과 생년월일을 확인해주세요.");
+      });
   };
 
   const resetPassword = (event) => {
@@ -98,7 +126,7 @@ const ResetPw = () => {
       })
       .catch((err) => {
         console.log(err.response.data);
-        alert("이름과 생년월일을 확인해주세요.");
+        alert("비밀번호를 확인해주세요.");
       });
   };
 
@@ -129,7 +157,7 @@ const ResetPw = () => {
           </Flex>
           <NextBtn
             disabled={!(nameError === 2 && birthError === 2)}
-            onClick={next}>
+            onClick={authentication}>
             다음
           </NextBtn>
         </form>

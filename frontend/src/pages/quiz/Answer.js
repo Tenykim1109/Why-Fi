@@ -3,6 +3,23 @@ import styled from "styled-components";
 
 import QuizButton from "./style/QuizButton";
 
+const Answer = ({ toNextQuestion, children, ...rest }) => {
+  return (
+    <Container>
+      {/* <Background onClick={_handleModal} /> */}
+      <Background />
+      <ModalBlock {...rest}>
+        <Contents>{children}</Contents>
+        <QuizButton
+          style={{ fontSize: "1.2rem", float: "right", marginTop: "1rem" }}
+          onClick={toNextQuestion}>
+          다음 문제 풀기
+        </QuizButton>
+      </ModalBlock>
+    </Container>
+  );
+};
+
 const Container = styled.div`
   position: absolute;
   width: 100%;
@@ -41,22 +58,5 @@ const Contents = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
-const Answer = ({ toNextQuestion, children, ...rest }) => {
-  return (
-    <Container>
-      {/* <Background onClick={_handleModal} /> */}
-      <Background />
-      <ModalBlock {...rest}>
-        <Contents>{children}</Contents>
-        <QuizButton
-          style={{ fontSize: "1.2rem", float: "right" }}
-          onClick={toNextQuestion}>
-          다음 문제 풀기
-        </QuizButton>
-      </ModalBlock>
-    </Container>
-  );
-};
 
 export default Answer;

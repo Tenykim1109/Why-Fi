@@ -209,32 +209,6 @@ const MakeSavings = () => {
         });
   };
 
-  // 잔액 조회
-  // const [balance, setBalance] = useState(0);
-  // const getBalance = async () => {
-  //   await axios({
-  //     url: "http://127.0.0.1:8000/api/accounts/self/",
-  //     method: "get",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("access-token")}`,
-  //     },
-  //   }).then((res) => {
-  //     // console.log(res.data.balance);
-  //     setBalance(res.data.balance);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   getBalance();
-  // }, []);
-
-  // 최대 설정 가능 금액
-  // const [alertMoney, setAlertMoney] = useState("");
-  // console.log(Math.ceil(balance / (btnClicked.slice(0, -1) * 7)));
-  // useEffect(() => {
-  //   setAlertMoney(Math.ceil(balance / (btnClicked.slice(0, -1) * 7)));
-  // }, [balance, btnClicked]);
-
   // 예상 금액 조회
   const [expectedMoney, setExpectedMoney] = useState(0);
 

@@ -1,28 +1,28 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
-import Whale from "../../components/whale.png";
-// import WhaleSmile from "../../components/whale_smile.jpg";
-
-import HelpBankbook from "./HelpBackbook";
 import Div from "./style/Div";
-import CloseBtn from "./style/CloseBtn";
 import HelpBtn from "./style/HelpBtn";
-import Container from "./style/Container";
 import Title from "./style/Title";
-import Describe from "./style/Describe";
-import Bold from "./style/Bold";
 
-const Tutorial = () => {
+const Terminate = () => {
   const navigate = useNavigate();
+  const path = useLocation().pathname;
+
+  const title = {
+    "/deposit/terminate": "예금",
+    "/savings/terminate": "적금",
+  };
+  const type = {
+    "/deposit/terminate": "deposit",
+    "/savings/terminate": "savings",
+  };
 
   const [page, setPage] = useState(1);
-  const [pageMain, setPageMain] = useState(0);
-
   const [help, setHelp] = useState(true);
-  const [close, setClose] = useState(false);
+
   const [name, setName] = useState("");
   const [birth, setBirth] = useState("");
   const [pw, setPw] = useState("");
@@ -31,7 +31,6 @@ const Tutorial = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [birthError, setBirthError] = useState(0);
   const [pwError, setPwError] = useState(0);
-  // const [pwErrorMsg, setPwErrorMsg] = useState("");
 
   const nameHandle = (event) => {
     const inputName = event.target.value;
@@ -79,16 +78,8 @@ const Tutorial = () => {
     }
   };
 
-  const closeHandle = () => {
-    setHelp((help) => !help);
-    setPage(1);
-  };
-
-  // const next = () => {
-  //   setPageMain(1);
-  // };
   const prev = () => {
-    setPageMain(0);
+    setPage(1);
   };
 
   const authentication = (event) => {
@@ -111,7 +102,7 @@ const Tutorial = () => {
     })
       .then((res) => {
         console.log(res);
-        setPageMain(1);
+        setPage(2);
       })
       .catch((err) => {
         console.log(err.response.data);
@@ -119,7 +110,7 @@ const Tutorial = () => {
       });
   };
 
-  const makeBankBook = (event) => {
+  const terminate = (event) => {
     event.preventDefault();
     const year = birth.substr(0, 4);
     const month = birth.substr(4, 2);
@@ -127,11 +118,11 @@ const Tutorial = () => {
     const birthChange = year + "-" + month + "-" + date;
     console.log(birthChange);
     axios({
-      url: "http://127.0.0.1:8000/api/accounts/setpassword/",
-      method: "PUT",
+      url: `http://127.0.0.1:8000/api/bankbooks/${type[path]}/delete/`,
+      method: "DELETE",
       data: {
-        // name: name,
-        // birthday: birthChange,
+        name: name,
+        birthday: birthChange,
         book_password: pw,
       },
       headers: {
@@ -140,97 +131,70 @@ const Tutorial = () => {
     })
       .then((res) => {
         console.log(res.data);
-        navigate("/savings/success", { state: "통장" });
+        navigate("/terminate/success", { state: title[path] });
       })
       .catch((err) => {
         console.log(err.response.data);
+        alert("비밀번호를 확인해주세요.");
       });
   };
 
   return (
     <Div flex={true}>
-      {help ? (
-        <>
-          <HelpBankbook page={page} setPage={setPage} setClose={setClose} />
-          {close && <CloseBtn onClick={closeHandle}>닫기</CloseBtn>}
-        </>
+      <Title>{title[path]} 해지</Title>
+      <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
+      {page === 1 ? (
+        <form>
+          <Flex>
+            <Text>이름</Text>
+            <Input
+              type="text"
+              value={name}
+              onChange={nameHandle}
+              placeholder="이름"
+            />
+          </Flex>
+          <ErrorMsg>{errorMsg}</ErrorMsg>
+          <Flex>
+            <Text>생년월일</Text>
+            <Input
+              type="number"
+              maxlength="6"
+              value={birth}
+              onChange={birthHandle}
+              placeholder="생년월일 8자리"
+            />
+          </Flex>
+          <NextBtn
+            disabled={!(nameError === 2 && birthError === 2)}
+            onClick={authentication}>
+            다음
+          </NextBtn>
+        </form>
       ) : (
-        <>
-          <Title>통장 가입</Title>
-          <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
-          {!pageMain ? (
-            <form>
-              <Flex>
-                <Text>이름</Text>
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={nameHandle}
-                  placeholder="이름"
-                />
-              </Flex>
-              <ErrorMsg>{errorMsg}</ErrorMsg>
-              <Flex>
-                <Text>생년월일</Text>
-                <Input
-                  type="number"
-                  maxlength="6"
-                  value={birth}
-                  onChange={birthHandle}
-                  placeholder="생년월일 8자리"
-                />
-              </Flex>
-              <NextBtn
-                disabled={!(nameError === 2 && birthError === 2)}
-                onClick={authentication}>
-                다음
-              </NextBtn>
-            </form>
-          ) : (
-            <form>
-              <Flex>
-                <Text>비밀번호</Text>
-                <Input
-                  type="password"
-                  maxlength="4"
-                  value={pw}
-                  onChange={pwHandle}
-                  placeholder="비밀번호 숫자 4자리"
-                  autoComplete="on"
-                />
-              </Flex>
-              <Flex>
-                <PrevBtn onClick={prev}>이전</PrevBtn>
-                <MakeBtn
-                  onClick={makeBankBook}
-                  disabled={
-                    !(nameError === 2 && pwError === 2 && birthError === 2)
-                  }>
-                  가입하기
-                </MakeBtn>
-              </Flex>
-            </form>
-          )}
-          <IMG src={Whale} alt="whale" />
-          <Container>
-            <Describe>
-              {!pageMain ? (
-                <>
-                  실제로는 <Bold>신분증</Bold>과 <Bold>주민등록등본</Bold>과
-                  같은 서류들과 <br /> <Bold>추가적인 정보</Bold>들이 더
-                  필요해요.
-                </>
-              ) : (
-                <>
-                  비밀번호 네 자리로 <Bold>연속된 숫자</Bold>나
-                  <Bold>쉬운 숫자</Bold>는
-                  <br />
-                  피해야 해요.
-                </>
-              )}
-            </Describe>
-          </Container>
-        </>
+        <form>
+          <Flex>
+            <Text>비밀번호</Text>
+            <Input
+              type="password"
+              maxlength="4"
+              value={pw}
+              onChange={pwHandle}
+              placeholder="비밀번호 숫자 4자리"
+              autoComplete="on"
+            />
+          </Flex>
+          <Flex>
+            <PrevBtn onClick={prev}>이전</PrevBtn>
+            <ResetBtn
+              onClick={terminate}
+              disabled={
+                !(nameError === 2 && pwError === 2 && birthError === 2)
+              }>
+              해지하기
+            </ResetBtn>
+          </Flex>
+        </form>
       )}
     </Div>
   );
@@ -267,12 +231,6 @@ const ErrorMsg = styled.p`
   color: red;
   text-align: center;
   margin: 0;
-`;
-
-const IMG = styled.img`
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
 `;
 
 const PrevBtn = styled.button`
@@ -315,7 +273,7 @@ const NextBtn = styled.button`
   }
 `;
 
-const MakeBtn = styled.button`
+const ResetBtn = styled.button`
   width: 100px;
   height: 50px;
 
@@ -333,4 +291,4 @@ const MakeBtn = styled.button`
   }
 `;
 
-export default Tutorial;
+export default Terminate;
