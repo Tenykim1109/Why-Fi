@@ -1,31 +1,31 @@
 version: "3"
 services:
   backend:
-    restart: unless-stopped
+    restart: always
     container_name: back
     command: chmod +x backend/entrypoint.sh
     entrypoint:
-      - ./backend/entrypoint.sh
+      - /backend/entrypoint.sh
     env_file:
       - ./backend/.env
     build:
       context: ./backend/
       dockerfile: Dockerfile
     ports:
-      - 8000:8000
+      - "8000:8000"
     volumes:
       - ./backend:/app/backend
       - /app/backend/static
 
   frontend:
-    restart: unless-stopped
+    restart: always
     container_name: front
     command: npm start
     build:
       context: ./frontend/
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - "3000:3000"
     depends_on:
       - backend
     volumes:
