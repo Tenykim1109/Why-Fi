@@ -11,7 +11,10 @@ const Start = () => {
     navigate("/quiz");
   };
   const toHome = () => {
-    navigate("/");
+    // navigate("/");
+
+    // ingame에서는 ingame으로 돌아가도록
+    navigate("/ingame");
   };
 
   return (

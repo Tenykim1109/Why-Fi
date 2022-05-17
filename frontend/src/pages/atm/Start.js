@@ -20,7 +20,16 @@ const Start = () => {
     navigate("/atm/transfer");
   };
 
-  return <Button onClick={toTransfer}>송금하기</Button>;
+  const toHome = () => {
+    navigate("/ingame");
+  };
+
+  return (
+    <div>
+      <Button onClick={toTransfer}>송금하기</Button>
+      <Button onClick={toHome}>돌아가기</Button>
+    </div>
+  );
 };
 
 export default Start;

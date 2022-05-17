@@ -54,6 +54,9 @@ export default class Game extends Phaser.Scene {
   create() {
     // 화면 크기
     const { width, height } = this.scale;
+    console.log(width, height);
+
+    this.scene.run("button-ui");
 
     this.characterType = store.getState().user.characterType;
     this.cameras.main.zoom = 1.4;
@@ -207,7 +210,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider(
       [this.myPlayer, this.myPlayer.playerContainer],
-      [decoItems, quizMachines]
+      [decoItems, quizMachines, atms, plants]
     );
 
     // Object에 닿았을 때 이벤트 처리 코드
@@ -242,6 +245,7 @@ export default class Game extends Phaser.Scene {
       offsetY = 0;
     }
 
+    // 서버에서 올바르게 나오는 좌표값
     const actualX = object.x! + object.width! * (9.7 + offsetX);
     const actualY = object.y! + object.height! * (3 + offsetY);
 
