@@ -28,7 +28,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     this.playerId = id;
     this.playerTexture = texture; // 남캐인지 여캐인지?
-    this.setDepth(this.y);
+    this.setDepth(3000);
 
     this.anims.play(`${this.playerTexture}-down-idle`, true);
 

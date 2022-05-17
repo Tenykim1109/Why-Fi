@@ -39,6 +39,7 @@ import Password from "./pages/atm/Password";
 import AtmResult from "./pages/atm/Result";
 
 import Border from "./components/Border";
+import BorderForGame from "./components/BorderForGame";
 
 // 예전에 사용하던 css
 // style={{
@@ -93,7 +94,9 @@ export default function App() {
               <Route path="/atm/password" element={<Password />} />
               <Route path="/atm/result" element={<AtmResult />} />
             </Route>
+          </Route>
 
+          <Route element={<BorderForGame />}>
             {/* Phaser 관련 */}
             <Route path="/ingame" element={<GameApp />} />
             <Route path="/select" element={<ChooseCharacter />} />

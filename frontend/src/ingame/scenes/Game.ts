@@ -253,9 +253,6 @@ export default class Game extends Phaser.Scene {
     // const actualX = object.x! + object.width! * (9.7 + offsetX);
     // const actualY = object.y! + object.height! * (3 + offsetY);
 
-    console.log(object.x!, object.y!);
-    console.log(actualX, actualY);
-
     // const actualX = object.x! - this.cameras.main.x;
 
     let obj = undefined;
