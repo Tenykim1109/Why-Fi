@@ -145,10 +145,11 @@ const MakeSavings = () => {
   };
 
   const [money, setMoney] = useState(0);
+  const [moneyWithComma, setMoneyWithComma] = useState();
 
-  const moneyInputHandle = (event) => {
-    setMoney(Number(event.target.value));
-  };
+  // const moneyInputHandle = (event) => {
+  //   setMoney(Number(event.target.value));
+  // };
 
   const moneyBtnHandle = (event) => {
     const { value } = event.target;
@@ -226,7 +227,9 @@ const MakeSavings = () => {
           book_type: "savings",
         },
       }).then((res) => {
-        setExpectedMoney(res.data);
+        setExpectedMoney(
+          res.data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        );
       });
     };
     if (money) {
@@ -235,6 +238,11 @@ const MakeSavings = () => {
       setExpectedMoney(0);
     }
   }, [endDate, money]);
+
+  // money 자릿수 표기
+  useEffect(() => {
+    setMoneyWithComma(money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }, [money]);
 
   return (
     <Div flex={true}>
@@ -279,12 +287,13 @@ const MakeSavings = () => {
           </div>
           <Flex>
             <Text>매 주 넣을 금액</Text>
-            <Input
+            {/* <Input
               type="number"
               onChange={moneyInputHandle}
               // value={money + "원"}
               value={money}
-            />
+            /> */}
+            <Box>{moneyWithComma}원</Box>
           </Flex>
           <div>
             {MoneyFilterData.map((filter, idx) => (
@@ -302,7 +311,7 @@ const MakeSavings = () => {
           </Flex>
           <Flex>
             <Text>예상 금액</Text>
-            <Box>{expectedMoney}</Box>
+            <Box>{expectedMoney}원</Box>
           </Flex>
           <ErrorMsg>
             정해진 시간 (저녁 12시)에 잔액이 부족하여 <br />

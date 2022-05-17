@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -15,6 +15,7 @@ const SetMoney = () => {
   // console.log(state);
 
   const [money, setMoney] = useState("");
+  const [moneyWithComma, setMoneyWithComma] = useState(0);
 
   // 숫자 입력 버튼
   const numpad = (num) => {
@@ -30,6 +31,10 @@ const SetMoney = () => {
   const clearNum = () => {
     setMoney("");
   };
+
+  useEffect(() => {
+    setMoneyWithComma(money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }, [money]);
 
   // 비밀번호 입력 화면으로
   const toPassword = () => {
@@ -79,7 +84,7 @@ const SetMoney = () => {
             <br />
             [확인]을 눌러주세요.
           </h1>
-          <Input value={money} readOnly={true} />
+          <Input value={moneyWithComma + "원"} readOnly={true} />
         </Component1>
         <Component2>
           <FlexRow>
