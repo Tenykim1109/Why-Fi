@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./StockOrder.css";
 import StockOrderForm from "./StockOrderForm";
-const StockOrder = () => {
+const StockOrder = (currentPrice, ...props) => {
   const [buyType, setBuyType] = useState("BUY");
-
   return (
     <div className="Trade__Box">
       <div className="Trade__Head">
@@ -22,7 +21,7 @@ const StockOrder = () => {
           </p>
         </div>
       </div>
-      <StockOrderForm buyType={buyType} />
+      <StockOrderForm buyType={buyType} currentPrice={currentPrice} />
     </div>
   );
 };

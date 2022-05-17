@@ -1,52 +1,3 @@
-// import React from 'react';
-// import {Line} from 'react-chartjs-2';
-
-// // const data = {
-// //   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-// //   datasets: [
-// //     {
-// //       label: 'History',
-// //       fill: false,
-// //       lineTension: 0.1,
-// //       backgroundColor: 'rgba(75,192,192,0.4)',
-// //       borderColor: 'rgba(75,192,192,1)',
-// //       borderCapStyle: 'butt',
-// //       borderDash: [],
-// //       borderDashOffset: 0.0,
-// //       borderJoinStyle: 'miter',
-// //       pointBorderColor: 'rgba(75,192,192,1)',
-// //       pointBackgroundColor: '#fff',
-// //       pointBorderWidth: 1,
-// //       pointHoverRadius: 5,
-// //       pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-// //       pointHoverBorderColor: 'rgba(220,220,220,1)',
-// //       pointHoverBorderWidth: 2,
-// //       pointRadius: 1,
-// //       pointHitRadius: 10,
-// //       data: [65, 59, 80, 81, 56, 55, 40]
-// //     }
-// //   ]
-// // };
-
-// // function StockChart() {
-// //   return (
-// //     <div>
-      
-// //       <Line data={data} />
-// //     </div>
-
-
-    
-// //   );
-// // }
-//   const StockChart=()=>{
-//     return (
-//       <div>여기에 차트</div>
-//     )
-//   }
-
-// export default StockChart;
-
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 
@@ -75,29 +26,60 @@ ChartJS.register(
   Legend
 );
 const options = {};
-function StockChart() {
-  const [data, setData]=useState({});
-  useEffect(()=>{
-   
-    const fetchData =async ()=> {
-      await fetch('https://jsonplaceholder.typicode.com/todos/1')
-        .then((response)=>response.json())
-        .then((data)=>console.log('stockchart:',data));
-     
+const buildChartData = (data, companyType) => {
+  const chartData = [];
+  let lastDataPoint;
+
+  for (let date in data.엔터) {
+    if (lastDataPoint) {
+      const newDataPoint = {
+        x: date,
+        y: data[companyType][date] - lastDataPoint,
+      };
+      chartData.push(newDataPoint);
     }
+    lastDataPoint = data[companyType][date];
+    // console.log(lastDataPoint);
+  }
+  return chartData;
+};
+
+function StockChart({ companyType, ...props }) {
+  const [data, setData] = useState({});
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await fetch("list.json")
+  //       .then((response) => response.json())
+  //       .then((data) => console.log("stockchart:", data));
+  //   };
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetch("list.json")
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          let chartData = buildChartData(data, companyType);
+          setData(chartData);
+          console.log(data.엔터);
+        });
+    };
     fetchData();
-      
-  },[]);
+  }, [companyType]);
+
   return (
-    <div>여기에 주식차트
+    <div>
       {data?.length > 0 && (
         <Line
           data={{
-            datasets:[
+            datasets: [
               {
                 backgroundColor: "rgba(204,16,52,0.2)",
-                borderColor : "#CC1034",
-                data : data ,
+                borderColor: "#CC1034",
+                data: data,
               },
             ],
           }}
@@ -106,7 +88,6 @@ function StockChart() {
       )}
     </div>
   );
-  
 }
 
 export default StockChart;

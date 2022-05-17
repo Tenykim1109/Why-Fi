@@ -12,7 +12,8 @@
 }
 
 .infoBox__cases--green {
-  color: lawngreen !important;
+  /* color: lawngreen !important; */
+  color: blue !important;
 }
 
 .infoBox--red {

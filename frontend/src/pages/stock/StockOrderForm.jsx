@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Cleave from "cleave.js/react";
 import "./StockOrder.css";
+import axios from "axios";
 
-const StockOrderForm = ({ buyType }) => {
+const StockOrderForm = ({ buyType, currentPrice, companyType, ...props }) => {
   const typeToStr = useCallback(() => {
     if (buyType === "BUY") {
       return "매수";
@@ -14,10 +15,32 @@ const StockOrderForm = ({ buyType }) => {
   const [inputPrice, setInputPrice] = useState(0); // 매수가격
   const [inputVolume, setInputVolume] = useState(0); // 매수수량
 
+  const [balance, setBalance] = useState(0);
+  const getUserData = () => {
+    axios({
+      url: `http://127.0.0.1:8000/api/accounts/self/`,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+      },
+    })
+      .then((res) => {
+        setBalance(res.data.balance.toString());
+        console.log("balance:", balance);
+        console.log(res.data.book_number);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
-    setTotalPrice(inputPrice * inputVolume);
-  }, [inputPrice, inputVolume]);
+    setTotalPrice(currentPrice * inputVolume);
+  }, [currentPrice, inputVolume]);
 
   return (
     <div className="Trade__Form">
@@ -25,7 +48,9 @@ const StockOrderForm = ({ buyType }) => {
         <div className="Form__Title">
           <p>보유금액</p>
         </div>
-        <div className="Form__Des">{/* 내가보유한금액들어가야함 */}</div>
+        <div className="Form__Des">
+          <p>{balance.toLocaleString()}</p>
+        </div>
       </div>
       <div className="Form__List">
         <div className="Form__Title">
@@ -37,7 +62,7 @@ const StockOrderForm = ({ buyType }) => {
               numeral: true,
               numeralTousandsGroupStyle: "thousand",
             }}
-            onChange={(e) => setInputPrice(Number(e.target.rawValue))}
+            // currentPrice={currentPrice}
             readOnly
           />
         </div>
