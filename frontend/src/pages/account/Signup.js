@@ -114,10 +114,23 @@ const Signup = () => {
   const duplicateCheck = () => {
     // console.log("중복검사");
     // setIdDuplicate(2);
+
+    // axios
+    //   .get(`/accounts/idcheck/${id}`)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     alert("사용할 수 있는 아이디에요.");
+    //     setIdDuplicate(2);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     alert("이미 가입된 아이디에요.");
+    //     setIdDuplicate(1);
+    //   });
     axios({
       method: "get",
       // 주소 변경해야
-      url: `http://127.0.0.1:8000/api/accounts/idcheck/${id}`,
+      url: `https://k6d108.p.ssafy.io/api/accounts/idcheck/${id}`,
       // data: {
       //   username: id,
       // },
@@ -142,7 +155,7 @@ const Signup = () => {
     const birthChange = year + "-" + month + "-" + date;
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/api/accounts/signup/",
+      url: "/accounts/signup/",
       data: {
         username: id,
         birthday: birthChange,
