@@ -2,6 +2,9 @@ stages:
   - build
   - deploy
 
+variables:
+  GIT_CLEAN_FLAGS: none
+
 build-front:
   stage: build
   cache:
@@ -31,5 +34,6 @@ deploy-front:
   script:
     - pwd
     - ls -al /home/ubuntu/project/S06P31D108/frontend/build
+    - docker ps
   tags:
     - prd

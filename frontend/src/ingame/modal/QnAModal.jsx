@@ -56,6 +56,7 @@ export default function QnAModal() {
   const dispatch = useDispatch();
 
   const handleQnA = () => {
+    setItem("");
     dispatch(closeQnA());
   };
 
@@ -87,6 +88,7 @@ export default function QnAModal() {
                   textAlign="center"
                   sx={{
                     mb: 8,
+                    fontWeight: "Bold",
                   }}>
                   무엇을 도와드릴까요?
                 </Typography>
@@ -97,6 +99,7 @@ export default function QnAModal() {
                       variant="contained"
                       sx={{
                         background: "#4cb5f5",
+                        fontWeight: "Bold",
                       }}
                       onClick={() => {
                         setItem(value);
@@ -107,7 +110,21 @@ export default function QnAModal() {
                 </Stack>
               </Grid>
             ) : (
-              <QnAItem keyword={item} />
+              <>
+                <QnAItem keyword={item} />
+                <Button
+                  variant="contained"
+                  sx={{
+                    background: "#4cb5f5",
+                    fontWeight: "Bold",
+                    mt: 4,
+                  }}
+                  onClick={() => {
+                    setItem("");
+                  }}>
+                  돌아가기
+                </Button>
+              </>
             )}
           </Grid>
           {/* <ModalBody /> */}

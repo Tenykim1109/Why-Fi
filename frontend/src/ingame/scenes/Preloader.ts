@@ -32,6 +32,8 @@ export default class Preloader extends Phaser.Scene {
     this.load.image("cloud_day_upper", "assets/background/Cloud1.png");
     this.load.image("sky_day", "assets/background/Sky1.png");
 
+    this.load.image("button", "assets/menu.png");
+
     // object 표시할 이미지 spritesheet로 가져오기
     // for Board Layer - 주식 차트 게시판
     this.load.spritesheet("boards", "assets/tiles/atm.png", {

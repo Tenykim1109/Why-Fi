@@ -26,6 +26,8 @@ import MakeSavings from "./pages/bankbook/MakeSavings";
 import Success from "./pages/bankbook/Success";
 import ResetPw from "./pages/bankbook/ResetPw";
 import ResetSuccess from "./pages/bankbook/ResetSuccess";
+import Terminate from "./pages/bankbook/Terminate";
+import TerminateSuccess from "./pages/bankbook/TerminateSuccess";
 
 import Atm from "./pages/atm/Atm";
 import AtmStart from "./pages/atm/Start";
@@ -39,6 +41,7 @@ import AtmResult from "./pages/atm/Result";
 import Border from "./components/Border";
 import Stock from "./pages/stock/Stock";
 import StockInfo from "./pages/stock/StockInfo";
+import BorderForGame from "./components/BorderForGame";
 
 // 예전에 사용하던 css
 // style={{
@@ -53,9 +56,11 @@ export default function App() {
   return (
     <div>
       <Router>
-        <Border>
-          <Routes>
-            <Route path="/" element={<Homepage />} />
+        {/* <Border> */}
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+
+          <Route element={<Border />}>
             {/* 회원 관련 */}
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
@@ -73,12 +78,16 @@ export default function App() {
             <Route path="/tutorial/success" element={<Success />} />
             <Route path="/deposit/start" element={<MakeDeposit />} />
             <Route path="/deposit/success" element={<Success />} />
+            <Route path="/deposit/terminate" element={<Terminate />} />
             <Route path="/savings/start" element={<MakeSavings />} />
             <Route path="/savings/success" element={<Success />} />
+            <Route path="/savings/terminate" element={<Terminate />} />
             <Route path="/reset/password" element={<ResetPw />} />
             <Route path="/reset/success" element={<ResetSuccess />} />
             <Route path="/stock" element={<Stock />} />
             <Route path="/stock/stockinfo" element={<StockInfo />} />
+            <Route path="/terminate/success" element={<TerminateSuccess />} />
+
             {/* ATM 관련 */}
             <Route element={<Atm />}>
               <Route path="/atm/start" element={<AtmStart />} />
@@ -89,12 +98,15 @@ export default function App() {
               <Route path="/atm/password" element={<Password />} />
               <Route path="/atm/result" element={<AtmResult />} />
             </Route>
+          </Route>
 
+          <Route element={<BorderForGame />}>
             {/* Phaser 관련 */}
             <Route path="/ingame" element={<GameApp />} />
             <Route path="/select" element={<ChooseCharacter />} />
-          </Routes>
-        </Border>
+          </Route>
+        </Routes>
+        {/* </Border> */}
       </Router>
     </div>
   );

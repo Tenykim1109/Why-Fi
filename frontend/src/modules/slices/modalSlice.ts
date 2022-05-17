@@ -8,6 +8,7 @@ const initialState = {
   remittance: false,
   atm: false,
   stock: false,
+  menu: false,
   component: "",
 };
 
@@ -58,6 +59,12 @@ export const modalSlice = createSlice({
     closeStock: (state) => {
       state.stock = false;
     },
+    openMenu: (state) => {
+      state.menu = true;
+    },
+    closeMenu: (state) => {
+      state.menu = false;
+    },
     setComponent: (state, action: PayloadAction<string>) => {
       state.component = action.payload;
     },
@@ -79,6 +86,8 @@ export const {
   closeRemittance,
   openStock,
   closeStock,
+  openMenu,
+  closeMenu,
   setComponent,
 } = modalSlice.actions;
 export default modalSlice.reducer;

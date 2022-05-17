@@ -22,6 +22,7 @@ export default class CashMachine extends Item {
 
   openDialog() {
     // store.dispatch(setComponent("ATM"));
-    store.dispatch(openATM());
+    // store.dispatch(openATM());
+    window.location.href = "/atm/start";
   }
 }

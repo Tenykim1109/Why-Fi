@@ -18,6 +18,8 @@ export default class Game extends Phaser.Scene {
   private keyR!: Phaser.Input.Keyboard.Key;
   private map!: Phaser.Tilemaps.Tilemap;
   private sky!: Phaser.GameObjects.Sprite;
+  private startX!: number;
+  private startY!: number;
   private cloudUpper!: Phaser.GameObjects.TileSprite;
   private backgroundCloud!: Phaser.GameObjects.TileSprite;
   private characterType!: string;
@@ -54,6 +56,11 @@ export default class Game extends Phaser.Scene {
   create() {
     // 화면 크기
     const { width, height } = this.scale;
+    console.log(width, height);
+    this.startX = width * 0.5 - 960;
+    this.startY = height * 0.5 - 528;
+
+    this.scene.run("button-ui");
 
     this.characterType = store.getState().user.characterType;
     this.cameras.main.zoom = 1.4;
@@ -71,12 +78,12 @@ export default class Game extends Phaser.Scene {
 
     const groundLayer = this.map.createLayer("Ground", [floor, items, ceil]);
 
-    groundLayer.x = width * 0.5 - 960;
-    groundLayer.y = height * 0.5 - 528;
+    groundLayer.x = this.startX;
+    groundLayer.y = this.startY;
 
     const tableLayer = this.map.createLayer("Table", [tables]);
-    tableLayer.x = width * 0.5 - 960;
-    tableLayer.y = height * 0.5 - 528;
+    tableLayer.x = this.startX;
+    tableLayer.y = this.startY;
     tableLayer.setCollisionByExclusion([-1]);
 
     const wallLayer = this.map.createLayer("Wall", [
@@ -88,8 +95,8 @@ export default class Game extends Phaser.Scene {
 
     // groundLayer.fixedToCamera = false;
 
-    wallLayer.x = width * 0.5 - 960;
-    wallLayer.y = height * 0.5 - 528;
+    wallLayer.x = this.startX;
+    wallLayer.y = this.startY;
 
     // 벽 너머로 넘어갈 수 없도록 설정
     wallLayer.setCollisionByExclusion([-1]);
@@ -207,7 +214,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider(
       [this.myPlayer, this.myPlayer.playerContainer],
-      [decoItems, quizMachines]
+      [decoItems, quizMachines, atms, plants]
     );
 
     // Object에 닿았을 때 이벤트 처리 코드
@@ -231,8 +238,8 @@ export default class Game extends Phaser.Scene {
     offsetX?: number,
     offsetY?: number
   ) {
-    // const actualX = object.x! - object.width! * 0.25;
-    // const actualY = object.y! - object.height! * 0.25;
+    const actualX = this.startX + object.x! + object.width! * 0.5;
+    const actualY = this.startY + object.y! - object.height! * 0.5;
 
     if (offsetX === undefined) {
       offsetX = 0;
@@ -242,21 +249,19 @@ export default class Game extends Phaser.Scene {
       offsetY = 0;
     }
 
-    const actualX = object.x! + object.width! * (9.7 + offsetX);
-    const actualY = object.y! + object.height! * (3 + offsetY);
+    // 서버에서 올바르게 나오는 좌표값
+    // const actualX = object.x! + object.width! * (9.7 + offsetX);
+    // const actualY = object.y! + object.height! * (3 + offsetY);
+
+    // const actualX = object.x! - this.cameras.main.x;
 
     let obj = undefined;
     if (object.text !== undefined) {
-      this.add.text(
-        object.x! + object.width! * 3.7,
-        object.y! + object.height! * 3.9,
-        object.text.text,
-        {
-          fontFamily: "DungGeunMo",
-          fontSize: `${object.text.pixelsize + 4}px`,
-          color: "rgb(0,0,0)",
-        }
-      );
+      this.add.text(actualX - 32, actualY, object.text.text, {
+        fontFamily: "DungGeunMo",
+        fontSize: `${object.text.pixelsize + 4}px`,
+        color: "rgb(0,0,0)",
+      });
     } else {
       obj = group
         .get(
@@ -265,7 +270,7 @@ export default class Game extends Phaser.Scene {
           key,
           object.gid! - this.map.getTileset(tilesetName).firstgid
         )
-        .setDepth(actualY);
+        .setDepth(actualY - this.startY);
     }
 
     if (group.classType === Banker) {

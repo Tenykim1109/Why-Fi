@@ -8,6 +8,7 @@ import CashMachineModal from "./modal/CashMachineModal";
 import DepositModal from "./modal/DepositModal";
 import RemittanceModal from "./modal/RemittanceModal";
 import StockModal from "./modal/StockModal";
+import UserModal from "./modal/UserModal";
 
 const ImageAnimated = styled("img")({
   width: "300px",
@@ -77,6 +78,7 @@ export default function GameApp() {
       <DepositModal />
       <RemittanceModal />
       <StockModal />
+      <UserModal />
     </>
   );
 }

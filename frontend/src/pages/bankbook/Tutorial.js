@@ -84,11 +84,39 @@ const Tutorial = () => {
     setPage(1);
   };
 
-  const next = () => {
-    setPageMain(1);
-  };
+  // const next = () => {
+  //   setPageMain(1);
+  // };
   const prev = () => {
     setPageMain(0);
+  };
+
+  const authentication = (event) => {
+    event.preventDefault();
+    const year = birth.substr(0, 4);
+    const month = birth.substr(4, 2);
+    const date = birth.substr(6, 2);
+    const birthChange = year + "-" + month + "-" + date;
+    axios({
+      url: "http://127.0.0.1:8000/api/accounts/selfcheck/",
+      method: "POST",
+      data: {
+        name: name,
+        birthday: birthChange,
+        // book_password: pw,
+      },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setPageMain(1);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        alert("이름과 생년월일을 확인해주세요.");
+      });
   };
 
   const makeBankBook = (event) => {
@@ -102,8 +130,8 @@ const Tutorial = () => {
       url: "http://127.0.0.1:8000/api/accounts/setpassword/",
       method: "PUT",
       data: {
-        name: name,
-        birthday: birthChange,
+        // name: name,
+        // birthday: birthChange,
         book_password: pw,
       },
       headers: {
@@ -116,9 +144,7 @@ const Tutorial = () => {
       })
       .catch((err) => {
         console.log(err.response.data);
-        alert("이름과 생년월일을 확인해주세요.");
       });
-    // navigate("/savings/success", { state: "통장" });
   };
 
   return (
@@ -156,7 +182,7 @@ const Tutorial = () => {
               </Flex>
               <NextBtn
                 disabled={!(nameError === 2 && birthError === 2)}
-                onClick={next}>
+                onClick={authentication}>
                 다음
               </NextBtn>
             </form>
