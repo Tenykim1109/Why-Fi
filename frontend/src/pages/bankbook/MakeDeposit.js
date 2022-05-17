@@ -248,6 +248,7 @@ const MakeDeposit = () => {
     }
   }, [endDate, money]);
 
+  // money 자릿수 표기
   useEffect(() => {
     setMoneyWithComma(money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
   }, [money]);

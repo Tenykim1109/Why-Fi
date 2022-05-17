@@ -19,7 +19,13 @@ const MoneyCheck = () => {
       <h1>잔액 보다 많은 금액을 보낼 수 없어요.</h1>
       <Flex>
         <Text>현재 잔액</Text>
-        <Input value={state.balance} readOnly={true} />
+        <Input
+          value={
+            state.balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +
+            "원"
+          }
+          readOnly={true}
+        />
       </Flex>
       <Div>
         <ConfirmBtn onClick={toSetMoney}>확인</ConfirmBtn>
