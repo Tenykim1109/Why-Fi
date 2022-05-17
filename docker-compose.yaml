@@ -2,7 +2,7 @@ version: "3"
 services:
   backend:
     restart: unless-stopped
-    continer_name: back
+    container_name: back
     command: chmod +x backend/wsgi-entrypoint.sh
     entrypoint:
       - ./backend/wsgi-entrypoint.sh
