@@ -217,22 +217,6 @@ const MakeDeposit = () => {
         });
   };
 
-  // 이자 조회
-  // const [interest, setInterest] = useState(0);
-
-  // const getInterest = async () => {
-  //   await axios
-  //     // 주소 넣기
-  //     .get("")
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       setInterest(res.data.interest);
-  //     });
-  // };
-  // useEffect(() => {
-  //   getInterest();
-  // }, []);
-
   // 예상 금액 조회
   const [expectedMoney, setExpectedMoney] = useState(0);
 

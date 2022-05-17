@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import QuizButton from "./style/QuizButton";
+import Div from "../bankbook/style/Div";
 
 const Start = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Start = () => {
   };
 
   return (
-    <DIV flex={true}>
+    <Div flex={true}>
       <Title>[ Quiz ]</Title>
       <Text>배운 내용을 복습해보아요.</Text>
       <Line />
@@ -23,20 +24,24 @@ const Start = () => {
         <QuizButton onClick={startQuiz}>시작하기</QuizButton>
         <QuizButton onClick={toHome}>돌아가기</QuizButton>
       </div>
-    </DIV>
+    </Div>
   );
 };
 
-const DIV = styled.div`
-  width: 400px;
-  height: 100%;
-  margin: auto;
-  ${({ flex }) => {
-    return flex
-      ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
-      : null;
-  }}
-`;
+// const DIV = styled.div`
+//   width: 400px;
+//   height: 95vh;
+//   @media (max-height: 720px) {
+//     min-height: 720px;
+//     // height: 100%;
+//   }
+//   margin: auto;
+//   ${({ flex }) => {
+//     return flex
+//       ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
+//       : null;
+//   }}
+// `;
 
 const Title = styled.h1`
   font-size: 4em;
