@@ -3,6 +3,7 @@ import { Modal, Grid, Box, IconButton } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { closeATM } from "../../modules/slices/modalSlice";
 import CloseIcon from "@mui/icons-material/Close";
+import Start from "../../pages/atm/Start";
 import { LoadingError } from "./LoadingError";
 
 // modal style
@@ -40,7 +41,8 @@ export default function CashMachineModal() {
               <CloseIcon />
             </IconButton>
           </Grid>
-          <LoadingError />
+          {/* <LoadingError /> */}
+          <Start />
         </Box>
       </Modal>
     </>

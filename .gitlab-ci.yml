@@ -31,5 +31,6 @@ deploy-front:
   script:
     - pwd
     - ls -al /home/ubuntu/project/S06P31D108/frontend/build
+    - docker ps
   tags:
     - prd
