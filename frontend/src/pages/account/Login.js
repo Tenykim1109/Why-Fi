@@ -35,7 +35,7 @@ const Login = () => {
   const login = () => {
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/api/accounts/signin/",
+      url: "/accounts/signin/",
       data: {
         username: id,
         password: password,
@@ -50,7 +50,7 @@ const Login = () => {
           localStorage.setItem("username", id);
         }
         alert("로그인 성공.");
-        navigate("/");
+        navigate("/select");
       })
       .catch((err) => {
         console.log(err);
