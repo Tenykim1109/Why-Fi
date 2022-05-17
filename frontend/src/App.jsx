@@ -53,9 +53,11 @@ export default function App() {
   return (
     <div>
       <Router>
-        <Border>
-          <Routes>
-            <Route path="/" element={<Homepage />} />
+        {/* <Border> */}
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+
+          <Route element={<Border />}>
             {/* 회원 관련 */}
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
@@ -95,8 +97,9 @@ export default function App() {
             {/* Phaser 관련 */}
             <Route path="/ingame" element={<GameApp />} />
             <Route path="/select" element={<ChooseCharacter />} />
-          </Routes>
-        </Border>
+          </Route>
+        </Routes>
+        {/* </Border> */}
       </Router>
     </div>
   );
