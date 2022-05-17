@@ -2,6 +2,9 @@ stages:
   - build
   - deploy
 
+variables:
+  GIT_CLEAN_FLAGS: none
+
 build-front:
   stage: build
   cache:
