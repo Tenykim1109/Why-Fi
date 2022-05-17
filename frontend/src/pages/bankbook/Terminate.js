@@ -5,7 +5,14 @@ import axios from "axios";
 
 import Div from "./style/Div";
 import HelpBtn from "./style/HelpBtn";
+import CloseBtn from "./style/CloseBtn";
 import Title from "./style/Title";
+import Container from "./style/Container";
+import Describe from "./style/Describe";
+import Bold from "./style/Bold";
+
+import HelpTerminate from "./HelpTerminate";
+import Whale from "../../components/whale.png";
 
 const Terminate = () => {
   const navigate = useNavigate();
@@ -141,60 +148,80 @@ const Terminate = () => {
 
   return (
     <Div flex={true}>
-      <Title>{title[path]} 해지</Title>
-      <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
-      {page === 1 ? (
-        <form>
-          <Flex>
-            <Text>이름</Text>
-            <Input
-              type="text"
-              value={name}
-              onChange={nameHandle}
-              placeholder="이름"
-            />
-          </Flex>
-          <ErrorMsg>{errorMsg}</ErrorMsg>
-          <Flex>
-            <Text>생년월일</Text>
-            <Input
-              type="number"
-              maxlength="6"
-              value={birth}
-              onChange={birthHandle}
-              placeholder="생년월일 8자리"
-            />
-          </Flex>
-          <NextBtn
-            disabled={!(nameError === 2 && birthError === 2)}
-            onClick={authentication}>
-            다음
-          </NextBtn>
-        </form>
+      {help ? (
+        <>
+          <HelpTerminate />
+          <CloseBtn onClick={() => setHelp((help) => !help)}>닫기</CloseBtn>
+        </>
       ) : (
-        <form>
-          <Flex>
-            <Text>비밀번호</Text>
-            <Input
-              type="password"
-              maxlength="4"
-              value={pw}
-              onChange={pwHandle}
-              placeholder="비밀번호 숫자 4자리"
-              autoComplete="on"
-            />
-          </Flex>
-          <Flex>
-            <PrevBtn onClick={prev}>이전</PrevBtn>
-            <ResetBtn
-              onClick={terminate}
-              disabled={
-                !(nameError === 2 && pwError === 2 && birthError === 2)
-              }>
-              해지하기
-            </ResetBtn>
-          </Flex>
-        </form>
+        <>
+          <Title>{title[path]} 해지</Title>
+          <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
+          {page === 1 ? (
+            <form>
+              <Flex>
+                <Text>이름</Text>
+                <Input
+                  type="text"
+                  value={name}
+                  onChange={nameHandle}
+                  placeholder="이름"
+                />
+              </Flex>
+              <ErrorMsg>{errorMsg}</ErrorMsg>
+              <Flex>
+                <Text>생년월일</Text>
+                <Input
+                  type="number"
+                  maxlength="6"
+                  value={birth}
+                  onChange={birthHandle}
+                  placeholder="생년월일 8자리"
+                />
+              </Flex>
+              <NextBtn
+                disabled={!(nameError === 2 && birthError === 2)}
+                onClick={authentication}>
+                다음
+              </NextBtn>
+            </form>
+          ) : (
+            <form>
+              <Flex>
+                <Text>비밀번호</Text>
+                <Input
+                  type="password"
+                  maxlength="4"
+                  value={pw}
+                  onChange={pwHandle}
+                  placeholder="비밀번호 숫자 4자리"
+                  autoComplete="on"
+                />
+              </Flex>
+              <Flex>
+                <PrevBtn onClick={prev}>이전</PrevBtn>
+                <ResetBtn
+                  onClick={terminate}
+                  disabled={
+                    !(nameError === 2 && pwError === 2 && birthError === 2)
+                  }>
+                  해지하기
+                </ResetBtn>
+              </Flex>
+            </form>
+          )}
+          {page === 1 && (
+            <>
+              <IMG src={Whale} alt="whale" />
+              <Container>
+                <Describe>
+                  실제로는 <Bold>신분증</Bold>, <Bold>주민등록등본</Bold>과{" "}
+                  <Bold>도장</Bold> 등이 <br /> 더 필요해요.
+                </Describe>
+              </Container>
+            </>
+          )}
+        </>
       )}
     </Div>
   );
@@ -289,6 +316,12 @@ const ResetBtn = styled.button`
     background-color: gray;
     cursor: default;
   }
+`;
+
+const IMG = styled.img`
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
 `;
 
 export default Terminate;

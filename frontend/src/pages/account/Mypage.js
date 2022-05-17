@@ -109,11 +109,12 @@ const Mypage = () => {
             );
           })
         ) : (
-          <p>ddddd</p>
+          <p>테스트</p>
         )}
       </Border>
 
       <SubTitle>주식 현황</SubTitle>
+      <SubTitle>수정 예정</SubTitle>
       <UL>
         <OL>A : </OL>
         <OL>B : </OL>

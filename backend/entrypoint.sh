@@ -1,13 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
-source venv/bin/activate
+until ./manage.py migrate
+do
+    echo "Waiting for do to be ready..."
+    sleep 2
+done
 
-pip install --upgrade pip
+./manage.py collectstatic --noinput
 
-pip install -r requirements.txt
-
-python manage.py migrate --noinput
-
-python manage.py collectstatic --noinput
-
-gunicorn --bind 0.0.0.0:8000 config.wsgi:application --workers 4 --threads 4
+gunicorn config.wsgi --bind 0.0.0.0:8000 --workers 4 --threads 4
