@@ -17,9 +17,7 @@ build-front:
   script:
     # - source "/home/ubuntu/.nvm/nvm.sh"
     - cd $CI_PROJECT_DIR/frontend
-    - pwd
     - npm install
-    - pwd
     - CI=false npm run build
     - sudo rm -rf /home/ubuntu/project/S06P31D108/frontend/build
     - sudo cp -rf build /home/ubuntu/project/S06P31D108/frontend
@@ -32,13 +30,12 @@ deploy-front:
     - master
     - develop
   script:
-    - pwd
     - ls -al /home/ubuntu/project/S06P31D108/frontend/build
     - cd $CI_PROJECT_DIR/backend
     - sudo chmod 777 entrypoint.sh
     - sudo chmod 777 manage.py
     - cd ..
-    - ls -al
+    - docker-compose build
     - docker-compose up
     - docker ps
   tags:
