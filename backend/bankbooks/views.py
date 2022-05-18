@@ -140,10 +140,11 @@ def buystocks(request):
     stocks = request.data.get('stocks')
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    stock = get_object_or_404(Stock, stock_type=stock_type)
 
     if stock_type not in ['A', 'B', 'C']:
         return Response({'error: 잘못된 기업 선택'}, status=status.HTTP_400_BAD_REQUEST)
+
+    stock = get_object_or_404(Stock, stock_type=stock_type)
 
     if stocks <= 0 or user.balance < stock.current_price * stocks:
         return Response({'error: 잘못된 주식수 입력'}, status=status.HTTP_400_BAD_REQUEST)
@@ -177,11 +178,12 @@ def sellstocks(request):
     stocks = request.data.get('stocks')
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)
-    stock = get_object_or_404(Stock, stock_type=stock_type)
-    mystock = get_object_or_404(MyStock, user=user, stock_type=stock_type)
 
     if stock_type not in ['A', 'B', 'C']:
         return Response({'error: 잘못된 기업 선택'}, status=status.HTTP_400_BAD_REQUEST)
+
+    stock = get_object_or_404(Stock, stock_type=stock_type)
+    mystock = get_object_or_404(MyStock, user=user, stock_type=stock_type)
 
     if stocks <= 0 or stocks > mystock.stocks:
         return Response({'error: 잘못된 주식수 입력'}, status=status.HTTP_400_BAD_REQUEST)

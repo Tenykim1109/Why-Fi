@@ -42,7 +42,7 @@
   - 계좌 생성 [POST] : bankbooks/create/
     - payment
     - deadline
-    - book_type
+    - book_type (deposit or savings)
   - 계좌 해지 [DELETE] : bankbooks/<str : book_type>/ delete/
     - name
     - birthday
@@ -50,10 +50,10 @@
   - 주식 변동 정보 [GET] : bankbooks/stockinfo/<str : stock_type>/
   - 본인 보유 주식 확인 [GET] : bankbooks/mystocklist/
   - 주식 구매 [POST] : bankbooks/buystocks/
-    - stock[stock_type] (이중 딕셔너리)
+    - stock_type (A or B or C)
     - stocks (주식수)
   - 주식 판매 [DELETE] : bankbooks/sellstocks/
-    - stock[stock_type] (이중 딕셔너리)
+    - stock_type (A or B or C)
     - stocks (주식수)
 
 
