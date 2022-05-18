@@ -38,7 +38,7 @@ export default function UserModal() {
   };
 
   const logout = () => {
-    // localStorage.clear();
+    localStorage.clear();
     navigate("/");
     handleMenu();
   };

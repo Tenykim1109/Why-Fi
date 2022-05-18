@@ -258,7 +258,9 @@ const MakeDeposit = () => {
       {help ? (
         <>
           <HelpDeposit />
-          <CloseBtn onClick={() => setHelp((help) => !help)}>닫기</CloseBtn>
+          <CloseBtn onClick={() => setHelp((help) => !help)}>
+            그만 보기
+          </CloseBtn>
         </>
       ) : (
         <>

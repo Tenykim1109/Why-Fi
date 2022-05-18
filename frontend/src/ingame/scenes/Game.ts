@@ -20,8 +20,6 @@ export default class Game extends Phaser.Scene {
   private sky!: Phaser.GameObjects.Sprite;
   private startX!: number;
   private startY!: number;
-  private cloudUpper!: Phaser.GameObjects.TileSprite;
-  private backgroundCloud!: Phaser.GameObjects.TileSprite;
   private characterType!: string;
   myPlayer!: MyPlayer;
   player!: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
@@ -63,13 +61,14 @@ export default class Game extends Phaser.Scene {
     this.scene.run("button-ui");
 
     this.characterType = store.getState().user.characterType;
-    this.cameras.main.zoom = 1.4;
+    this.cameras.main.zoom = 1.5;
 
     this.sky = this.add.sprite(width * 0.5, height * 0.5, "sky_day");
     this.sky.setDisplaySize(width * 1.5, height * 1.6);
 
     // map 생성
     this.map = this.make.tilemap({ key: "bank" });
+    console.log(this.map);
     const floor = this.map.addTilesetImage("Carpet", "floor"); // 바닥
     const ceil = this.map.addTilesetImage("toppers", "ceil"); // 천장
     const items = this.map.addTilesetImage("walltexture", "items"); // 벽
@@ -116,7 +115,7 @@ export default class Game extends Phaser.Scene {
     this.playerSelector = new PlayerSelector(this, 0, 0, 32, 32);
 
     // 화면 바깥으로 나갈 수 없도록 설정
-    this.myPlayer.setCollideWorldBounds(true);
+    // this.myPlayer.setCollideWorldBounds(true);
 
     // Tiled Object 화면에 보여주기
     const atms = this.physics.add.staticGroup({

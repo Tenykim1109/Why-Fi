@@ -1,33 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import QuizButton from "./style/QuizButton";
 import Div from "../bankbook/style/Div";
+import Quiz from "./Quiz";
 
 const Start = () => {
+  const [state, setState] = useState("");
   const navigate = useNavigate();
 
   const startQuiz = () => {
-    navigate("/quiz");
+    // navigate("/quiz");
+    setState("start");
   };
   const toHome = () => {
     // navigate("/");
-
     // ingame에서는 ingame으로 돌아가도록
-    navigate("/ingame");
+    // navigate("/ingame");
   };
 
   return (
-    <Div flex={true}>
-      <Title>[ Quiz ]</Title>
-      <Text>배운 내용을 복습해보아요.</Text>
-      <Line />
-      <div>
-        <QuizButton onClick={startQuiz}>시작하기</QuizButton>
-        <QuizButton onClick={toHome}>돌아가기</QuizButton>
-      </div>
-    </Div>
+    <>
+      {state === "start" ? (
+        <Quiz />
+      ) : (
+        <Div flex={true}>
+          <Title>[ Quiz ]</Title>
+          <Text>배운 내용을 복습해보아요.</Text>
+          <Line />
+          <div>
+            <QuizButton onClick={startQuiz}>시작하기</QuizButton>
+            <QuizButton onClick={toHome}>돌아가기</QuizButton>
+          </div>
+        </Div>
+      )}
+    </>
   );
 };
 
