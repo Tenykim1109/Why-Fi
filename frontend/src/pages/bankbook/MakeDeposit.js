@@ -258,7 +258,9 @@ const MakeDeposit = () => {
       {help ? (
         <>
           <HelpDeposit />
-          <CloseBtn onClick={() => setHelp((help) => !help)}>닫기</CloseBtn>
+          <CloseBtn onClick={() => setHelp((help) => !help)}>
+            예금 가입하기
+          </CloseBtn>
         </>
       ) : (
         <>
@@ -431,9 +433,9 @@ const Box = styled.div`
   }
 `;
 
-const ErrorMsg = styled.p`
-  color: red;
-  text-align: center;
-`;
+// const ErrorMsg = styled.p`
+//   color: red;
+//   text-align: center;
+// `;
 
 export default MakeDeposit;

@@ -18,7 +18,9 @@ const Atm = () => {
         {help ? (
           <>
             <HelpAtm />
-            <CloseBtn onClick={() => setHelp((help) => !help)}>닫기</CloseBtn>
+            <CloseBtn onClick={() => setHelp((help) => !help)}>
+              송금하러 가기
+            </CloseBtn>
           </>
         ) : (
           <>
