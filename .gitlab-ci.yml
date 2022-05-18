@@ -35,8 +35,8 @@ deploy-front:
     - sudo chmod 777 entrypoint.sh
     - sudo chmod 777 manage.py
     - cd ..
-    - docker-compose build
-    - docker-compose up
+    - sudo docker-compose build
+    - sudo docker-compose up -d
     - docker ps
   tags:
     - prd
