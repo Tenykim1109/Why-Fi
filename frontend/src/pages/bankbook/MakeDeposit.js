@@ -322,7 +322,7 @@ const MakeDeposit = () => {
             <Box> 5%</Box>
           </Flex>
           <Flex>
-            <Text>예상 금액 (이자 계산)</Text>
+            <Text>예상 금액</Text>
             <Box>{expectedMoney}원</Box>
           </Flex>
 
