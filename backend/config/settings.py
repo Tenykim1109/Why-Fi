@@ -10,7 +10,7 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env(
-    os.path.join(BASE_DIR, 'test.env')
+    os.path.join(BASE_DIR, '.env')
 )
 
 DEBUG = env('DEBUG')
