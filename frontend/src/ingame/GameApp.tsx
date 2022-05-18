@@ -9,6 +9,7 @@ import DepositModal from "./modal/DepositModal";
 import RemittanceModal from "./modal/RemittanceModal";
 import StockModal from "./modal/StockModal";
 import UserModal from "./modal/UserModal";
+import QuizModal from "./modal/QuizModal";
 
 const ImageAnimated = styled("img")({
   width: "300px",
@@ -79,6 +80,7 @@ export default function GameApp() {
       <RemittanceModal />
       <StockModal />
       <UserModal />
+      <QuizModal />
     </>
   );
 }

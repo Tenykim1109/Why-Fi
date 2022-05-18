@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Transfer from "./Transfer";
+import Div from "./style/Div";
 
 const Start = () => {
+  const [state, setState] = useState("");
   const navigate = useNavigate();
   const toTransfer = () => {
-    navigate("/atm/transfer");
+    setState("start");
   };
 
   const toHome = () => {
@@ -13,10 +16,20 @@ const Start = () => {
   };
 
   return (
-    <div>
-      <Button onClick={toTransfer}>송금하기</Button>
-      <Button onClick={toHome}>돌아가기</Button>
-    </div>
+    <>
+      {state === "start" ? (
+        <Div flex={true}>
+          <Transfer />
+        </Div>
+      ) : (
+        <Div flex={true}>
+          <div>
+            <Button onClick={toTransfer}>송금하기</Button>
+            <Button onClick={toHome}>돌아가기</Button>
+          </div>
+        </Div>
+      )}
+    </>
   );
 };
 

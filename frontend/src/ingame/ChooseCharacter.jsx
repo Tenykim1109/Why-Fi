@@ -98,7 +98,7 @@ export default function ChooseCharacter() {
 
   return (
     <div
-      className="container"
+      className="asdf"
       style={{
         display: "flex",
         flexDirection: "column",

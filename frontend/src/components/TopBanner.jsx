@@ -50,7 +50,7 @@ const TopBanner = () => {
           onClick={() => {
             // 테스트용 ingame 이동
             console.log("이동");
-            navigate("/ingame");
+            navigate("/login");
           }}>
           시작하기
         </LoginButton>
