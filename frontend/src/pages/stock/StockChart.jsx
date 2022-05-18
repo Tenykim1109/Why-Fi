@@ -64,7 +64,7 @@ function StockChart({ companyType, ...props }) {
         .then((data) => {
           let chartData = buildChartData(data, companyType);
           setData(chartData);
-          console.log(data.엔터);
+          // console.log(data.엔터);
         });
     };
     fetchData();

@@ -102,7 +102,12 @@ function StockCompany() {
         <Grid xs={8}>
           <h3>{companyType}주의 주식차트</h3>
           <StockChart className="stock__chart" companyType={companyType} />
-          <StockOrder companyType={companyType} />
+          <StockOrder
+            companyType={companyType}
+            currentPriceA={currentPriceA}
+            currentPriceB={currentPriceB}
+            currentPriceC={currentPriceC}
+          />
         </Grid>
       </Container>
     </div>
