@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const DIV = styled.div`
+  width: 600px;
   height: 80vh;
   margin: auto;
   ${({ flex }) => {

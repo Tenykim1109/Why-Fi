@@ -39,7 +39,7 @@ const Quiz = () => {
   useEffect(() => {
     const getQuiz = async () => {
       await axios({
-        url: "http://127.0.0.1:8000/api/quiz/",
+        url: "https://k6d108.p.ssafy.io/api/quiz/",
         method: "get",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access-token")}`,

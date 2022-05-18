@@ -35,7 +35,7 @@ const Login = () => {
   const login = () => {
     axios({
       method: "post",
-      url: "/accounts/signin/",
+      url: "https://k6d108.p.ssafy.io/api/accounts/signin/",
       data: {
         username: id,
         password: password,

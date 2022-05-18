@@ -15,7 +15,7 @@ const Mypage = () => {
 
   const getUserData = () => {
     axios({
-      url: `http://127.0.0.1:8000/api/accounts/self/`,
+      url: `https://k6d108.p.ssafy.io/api/accounts/self/`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -38,7 +38,7 @@ const Mypage = () => {
 
   const getBankbookData = () => {
     axios({
-      url: `http://127.0.0.1:8000/api/bankbooks/booklist/`,
+      url: `https://k6d108.p.ssafy.io/api/bankbooks/booklist/`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,

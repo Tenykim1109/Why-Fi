@@ -11,7 +11,7 @@ const Delete = () => {
 
   const deleteAccount = async () => {
     await axios({
-      url: "http://127.0.0.1:8000/api/accounts/delete/",
+      url: "https://k6d108.p.ssafy.io/api/accounts/delete/",
       method: "delete",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
