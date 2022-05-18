@@ -323,10 +323,7 @@ const MakeDeposit = () => {
             <Text>예상 금액 (이자 계산)</Text>
             <Box>{expectedMoney}원</Box>
           </Flex>
-          <ErrorMsg>
-            정해진 시간 (저녁 12시)에 잔액이 부족하여 <br />
-            금액이 납부되지 않으면 자동으로 해지될 수 있어요.
-          </ErrorMsg>
+
           <Button onClick={make}>가입하기</Button>
         </>
       )}
