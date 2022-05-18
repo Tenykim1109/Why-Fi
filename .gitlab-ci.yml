@@ -36,7 +36,7 @@ deploy-front:
     - ls -al /home/ubuntu/project/S06P31D108/frontend/build
     - cd $CI_PROJECT_DIR/backend
     - sudo chmod 777 entrypoint.sh
-    - sudo chmod 777 manage
+    - sudo chmod 777 manage.py
     - cd ..
     - ls -al
     - docker-compose up
