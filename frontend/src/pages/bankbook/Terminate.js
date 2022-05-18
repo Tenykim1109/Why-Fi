@@ -96,7 +96,7 @@ const Terminate = () => {
     const date = birth.substr(6, 2);
     const birthChange = year + "-" + month + "-" + date;
     axios({
-      url: "http://127.0.0.1:8000/api/accounts/selfcheck/",
+      url: "https://k6d108.p.ssafy.io/api/accounts/selfcheck/",
       method: "POST",
       data: {
         name: name,
@@ -125,7 +125,7 @@ const Terminate = () => {
     const birthChange = year + "-" + month + "-" + date;
     console.log(birthChange);
     axios({
-      url: `http://127.0.0.1:8000/api/bankbooks/${type[path]}/delete/`,
+      url: `https://k6d108.p.ssafy.io/api/bankbooks/${type[path]}/delete/`,
       method: "DELETE",
       data: {
         name: name,

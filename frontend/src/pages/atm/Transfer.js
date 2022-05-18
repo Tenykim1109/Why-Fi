@@ -40,7 +40,7 @@ const Transfer = () => {
     if (accountNum.length === 10) {
       axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/accounts/bookcheck/${accountNum}/`,
+        url: `https://k6d108.p.ssafy.io/api/accounts/bookcheck/${accountNum}/`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },

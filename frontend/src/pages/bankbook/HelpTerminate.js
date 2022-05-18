@@ -6,7 +6,7 @@ import WhaleSmile from "../../components/whale_smile.jpg";
 
 import Container from "./style/Container";
 import Title from "./style/Title";
-import SubTitle from "./style/SubTitle";
+// import SubTitle from "./style/SubTitle";
 import Describe from "./style/Describe";
 import Bold from "./style/Bold";
 
