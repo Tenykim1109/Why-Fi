@@ -6,8 +6,8 @@ import StockNav from "./StockNav";
 const Stock = () => {
   return (
     <div>
-      <StockNav/>
-      <StockCompany/>
+      <StockNav />
+      <StockCompany />
     </div>
   );
 };

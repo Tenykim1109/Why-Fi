@@ -198,7 +198,7 @@ const MakeDeposit = () => {
     if (!money) alert("맡길 금액을 설정해주세요.");
     else
       axios({
-        url: "http://127.0.0.1:8000/api/bankbooks/create/",
+        url: "https://k6d108.p.ssafy.io/api/bankbooks/create/",
         method: "post",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -224,7 +224,7 @@ const MakeDeposit = () => {
   useEffect(() => {
     const getExpectedMoney = async () => {
       await axios({
-        url: "http://127.0.0.1:8000/api/bankbooks/getinterest/",
+        url: "https://k6d108.p.ssafy.io/api/bankbooks/getinterest/",
         method: "post",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -258,7 +258,9 @@ const MakeDeposit = () => {
       {help ? (
         <>
           <HelpDeposit />
-          <CloseBtn onClick={() => setHelp((help) => !help)}>닫기</CloseBtn>
+          <CloseBtn onClick={() => setHelp((help) => !help)}>
+            예금 가입하기
+          </CloseBtn>
         </>
       ) : (
         <>
@@ -320,13 +322,10 @@ const MakeDeposit = () => {
             <Box> 5%</Box>
           </Flex>
           <Flex>
-            <Text>예상 금액 (이자 계산)</Text>
+            <Text>예상 금액</Text>
             <Box>{expectedMoney}원</Box>
           </Flex>
-          <ErrorMsg>
-            정해진 시간 (저녁 12시)에 잔액이 부족하여 <br />
-            금액이 납부되지 않으면 자동으로 해지될 수 있어요.
-          </ErrorMsg>
+
           <Button onClick={make}>가입하기</Button>
         </>
       )}
@@ -434,9 +433,9 @@ const Box = styled.div`
   }
 `;
 
-const ErrorMsg = styled.p`
-  color: red;
-  text-align: center;
-`;
+// const ErrorMsg = styled.p`
+//   color: red;
+//   text-align: center;
+// `;
 
 export default MakeDeposit;

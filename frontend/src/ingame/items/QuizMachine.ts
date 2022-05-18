@@ -1,7 +1,7 @@
 import Item from "./Item";
 import { ItemType } from "./Item";
 import { store } from "../../modules/store";
-import { open } from "../../modules/slices/modalSlice";
+import { openQuiz } from "../../modules/slices/modalSlice";
 
 export default class QuizMachine extends Item {
   constructor(
@@ -21,6 +21,6 @@ export default class QuizMachine extends Item {
   }
 
   openDialog() {
-    window.location.href = "/quiz/start";
+    store.dispatch(openQuiz());
   }
 }

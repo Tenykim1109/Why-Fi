@@ -51,7 +51,7 @@ const SetMoney = () => {
   // 잔액 확인
   const moneyCheck = () => {
     axios({
-      url: `http://127.0.0.1:8000/api/accounts/self/`,
+      url: `https://k6d108.p.ssafy.io/api/accounts/self/`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,

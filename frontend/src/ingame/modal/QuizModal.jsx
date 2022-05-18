@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Modal, Grid, Box, IconButton } from "@mui/material";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { closeRemittance } from "../../modules/slices/modalSlice";
+import { closeQuiz } from "../../modules/slices/modalSlice";
+import { Modal, Box, Grid, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { LoadingError } from "./LoadingError";
-import Start from "../../pages/atm/Start";
+import Start from "../../pages/quiz/Start";
 
 // modal style
 const style = {
@@ -19,35 +19,34 @@ const style = {
   p: 4,
 };
 
-const RemittanceItem = () => {
+const QuizItem = () => {
   let ui = <Start />;
 
   return ui;
 };
 
-export default function RemittanceModal() {
-  const [item, setItem] = useState("");
-  const remittanceState = useSelector((state) => state.modal.remittance);
+export default function QuizModal() {
+  const quizState = useSelector((state) => state.modal.quiz);
   const dispatch = useDispatch();
 
-  const handleRemittance = () => {
-    dispatch(closeRemittance());
+  const handleQuiz = () => {
+    dispatch(closeQuiz());
   };
 
   return (
     <>
       <Modal
-        open={remittanceState}
-        onClose={handleRemittance}
+        open={quizState}
+        onClose={handleQuiz}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Grid container justifyContent="flex-end">
-            <IconButton aria-label="close" onClick={handleRemittance}>
+            <IconButton aria-label="close" onClick={handleQuiz}>
               <CloseIcon />
             </IconButton>
           </Grid>
-          <RemittanceItem />
+          <QuizItem />
         </Box>
       </Modal>
     </>

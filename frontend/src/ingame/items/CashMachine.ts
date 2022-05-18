@@ -1,7 +1,7 @@
 import Item from "./Item";
 import { ItemType } from "./Item";
 import { store } from "../../modules/store";
-import { openATM } from "../../modules/slices/modalSlice";
+import { openRemittance } from "../../modules/slices/modalSlice";
 
 export default class CashMachine extends Item {
   constructor(
@@ -22,7 +22,6 @@ export default class CashMachine extends Item {
 
   openDialog() {
     // store.dispatch(setComponent("ATM"));
-    // store.dispatch(openATM());
-    window.location.href = "/atm/start";
+    store.dispatch(openRemittance());
   }
 }

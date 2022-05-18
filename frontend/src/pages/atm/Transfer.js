@@ -35,12 +35,17 @@ const Transfer = () => {
 
   const navigate = useNavigate();
 
+  // 시작 화면 화면으로
+  const toStart = () => {
+    navigate("/atm/start");
+  };
+
   // 받을 사람 정보 가져오기
   const nameConfirm = () => {
     if (accountNum.length === 10) {
       axios({
         method: "get",
-        url: `http://127.0.0.1:8000/api/accounts/bookcheck/${accountNum}/`,
+        url: `https://k6d108.p.ssafy.io/api/accounts/bookcheck/${accountNum}/`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access-token")}`,
         },
@@ -92,7 +97,7 @@ const Transfer = () => {
         </Component2>
       </Flex>
       <FlexConfirm>
-        <ConfirmBtn>취소</ConfirmBtn>
+        <ConfirmBtn onClick={toStart}>취소</ConfirmBtn>
         <ConfirmBtn onClick={nameConfirm}>확인</ConfirmBtn>
       </FlexConfirm>
     </>

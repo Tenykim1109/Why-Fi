@@ -190,7 +190,7 @@ const MakeSavings = () => {
     if (!money) alert("맡길 금액을 설정해주세요.");
     else
       axios({
-        url: "http://127.0.0.1:8000/api/bankbooks/create/",
+        url: "https://k6d108.p.ssafy.io/api/bankbooks/create/",
         method: "post",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -216,7 +216,7 @@ const MakeSavings = () => {
   useEffect(() => {
     const getExpectedMoney = async () => {
       await axios({
-        url: "http://127.0.0.1:8000/api/bankbooks/getinterest/",
+        url: "https://k6d108.p.ssafy.io/api/bankbooks/getinterest/",
         method: "post",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -249,7 +249,9 @@ const MakeSavings = () => {
       {help ? (
         <>
           <HelpSavings />
-          <CloseBtn onClick={() => setHelp((help) => !help)}>닫기</CloseBtn>
+          <CloseBtn onClick={() => setHelp((help) => !help)}>
+            적금 가입하기
+          </CloseBtn>
         </>
       ) : (
         <>

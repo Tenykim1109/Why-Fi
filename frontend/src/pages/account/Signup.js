@@ -114,10 +114,11 @@ const Signup = () => {
   const duplicateCheck = () => {
     // console.log("중복검사");
     // setIdDuplicate(2);
+
     axios({
       method: "get",
       // 주소 변경해야
-      url: `http://127.0.0.1:8000/api/accounts/idcheck/${id}`,
+      url: `https://k6d108.p.ssafy.io/api/accounts/idcheck/${id}`,
       // data: {
       //   username: id,
       // },
@@ -142,7 +143,7 @@ const Signup = () => {
     const birthChange = year + "-" + month + "-" + date;
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/api/accounts/signup/",
+      url: "https://k6d108.p.ssafy.io/api/accounts/signup/",
       data: {
         username: id,
         birthday: birthChange,

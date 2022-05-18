@@ -41,7 +41,7 @@ const Password = () => {
   const remittanceMoney = () => {
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/api/accounts/remittance/",
+      url: "https://k6d108.p.ssafy.io/api/accounts/remittance/",
       data: {
         book_number: state.booknum.booknum,
         book_password: password,

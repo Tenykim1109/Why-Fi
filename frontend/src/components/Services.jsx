@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useScrollFadeIn } from "./hooks";
 import LoginButton from "./LoginButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const S = {
   Wrapper: styled.section`
@@ -40,6 +40,7 @@ const S = {
     background-color: ${(props) => props.theme.palette.white};
     display: flex;
     flex-direction: column;
+    align-items: center;
     box-shadow: 0 0 16px 8px rgba(0, 0, 0, 0.03);
     border-radius: 0.5rem;
   `,
@@ -88,6 +89,8 @@ const Services = () => {
     2: useScrollFadeIn("up", 1, 0.3),
   };
 
+  const navigate = useNavigate();
+
   return (
     <S.Wrapper>
       <S.Label>Services</S.Label>
@@ -102,7 +105,12 @@ const Services = () => {
             <br />
 
             {/* <Link to={item.link}> */}
-            <LoginButton>{item.button}</LoginButton>
+            <LoginButton
+              onClick={() => {
+                navigate("/login");
+              }}>
+              {item.button}
+            </LoginButton>
             {/* </Link> */}
           </S.ItemBox>
         ))}
