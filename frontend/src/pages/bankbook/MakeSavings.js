@@ -249,7 +249,9 @@ const MakeSavings = () => {
       {help ? (
         <>
           <HelpSavings />
-          <CloseBtn onClick={() => setHelp((help) => !help)}>닫기</CloseBtn>
+          <CloseBtn onClick={() => setHelp((help) => !help)}>
+            적금 가입하기
+          </CloseBtn>
         </>
       ) : (
         <>
