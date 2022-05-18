@@ -22,7 +22,7 @@ const Atm = () => {
           </>
         ) : (
           <>
-            <Title>ATM</Title>
+            {/* <Title>ATM</Title> */}
             <Position>
               <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
             </Position>
