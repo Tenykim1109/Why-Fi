@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const Btn = styled.button`
-  width: 52px;
-  height: 52px;
+  width: 60px;
+  height: 60px;
+  white-space: nowrap;
   border: 0.4rem solid;
   border-radius: 100%;
   font-size: 2rem;

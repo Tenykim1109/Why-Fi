@@ -25,7 +25,7 @@ const Quiz = () => {
 
   const [quizData, setQuizData] = useState([]);
   const [result, setResult] = useState(false);
-  console.log(result);
+  // console.log(result);
 
   useEffect(() => {
     const getQuiz = async () => {
@@ -45,15 +45,15 @@ const Quiz = () => {
 
   // 정답 체크
   const checkAnswer = (answer) => {
-    console.log("퀴즈 답", currentQuiz.answer);
-    console.log("내가 고른 답", answer);
+    // console.log("퀴즈 답", currentQuiz.answer);
+    // console.log("내가 고른 답", answer);
     if (currentQuiz.answer === answer) {
-      console.log("정답");
+      // console.log("정답");
       setCheckCorrect((checkCorrect) => checkCorrect + 1);
       setCorrect(true);
     } else {
-      console.log("오답");
-      console.log(currentQuiz.commentary);
+      // console.log("오답");
+      // console.log(currentQuiz.commentary);
       setCorrect(false);
     }
     setModalOpen((modalOpen) => !modalOpen);
@@ -168,7 +168,7 @@ const Flex = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  width: 280px;
+  width: 300px;
   user-select: none;
 `;
 
@@ -200,6 +200,7 @@ const Comment = styled.p`
 `;
 
 const Option = styled.p`
+  width: 240px;
   font-size: 1.5rem;
   font-weight: bold;
   margin-top: 0.5rem;
