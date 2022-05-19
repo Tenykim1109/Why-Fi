@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -21,7 +21,7 @@ import { havePwd } from "../../modules/slices/userSlice";
 import { closeTutorial } from "../../modules/slices/modalSlice";
 
 const Tutorial = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [page, setPage] = useState(1);
   const [pageMain, setPageMain] = useState(0);
