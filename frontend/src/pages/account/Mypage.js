@@ -82,6 +82,12 @@ const Mypage = () => {
     savings: "적금",
   };
 
+  const stockType = {
+    A: "싸피엔터",
+    B: "싸피전자",
+    C: "싸피제약",
+  };
+
   const navigate = useNavigate();
 
   const toDelete = () => {
@@ -141,7 +147,7 @@ const Mypage = () => {
               <UL key={stock.stock_type}>
                 <Line />
                 <Flex>
-                  <OL>종목명 : {stock.stock_type}</OL>
+                  <OL>종목명 : {stockType[stock.stock_type]}</OL>
                 </Flex>
                 <Flex>
                   <Describe>보유 수량</Describe>

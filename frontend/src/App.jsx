@@ -41,6 +41,7 @@ import AtmResult from "./pages/atm/Result";
 import Border from "./components/Border";
 import Stock from "./pages/stock/Stock";
 import StockInfo from "./pages/stock/StockInfo";
+import HelpStock from "./pages/stock/HelpStock";
 import BorderForGame from "./components/BorderForGame";
 
 // 예전에 사용하던 css
@@ -89,6 +90,7 @@ export default function App() {
             {/* 주식 관련 */}
             <Route path="/stock" element={<Stock />} />
             <Route path="/stock/stockinfo" element={<StockInfo />} />
+            <Route path="/stock/help" element={<HelpStock />} />
 
             {/* ATM 관련 */}
             <Route element={<Atm />}>
