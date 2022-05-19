@@ -48,7 +48,8 @@
     - name
     - birthday
     - book_password
-  - 주식 그래프 데이터 [GET] : bankboos/stockgraph/
+  - 주식 뉴스 정보 [GET] : bankbooks/stocknews/
+  - 주식 그래프 데이터 [GET] : bankbooks/stockgraph/
   - 주식 변동 정보 [GET] : bankbooks/stockinfo/<str : stock_type>/
   - 본인 보유 주식 확인 [GET] : bankbooks/mystocklist/
   - 주식 구매 [POST] : bankbooks/buystocks/
