@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import QuizButton from "./style/QuizButton";
@@ -8,7 +8,7 @@ import Quiz from "./Quiz";
 
 const Start = () => {
   const [state, setState] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const startQuiz = () => {
     // navigate("/quiz");

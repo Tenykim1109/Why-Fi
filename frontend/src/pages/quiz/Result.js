@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import QuizButton from "./style/QuizButton";
@@ -9,17 +9,27 @@ import WhaleSmile from "../../components/whale_smile.jpg";
 import WhaleCry from "../../components/whale_cry.jpg";
 import Div from "../bankbook/style/Div";
 
-const Result = () => {
+const Result = (props) => {
   const navigate = useNavigate();
-  const { state } = useLocation();
-  console.log("state", state);
+  console.log(props);
+  // const { state } = useLocation();
+  // console.log("state", state);
   // const [correct, setCorrect] = useState(0)
   // console.log(setCorrect)
 
+  // const ReturnImg = () => {
+  //   if (state >= 4) {
+  //     return <IMG src={WhaleSmile} alt="whale_smile" />;
+  //   } else if (state >= 2) {
+  //     return <IMG src={Whale} alt="whale" />;
+  //   } else {
+  //     return <IMG src={WhaleCry} alt="whale_cry" />;
+  //   }
+  // };
   const ReturnImg = () => {
-    if (state >= 4) {
+    if (props.checkCorrect >= 4) {
       return <IMG src={WhaleSmile} alt="whale_smile" />;
-    } else if (state >= 2) {
+    } else if (props.checkCorrect >= 2) {
       return <IMG src={Whale} alt="whale" />;
     } else {
       return <IMG src={WhaleCry} alt="whale_cry" />;
@@ -29,7 +39,10 @@ const Result = () => {
   // console.log(ReturnImg);
 
   const startQuiz = () => {
-    navigate("/quiz/start");
+    // navigate("/quiz/start");
+    props.setShow((show) => !show);
+    props.setIdx(0);
+    props.setCheckCorrect(0);
   };
   const toHome = () => {
     navigate("/");
@@ -37,9 +50,10 @@ const Result = () => {
 
   return (
     <Div flex={true}>
-      {/* <VeryGood /> */}
       <ReturnImg />
-      <Text>5문제 중 {state ? state : 0}문제 맞혔어요.</Text>
+      <Text>
+        5문제 중 {props.checkCorrect ? props.checkCorrect : 0}문제 맞혔어요.
+      </Text>
       <Line />
       <div>
         <QuizButton onClick={startQuiz}>다시하기</QuizButton>
