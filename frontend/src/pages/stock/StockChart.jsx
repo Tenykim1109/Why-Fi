@@ -26,25 +26,25 @@ ChartJS.register(
   Legend
 );
 const options = {};
-const buildChartData = (data, companyType) => {
+const buildChartData = (data, stockType) => {
   const chartData = [];
   let lastDataPoint;
 
-  for (let date in data.엔터) {
+  for (let date in data.A) {
     if (lastDataPoint) {
       const newDataPoint = {
         x: date,
-        y: data[companyType][date] - lastDataPoint,
+        y: data[stockType][date],
       };
       chartData.push(newDataPoint);
     }
-    lastDataPoint = data[companyType][date];
-    // console.log(lastDataPoint);
+    lastDataPoint = data[stockType][date];
+    console.log("라스트데이터포인트", data[stockType]);
   }
   return chartData;
 };
 
-function StockChart({ companyType, ...props }) {
+function StockChart({ companyType, stockType, ...props }) {
   const [data, setData] = useState({});
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -57,21 +57,23 @@ function StockChart({ companyType, ...props }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetch("list.json")
+      // await fetch("list.json")
+      await fetch("http://127.0.0.1:8000/api/bankbooks/stockgraph/")
         .then((response) => {
           return response.json();
         })
         .then((data) => {
-          let chartData = buildChartData(data, companyType);
+          let chartData = buildChartData(data, stockType);
           setData(chartData);
-          // console.log(data.엔터);
+          // console.log(stockType, data);
         });
     };
     fetchData();
-  }, [companyType]);
+  }, [stockType]);
 
   return (
     <div>
+      <h3>{companyType}주의 주식차트</h3>
       {data?.length > 0 && (
         <Line
           data={{

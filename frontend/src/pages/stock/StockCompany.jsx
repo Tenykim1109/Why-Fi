@@ -17,6 +17,7 @@ import axios from "axios";
 
 function StockCompany() {
   const [companyType, setCompanyType] = useState("엔터");
+  const [stockType, setStockType] = useState("A");
   const [currentPriceA, setCurrentPriceA] = useState(0);
   const [currentPriceB, setCurrentPriceB] = useState(0);
   const [currentPriceC, setCurrentPriceC] = useState(0);
@@ -67,7 +68,7 @@ function StockCompany() {
         <InfoBox
           isRed
           active={companyType === "엔터"}
-          onClick={(e) => setCompanyType("엔터")}
+          onClick={(e) => (setCompanyType("엔터"), setStockType("A"))}
           title="엔터주"
           currentPrice={currentPriceA}
           companyType="싸피엔터"
@@ -75,7 +76,7 @@ function StockCompany() {
         <InfoBox
           isRed
           active={companyType === "제조"}
-          onClick={(e) => setCompanyType("제조")}
+          onClick={(e) => (setCompanyType("제조"), setStockType("B"))}
           title="제조주"
           currentPrice={currentPriceB}
           companyType="싸피전자"
@@ -83,33 +84,49 @@ function StockCompany() {
         <InfoBox
           isRed
           active={companyType === "제약"}
-          onClick={(e) => setCompanyType("제약")}
+          onClick={(e) => (setCompanyType("제약"), setStockType("C"))}
           title="제약주"
           currentPrice={currentPriceC}
           companyType="싸피제약"
         />
       </div>
-      {/* <Card>
-        <CardContent>
-          <h3>{companyType}주의 주식차트</h3>
-          <StockChart className="stock__chart" companyType={companyType} />
-        </CardContent>
-        <CardContent>
-          <StockOrder companyType={companyType} />
-        </CardContent>
-      </Card> */}
-      <Container>
-        <Grid xs={8}>
-          <h3>{companyType}주의 주식차트</h3>
-          <StockChart className="stock__chart" companyType={companyType} />
+
+      {/* <Container>
+        <Container>
+          <StockChart
+            className="stock__chart"
+            companyType={companyType}
+            stockType={stockType}
+          />
+        </Container>
+        <Container>
           <StockOrder
+            className="stock__order"
+            companyType={companyType}
+            currentPriceA={currentPriceA}
+            currentPriceB={currentPriceB}
+            currentPriceC={currentPriceC}
+          />
+        </Container>
+      </Container> */}
+      <Grid container spacing={1}>
+        <Grid item xs={8}>
+          <StockChart
+            className="stock__chart"
+            companyType={companyType}
+            stockType={stockType}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <StockOrder
+            className="stock__order"
             companyType={companyType}
             currentPriceA={currentPriceA}
             currentPriceB={currentPriceB}
             currentPriceC={currentPriceC}
           />
         </Grid>
-      </Container>
+      </Grid>
     </div>
   );
 }
