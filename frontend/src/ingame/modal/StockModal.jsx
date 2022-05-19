@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { closeRemittance, closeStock } from "../../modules/slices/modalSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import { LoadingError } from "./LoadingError";
+import Stock from "../../pages/stock/Stock";
 
 // modal style
 const style = {
@@ -40,7 +41,7 @@ export default function StockModal() {
               <CloseIcon />
             </IconButton>
           </Grid>
-          <LoadingError />
+          <Stock />
         </Box>
       </Modal>
     </>

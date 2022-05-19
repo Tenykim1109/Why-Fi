@@ -5,9 +5,12 @@ import styled from "styled-components";
 import QuizButton from "./style/QuizButton";
 import Div from "../bankbook/style/Div";
 import Quiz from "./Quiz";
+import { useDispatch } from "react-redux";
+import { closeQuiz } from "../../modules/slices/modalSlice";
 
 const Start = () => {
   const [state, setState] = useState("");
+  const dispatch = useDispatch();
   // const navigate = useNavigate();
 
   const startQuiz = () => {
@@ -18,6 +21,7 @@ const Start = () => {
     // navigate("/");
     // ingame에서는 ingame으로 돌아가도록
     // navigate("/ingame");
+    dispatch(closeQuiz());
   };
 
   return (
