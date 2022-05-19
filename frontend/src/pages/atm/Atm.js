@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-import HelpAtm from "./HelpAtm";
+import HelpAtmTransfer from "./HelpAtmTransfer";
 
 import Banner from "./style/Banner";
 import Div from "./style/Div";
@@ -17,7 +17,7 @@ const Atm = () => {
       <Div flex={true}>
         {help ? (
           <>
-            <HelpAtm />
+            <HelpAtmTransfer />
             <CloseBtn onClick={() => setHelp((help) => !help)}>
               송금하러 가기
             </CloseBtn>
@@ -36,9 +36,9 @@ const Atm = () => {
   );
 };
 
-const Flex = styled.div`
-  display: flex;
-`;
+// const Flex = styled.div`
+//   display: flex;
+// `;
 
 const Position = styled.div`
   position: absolute;
@@ -64,15 +64,15 @@ const HelpBtn = styled.button`
   cursor: pointer;
 `;
 
-const Title = styled.p`
-  font-size: 3rem;
-  font-weight: bolder;
-  text-align: center;
+// const Title = styled.p`
+//   font-size: 3rem;
+//   font-weight: bolder;
+//   text-align: center;
 
-  margin: 0;
-  // margin: 10px 0;
-  margin-bottom: 2rem;
-  user-select: none;
-`;
+//   margin: 0;
+//   // margin: 10px 0;
+//   margin-bottom: 2rem;
+//   user-select: none;
+// `;
 
 export default Atm;

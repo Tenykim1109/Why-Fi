@@ -6,7 +6,7 @@ import axios from "axios";
 import Whale from "../../components/whale.png";
 // import WhaleSmile from "../../components/whale_smile.jpg";
 
-import HelpBankbook from "./HelpBackbook";
+import HelpBankbook from "./HelpBankbook";
 import Div from "./style/Div";
 import CloseBtn from "./style/CloseBtn";
 import HelpBtn from "./style/HelpBtn";
@@ -276,7 +276,8 @@ const Tutorial = () => {
         <Div flex={true}>
           {help ? (
             <>
-              <HelpBankbook page={page} setPage={setPage} setClose={setClose} />
+              {/* <HelpBankbook page={page} setPage={setPage} setClose={setClose} /> */}
+              <HelpBankbook setClose={setClose} />
               {close && <CloseBtn onClick={closeHandle}>닫기</CloseBtn>}
             </>
           ) : (

@@ -12,8 +12,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import HelpDeposit from "../../pages/bankbook/HelpDeposit";
 import HelpSavings from "../../pages/bankbook/HelpSavings";
-import HelpBankbook from "../../pages/bankbook/HelpBackbook";
+import HelpTransfer from "../../pages/atm/HelpTransfer";
+import HelpAtm from "../../pages/atm/HelpAtm";
 import HelpStock from "../../pages/stock/HelpStock";
+import HelpBankbook from "../../pages/bankbook/HelpBankbook";
 import { LoadingError } from "./LoadingError";
 import { useDispatch, useSelector } from "react-redux";
 import { closeQnA } from "../../modules/slices/modalSlice";
@@ -34,6 +36,9 @@ const style = {
 const QnAItem = ({ keyword }) => {
   let ui;
   switch (keyword) {
+    case "통장":
+      ui = <HelpBankbook />;
+      break;
     case "예금":
       ui = <HelpDeposit />;
       break;
@@ -41,7 +46,10 @@ const QnAItem = ({ keyword }) => {
       ui = <HelpSavings />;
       break;
     case "송금":
-      ui = <HelpBankbook />;
+      ui = <HelpTransfer />;
+      break;
+    case "ATM":
+      ui = <HelpAtm />;
       break;
     case "주식":
       ui = <HelpStock />;
@@ -54,7 +62,7 @@ const QnAItem = ({ keyword }) => {
 };
 
 export default function QnAModal() {
-  const qna_list = ["예금", "적금", "송금", "ATM", "주식"];
+  const qna_list = ["통장", "예금", "적금", "송금", "ATM", "주식"];
   const [item, setItem] = useState("");
   const qnaState = useSelector((state) => state.modal.qna);
   const dispatch = useDispatch();

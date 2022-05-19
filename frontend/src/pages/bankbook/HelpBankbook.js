@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 import Whale from "../../components/whale.png";
@@ -10,22 +11,25 @@ import SubTitle from "./style/SubTitle";
 import Describe from "./style/Describe";
 import Bold from "./style/Bold";
 
-const HelpBackbook = (props) => {
-  // const [page, setPage] = useState(1)
+const HelpBankbook = (props) => {
+  console.log("props", props);
+  const [page, setPage] = useState(1);
   // const [nameError, setNameError] = useState(0)
   // console.log(nameError)
 
   const Prev = () => {
-    props.setPage((page) => page - 1);
+    // props.setPage((page) => page - 1);
+    setPage((page) => page - 1);
   };
   const Next = () => {
-    props.setPage((page) => page + 1);
+    // props.setPage((page) => page + 1);
+    setPage((page) => page + 1);
   };
 
   const boldtext = ["신분증", "주민등록등본", "도장", "가입신청서", "네 자리"];
 
   const Content = () => {
-    if (props.page === 1) {
+    if (page === 1) {
       return (
         <Container>
           <Title>"통장"이란?</Title>
@@ -34,7 +38,7 @@ const HelpBackbook = (props) => {
           </Describe>
         </Container>
       );
-    } else if (props.page === 2) {
+    } else if (page === 2) {
       return (
         <Container>
           <SubTitle>통장을 만들기 위해서는?</SubTitle>
@@ -45,7 +49,7 @@ const HelpBackbook = (props) => {
           </Describe>
         </Container>
       );
-    } else if (props.page === 3) {
+    } else if (page === 3) {
       return (
         <Container>
           <SubTitle>통장을 만들기 위해서는?</SubTitle>
@@ -56,7 +60,7 @@ const HelpBackbook = (props) => {
           </Describe>
         </Container>
       );
-    } else if (props.page === 4) {
+    } else if (page === 4) {
       return (
         <Container>
           <SubTitle>통장을 만들기 위해서는?</SubTitle>
@@ -67,14 +71,14 @@ const HelpBackbook = (props) => {
           </Describe>
         </Container>
       );
-    } else if (props.page === 5) {
+    } else if (page === 5) {
       return (
         <Container>
           <SubTitle>계좌번호란?</SubTitle>
           <Describe>계좌의 고유 번호를 계좌번호라고 말해요.</Describe>
         </Container>
       );
-    } else if (props.page === 6) {
+    } else if (page === 6) {
       return (
         <Container>
           <Describe>
@@ -82,7 +86,7 @@ const HelpBackbook = (props) => {
           </Describe>
         </Container>
       );
-    } else if (props.page === 7) {
+    } else if (page === 7) {
       return (
         <Container>
           <Describe>
@@ -90,8 +94,10 @@ const HelpBackbook = (props) => {
           </Describe>
         </Container>
       );
-    } else if (props.page === 8) {
-      props.setClose(true);
+    } else if (page === 8) {
+      if (props.setClose) {
+        props.setClose(true);
+      }
       return (
         <Container>
           <SubTitle>이제 통장을 만들어 볼까요?</SubTitle>
@@ -104,15 +110,18 @@ const HelpBackbook = (props) => {
     <div>
       <Content />
       <Flex>
-        <Button disabled={props.page === 1} onClick={Prev}>
+        <Button disabled={page === 1} onClick={Prev}>
           &lt; 이전
         </Button>
-        {props.page % 2 === 1 ? (
+        {page % 2 === 1 ? (
           <IMG src={Whale} alt="whale" />
         ) : (
           <IMG src={WhaleSmile} alt="whale_smile" />
         )}
-        <Button disabled={props.page === 8} onClick={Next}>
+        {/* <Button disabled={page === 8} onClick={Next}> */}
+        <Button
+          disabled={props.setClose ? page === 8 : page === 7}
+          onClick={Next}>
           다음 &gt;
         </Button>
       </Flex>
@@ -152,4 +161,4 @@ const Button = styled.button`
   }
 `;
 
-export default HelpBackbook;
+export default HelpBankbook;

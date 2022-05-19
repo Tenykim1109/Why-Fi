@@ -18,6 +18,7 @@ const HelpAtm = () => {
   const Next = () => {
     setPage((page) => page + 1);
   };
+
   const Content = () => {
     if (page === 1) {
       return (
@@ -38,6 +39,27 @@ const HelpAtm = () => {
           </Describe>
         </Container>
       );
+    } else if (page === 3) {
+      return (
+        <Container>
+          <Title>"송금"이란?</Title>
+          <Describe>
+            <Bold>송금</Bold>은 친구에게 돈을 보내는 거에요. <br />
+            송금을 하기 위해서는 받을 친구의 <Bold>계좌번호</Bold>와{" "}
+            <Bold>이름</Bold>을 확인하고 보낼 <Bold>돈</Bold>과{" "}
+            <Bold>비밀번호</Bold>를 입력하면 돼요.
+          </Describe>
+        </Container>
+      );
+    } else if (page === 4) {
+      return (
+        <Container>
+          <Describe>
+            만약 계좌번호를 잘못 입력하여 다른 사람에게 돈을 보낸 경우, 은행에
+            문의하면 그대로 돌려받을 수 있어요.
+          </Describe>
+        </Container>
+      );
     }
   };
 
@@ -53,7 +75,7 @@ const HelpAtm = () => {
         ) : (
           <IMG src={WhaleSmile} alt="whale_smile" />
         )}
-        <Button disabled={page === 2} onClick={Next}>
+        <Button disabled={page === 4} onClick={Next}>
           다음 &gt;
         </Button>
       </Flex>
@@ -92,4 +114,5 @@ const Button = styled.button`
     background-color: gray;
   }
 `;
+
 export default HelpAtm;
