@@ -17,12 +17,9 @@ const StockNav = () => {
         <ul className="nav">
           <li>
             <Link to="/stock/stockinfo">오늘의 주식뉴스</Link>
-<<<<<<< HEAD
-=======
           </li>
           <li>
             <Link to="/stock/help">도움말</Link>
->>>>>>> 48220f767b168109eee727e0d23491c8583edc18
           </li>
         </ul>
       </div>
