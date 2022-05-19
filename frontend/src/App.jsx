@@ -71,7 +71,7 @@ export default function App() {
             {/* 퀴즈 */}
             <Route path="/quiz/start" element={<Start />} />
             <Route path="/quiz/" element={<Quiz />} />
-            <Route path="/quiz/result" element={<Result />} />
+            {/* <Route path="/quiz/result" element={<Result />} /> */}
 
             {/* 통장 관련 */}
             <Route path="/tutorial" element={<Tutorial />} />
@@ -84,9 +84,11 @@ export default function App() {
             <Route path="/savings/terminate" element={<Terminate />} />
             <Route path="/reset/password" element={<ResetPw />} />
             <Route path="/reset/success" element={<ResetSuccess />} />
+            <Route path="/terminate/success" element={<TerminateSuccess />} />
+
+            {/* 주식 관련 */}
             <Route path="/stock" element={<Stock />} />
             <Route path="/stock/stockinfo" element={<StockInfo />} />
-            <Route path="/terminate/success" element={<TerminateSuccess />} />
 
             {/* ATM 관련 */}
             <Route element={<Atm />}>

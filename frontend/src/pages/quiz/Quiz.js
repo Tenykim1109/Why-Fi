@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import OX from "./style/OX";
@@ -9,22 +9,11 @@ import O_img from "../../components/event_img_o.png";
 import X_img from "../../components/event_img_x.png";
 import Div from "../bankbook/style/Div";
 import axios from "axios";
+import Result from "./Result";
 
 const Quiz = () => {
-  // 퀴즈 5개 랜덤하게 가져옴
-  // 반복문으로 출력
-  // QUIZ_TYPES = (
-  //   ("ox", "OX"),
-  //   ("choices", "객관식"),
-  // )
-  // OX / 객관식에 따라서 다르게 출력
-  // 사용자의 답을 누르면 정답/오답 여부 출력
-  // 해설 출력
+  // const navigate = useNavigate();
 
-  // 다음 문제 넘어가기
-  // 5문제 모두 다 풀었으면 몇 개 맞혔는지 result 페이지로 이동
-
-  const navigate = useNavigate();
   // Quiz 인덱스
   const [idx, setIdx] = useState(0);
   // 현재 퀴즈 (인덱스 순으로 가져올 예정)
@@ -35,6 +24,8 @@ const Quiz = () => {
   const [correct, setCorrect] = useState(false);
 
   const [quizData, setQuizData] = useState([]);
+  const [result, setResult] = useState(false);
+  console.log(result);
 
   useEffect(() => {
     const getQuiz = async () => {
@@ -50,7 +41,7 @@ const Quiz = () => {
       });
     };
     getQuiz();
-  }, []);
+  }, [result]);
 
   // 정답 체크
   const checkAnswer = (answer) => {
@@ -69,7 +60,8 @@ const Quiz = () => {
   };
 
   const addIndex = () => {
-    if (idx >= 4) navigate("/quiz/result", { state: checkCorrect });
+    // if (idx >= 4) navigate("/quiz/result", { state: checkCorrect });
+    if (idx >= 4) setResult(true);
     else setIdx((idx) => idx + 1);
     setModalOpen(false);
   };
@@ -84,95 +76,85 @@ const Quiz = () => {
   //   setModalOpen((modalOpen) => !(modalOpen));
   // };
 
-  // console.log("맞힌 문제", checkCorrect);
-
   return (
-    <Div flex={true}>
-      {currentQuiz && (
-        <>
-          <Title>
-            {currentQuiz.quiz_type === "ox" ? "[ OX 퀴즈 ]" : "[ 객관식 퀴즈 ]"}
-          </Title>
-          <Text>Q. {currentQuiz.question}</Text>
-          <Line />
-
-          {currentQuiz.quiz_type === "ox" ? (
-            <div>
-              <OX
-                // onClick={() => checkAnswer(currentQuiz.choices_view1)}
-                onClick={() => checkAnswer("O")}
-                Color="#2ecc71">
-                O
-              </OX>
-              <OX
-                // onClick={() => checkAnswer(currentQuiz.choices_view2)}
-                onClick={() => checkAnswer("X")}
-                Color="#e74c3c">
-                X
-              </OX>
-            </div>
-          ) : (
+    <>
+      {!result ? (
+        <Div flex={true}>
+          {currentQuiz && (
             <>
-              <Grid>
-                {/* <Flex onClick={() => checkAnswer(currentQuiz.choices_view1)}> */}
-                <Flex onClick={() => checkAnswer("1")}>
-                  <Choice>1</Choice>
-                  <Option>{currentQuiz.choices_view1}</Option>
-                </Flex>
-                {/* <Flex onClick={() => checkAnswer(currentQuiz.choices_view2)}> */}
-                <Flex onClick={() => checkAnswer("2")}>
-                  <Choice>2</Choice>
-                  <Option>{currentQuiz.choices_view2}</Option>
-                </Flex>
-              </Grid>
-              <Grid>
-                {/* <Flex onClick={() => checkAnswer(currentQuiz.choices_view3)}> */}
-                <Flex onClick={() => checkAnswer("3")}>
-                  <Choice>3</Choice>
-                  <Option>{currentQuiz.choices_view3}</Option>
-                </Flex>
-                {/* <Flex onClick={() => checkAnswer(currentQuiz.choices_view4)}> */}
-                <Flex onClick={() => checkAnswer("4")}>
-                  <Choice>4</Choice>
-                  <Option>{currentQuiz.choices_view4}</Option>
-                </Flex>
-              </Grid>
-            </>
-          )}
-          {/* <button onClick={addIndex}>idx test</button> */}
-          {modalOpen && (
-            <Answer toNextQuestion={addIndex}>
-              {correct ? (
-                <>
-                  <Comment>정답입니다.</Comment>
-                  <img src={O_img} alt="O_img" />
-                  <div>{currentQuiz.commentary}</div>
-                </>
+              <Title>
+                {currentQuiz.quiz_type === "ox"
+                  ? "[ OX 퀴즈 ]"
+                  : "[ 객관식 퀴즈 ]"}
+              </Title>
+              <Text>Q. {currentQuiz.question}</Text>
+              <Line />
+
+              {currentQuiz.quiz_type === "ox" ? (
+                <div>
+                  <OX onClick={() => checkAnswer("O")} Color="#2ecc71">
+                    O
+                  </OX>
+                  <OX onClick={() => checkAnswer("X")} Color="#e74c3c">
+                    X
+                  </OX>
+                </div>
               ) : (
                 <>
-                  <Comment>틀렸습니다.</Comment>
-                  <img src={X_img} alt="X_img" />
-                  <div>{currentQuiz.commentary}</div>
+                  <Grid>
+                    <Flex onClick={() => checkAnswer("1")}>
+                      <Choice>1</Choice>
+                      <Option>{currentQuiz.choices_view1}</Option>
+                    </Flex>
+                    <Flex onClick={() => checkAnswer("2")}>
+                      <Choice>2</Choice>
+                      <Option>{currentQuiz.choices_view2}</Option>
+                    </Flex>
+                  </Grid>
+                  <Grid>
+                    <Flex onClick={() => checkAnswer("3")}>
+                      <Choice>3</Choice>
+                      <Option>{currentQuiz.choices_view3}</Option>
+                    </Flex>
+                    <Flex onClick={() => checkAnswer("4")}>
+                      <Choice>4</Choice>
+                      <Option>{currentQuiz.choices_view4}</Option>
+                    </Flex>
+                  </Grid>
                 </>
               )}
-            </Answer>
+              {modalOpen && (
+                <Answer toNextQuestion={addIndex}>
+                  {correct ? (
+                    <>
+                      <Comment>정답입니다.</Comment>
+                      <img src={O_img} alt="O_img" />
+                      <div>{currentQuiz.commentary}</div>
+                    </>
+                  ) : (
+                    <>
+                      <Comment>틀렸습니다.</Comment>
+                      <img src={X_img} alt="X_img" />
+                      <div>{currentQuiz.commentary}</div>
+                    </>
+                  )}
+                </Answer>
+              )}
+            </>
           )}
-        </>
+        </Div>
+      ) : (
+        <Result
+          checkCorrect={checkCorrect}
+          show={result}
+          setShow={setResult}
+          setIdx={setIdx}
+          setCheckCorrect={setCheckCorrect}
+        />
       )}
-    </Div>
+    </>
   );
 };
-
-// const DIV = styled.div`
-//   width: 400px;
-//   height: 100%;
-//   margin: auto;
-//   ${({ flex }) => {
-//     return flex
-//       ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
-//       : null;
-//   }}
-// `;
 
 const Grid = styled.div`
   display: grid;
