@@ -37,8 +37,14 @@ class StockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Stock
-        fields = ('stock_type', 'created_at', 'current_price', 'stock_situation', )
-        read_only_fields = ('current_price', 'created_at', 'stock_situation', )
+        fields = ('current_price', 'created_at', 'stock_type', 'stock_situation', )
+
+
+class CustomStockSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Stock
+        fields = ('current_price', 'created_at', )
 
 
 class MyStockSerializer(serializers.ModelSerializer):
@@ -46,7 +52,7 @@ class MyStockSerializer(serializers.ModelSerializer):
 
     def stock_filter(self, mystock):
         stock = get_object_or_404(Stock, stock_type=mystock.stock_type, created_at=datetime.date.today())
-        serializer = StockSerializer(stock)
+        serializer = CustomStockSerializer(stock)
         return serializer.data
 
     class Meta:

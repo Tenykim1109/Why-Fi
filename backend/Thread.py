@@ -35,13 +35,14 @@ def daily():
                     saving.save()
 
                 else:
-                    saving.interest -= (saving.payment * (1.01 ** (saving.deadline - datetime.date.today()).days) - saving.payment)
+                    days = (savings.deadline - datetime.date.today()).days
+                    saving.interest -= (saving.payment * (1.01 ** days) - saving.payment)
                     saving.save()
 
     else:
         print("pass")
 
-    time.sleep(60)
+    time.sleep(90)
 
 
 if __name__ == "__main__":

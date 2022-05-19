@@ -9,6 +9,7 @@ from .models import BankBook, Stock, MyStock
 from .serializers import (
     BankBookSerializer,
     StockListSerializer,
+    StockSerializer,
     MyStockSerializer,
 )
 from accounts.serializers import PasswordSerializer
@@ -28,24 +29,27 @@ def getinterest(request):
     book_type = request.data.get('book_type')
     payment = request.data.get('payment')
     deadline = request.data.get('deadline')
-    weeks = (datetime.date.fromisoformat(deadline) - datetime.date.today()).days // 7
+    days = (datetime.date.fromisoformat(deadline) - datetime.date.today()).days
+    weeks = days // 7
+    User = get_user_model()
+    user = get_object_or_404(User, pk=request.user.pk)
 
-    if BankBook.objects.filter(user=request.user, book_type=book_type).exists():
+    if BankBook.objects.filter(user=user, book_type=book_type).exists():
         return Response({'error: 이미 해당 종류의 통장이 존재'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if payment <= 0:
+    if payment <= 0 or user.balance < payment:
         return Response({'error: 잘못된 금액 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
     if weeks <= 0:
         return Response({'error: 잘못된 만기 날짜 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
     if book_type == 'deposit':
-        interest = payment * (1.05 ** weeks)
-        return Response(int(interest))
+        money = payment * (1.05 ** weeks)
+        return Response(int(money))
 
     elif book_type == 'savings':
-        interest = payment * 1.01 * (((1.01 ** (weeks * 7)) - 1) / 1.01) + payment * weeks
-        return Response(int(interest))
+        money = (payment * 0.01 * days * (days + 1) / 2) + (payment * days)
+        return Response(int(money))
 
     else:
         return Response({'error: 잘못된 통장 종류 선택'}, status=status.HTTP_400_BAD_REQUEST)
@@ -57,12 +61,15 @@ def create(request):
     book_type = request.data.get('book_type')
     payment = request.data.get('payment')
     deadline = request.data.get('deadline')
-    weeks = (datetime.date.fromisoformat(deadline) - datetime.date.today()).days // 7
+    days = (datetime.date.fromisoformat(deadline) - datetime.date.today()).days
+    weeks = days // 7
+    User = get_user_model()
+    user = get_object_or_404(User, pk=request.user.pk)
 
-    if BankBook.objects.filter(user=request.user, book_type=book_type).exists():
+    if BankBook.objects.filter(user=user, book_type=book_type).exists():
         return Response({'error: 이미 해당 종류의 통장이 존재'}, status=status.HTTP_400_BAD_REQUEST)
 
-    if payment <= 0:
+    if payment <= 0 or user.balance < payment:
         return Response({'error: 잘못된 금액 입력'}, status=status.HTTP_400_BAD_REQUEST)
 
     if weeks <= 0:
@@ -77,14 +84,14 @@ def create(request):
         if book_type == 'deposit':
             user.balance -= payment
             user.save()
-            interest = payment * (1.05 ** weeks) - payment
+            interest = (payment * (1.05 ** weeks)) - payment
             serializer.save(user=request.user, balance=payment, interest=interest)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         elif book_type == 'savings':
             user.balance -= payment
             user.save()
-            interest = payment * 1.01 * (((1.01 ** (weeks * 7)) - 1) / 1.01)
+            interest = payment * 0.01 * days * (days + 1) / 2
             serializer.save(user=request.user, balance=payment, interest=interest)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -121,6 +128,13 @@ def delete(request, book_type):
 
 
 @api_view(['GET'])
+def stocknews(request):
+    stocks = get_list_or_404(Stock, created_at=datetime.date.today())
+    serializer = StockSerializer(stocks, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 @permission_classes([AllowAny])
 def stockgraph(request):
     json = {}
@@ -137,7 +151,7 @@ def stockgraph(request):
 
 @api_view(['GET'])
 def stockinfo(request, stock_type):
-    stocks = Stock.objects.filter(stock_type=stock_type)
+    stocks = get_list_or_404(Stock, stock_type=stock_type)
     serializer = StockListSerializer(stocks, many=True)
     return Response(serializer.data)
 
