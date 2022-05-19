@@ -197,7 +197,6 @@ const Tutorial = () => {
             direction="column"
             alignItems="center"
             justifyContent="center">
-            <Tutorial />
             <MUIButton
               variant="contained"
               sx={{
@@ -249,7 +248,6 @@ const Tutorial = () => {
             direction="column"
             alignItems="center"
             justifyContent="center">
-            <Tutorial />
             <MUIButton
               variant="contained"
               sx={{

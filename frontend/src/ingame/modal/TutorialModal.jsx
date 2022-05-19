@@ -26,13 +26,13 @@ export default function TutorialModal() {
   const havePwd = useSelector((state) => state.user.hasBookPwd);
   const dispatch = useDispatch();
 
-  //   useEffect(() => {
-  //     if (havePwd) {
-  //       dispatch(closeTutorial());
-  //     } else {
-  //       dispatch(openTutorial());
-  //     }
-  //   }, [havePwd]);
+  useEffect(() => {
+    if (havePwd) {
+      dispatch(closeTutorial());
+    } else {
+      dispatch(openTutorial());
+    }
+  }, [havePwd]);
 
   const handleClose = () => {
     dispatch(closeTutorial());
