@@ -9,7 +9,7 @@ import Title from "../bankbook/style/Title";
 import Describe from "../bankbook/style/Describe";
 import Bold from "../bankbook/style/Bold";
 
-const HelpAtm = () => {
+const HelpTransfer = () => {
   const [page, setPage] = useState(1);
 
   const Prev = () => {
@@ -22,10 +22,12 @@ const HelpAtm = () => {
     if (page === 1) {
       return (
         <Container>
-          <Title>"ATM"이란?</Title>
+          <Title>"송금"이란?</Title>
           <Describe>
-            <Bold>ATM</Bold>은 현금자동인출기로 은행 창구에 가지 않아도 돈을
-            맡기거나 찾을 수 있게 해주는 기계에요.
+            <Bold>송금</Bold>은 친구에게 돈을 보내는 거에요. <br />
+            송금을 하기 위해서는 받을 친구의 <Bold>계좌번호</Bold>와{" "}
+            <Bold>이름</Bold>을 확인하고 보낼 <Bold>돈</Bold>과{" "}
+            <Bold>비밀번호</Bold>를 입력하면 돼요.
           </Describe>
         </Container>
       );
@@ -33,8 +35,8 @@ const HelpAtm = () => {
       return (
         <Container>
           <Describe>
-            은행 운영시간이 아니더라도 ATM을 통해서 은행 일의 일부를 대신 처리할
-            수 있어요.
+            만약 계좌번호를 잘못 입력하여 다른 사람에게 돈을 보낸 경우, 은행에
+            문의하면 그대로 돌려받을 수 있어요.
           </Describe>
         </Container>
       );
@@ -92,4 +94,5 @@ const Button = styled.button`
     background-color: gray;
   }
 `;
-export default HelpAtm;
+
+export default HelpTransfer;

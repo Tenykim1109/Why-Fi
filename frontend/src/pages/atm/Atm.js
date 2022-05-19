@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-import HelpAtm from "./HelpAtm";
+import HelpAtmTransfer from "./HelpAtmTransfer";
 
 import Banner from "./style/Banner";
 import Div from "./style/Div";
@@ -17,7 +17,7 @@ const Atm = () => {
       <Div flex={true}>
         {help ? (
           <>
-            <HelpAtm />
+            <HelpAtmTransfer />
             <CloseBtn onClick={() => setHelp((help) => !help)}>
               송금하러 가기
             </CloseBtn>
