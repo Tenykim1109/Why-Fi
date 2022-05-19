@@ -58,7 +58,7 @@ function StockChart({ companyType, stockType, ...props }) {
   useEffect(() => {
     const fetchData = async () => {
       // await fetch("list.json")
-      await fetch("http://127.0.0.1:8000/api/bankbooks/stockgraph/")
+      await fetch("https://k6d108.p.ssafy.io/api/bankbooks/stockgraph/")
         .then((response) => {
           return response.json();
         })

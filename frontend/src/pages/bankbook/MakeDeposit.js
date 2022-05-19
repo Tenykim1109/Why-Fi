@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 // import DatePicker from "react-datepicker";
 // import { ko } from "date-fns/esm/locale";
@@ -12,6 +12,10 @@ import HelpDeposit from "./HelpDeposit";
 import HelpBtn from "./style/HelpBtn";
 import CloseBtn from "./style/CloseBtn";
 import Title from "./style/Title";
+
+import { Button as MUIButton, Grid } from "@mui/material";
+import { closeDeposit } from "../../modules/slices/modalSlice";
+import { useDispatch } from "react-redux";
 
 const MakeDeposit = () => {
   // 가지고 있는 (금액 / 기간)을 초과하지 못하게
@@ -152,6 +156,8 @@ const MakeDeposit = () => {
 
   const [money, setMoney] = useState(0);
   const [moneyWithComma, setMoneyWithComma] = useState();
+  const [step, setStep] = useState("");
+  const dispatch = useDispatch();
 
   // const moneyInputHandle = (event) => {
   //   setMoney(Number(event.target.value));
@@ -192,7 +198,7 @@ const MakeDeposit = () => {
 
   const [help, setHelp] = useState(true);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // console.log(btnClicked.slice(0, -1))
   const make = () => {
     if (!money) alert("맡길 금액을 설정해주세요.");
@@ -211,10 +217,12 @@ const MakeDeposit = () => {
       })
         .then((res) => {
           console.log(res.data);
-          navigate("/deposit/success", { state: "예금" });
+          // navigate("/deposit/success", { state: "예금" });
+          setStep("success");
         })
         .catch((err) => {
-          console.log(err.response.data);
+          // console.log(err.response.data);
+          setStep("fail");
         });
   };
 
@@ -253,83 +261,196 @@ const MakeDeposit = () => {
     setMoneyWithComma(money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
   }, [money]);
 
-  return (
-    <Div flex={true}>
-      {help ? (
-        <>
-          <HelpDeposit />
-          <CloseBtn onClick={() => setHelp((help) => !help)}>
-            예금 가입하기
-          </CloseBtn>
-        </>
-      ) : (
-        <>
-          <Title>예금 가입</Title>
-          <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
-          <Flex>
-            <Text>시작일자</Text>
-            <Input
-              type="date"
-              value={startDate.toISOString().substring(0, 10)}
-              readOnly={true}
+  const DepositResult = () => {
+    let ui = "";
+
+    if (step === "success") {
+      ui = (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "center",
+            justifyContent: "center",
+          }}>
+          <div
+            style={{
+              textAlign: "center",
+            }}>
+            <img
+              src="assets/mascot/dolphin_happy_blue.png"
+              alt="assets/mascot/dolphin_happy_blue.png"
+              style={{
+                width: "300px",
+                objectFit: "cover",
+              }}
             />
-          </Flex>
-          <Flex>
-            <Text>만기일자</Text>
-            <Input
-              type="date"
-              value={endDate.toISOString().substring(0, 10)}
-              readOnly={true}
-            />
-          </Flex>
-          <Flex>
-            <Text>가입기간</Text>
-            <Box>{btnClicked}</Box>
-          </Flex>
-          <div>
-            {DateFilterData.map((filter, idx) => (
-              <InputBtn
-                onClick={handleBtnClicked}
-                key={idx}
-                type="button"
-                value={filter.value}
-              />
-            ))}
           </div>
-          <Flex>
-            <Text>맡길 금액</Text>
-            {/* <Input
+          <h2
+            style={{
+              textAlign: "center",
+            }}>
+            성공적으로 예금을 만들었어요!!
+          </h2>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center">
+            <MUIButton
+              variant="contained"
+              sx={{
+                background: "#4cb5f5",
+                fontWeight: "Bold",
+                mt: 4,
+              }}
+              onClick={() => {
+                dispatch(closeDeposit());
+              }}>
+              닫기
+            </MUIButton>
+          </Grid>
+        </div>
+      );
+    } else if (step === "fail") {
+      ui = (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "center",
+            justifyContent: "center",
+          }}>
+          <div
+            style={{
+              textAlign: "center",
+            }}>
+            <img
+              src="assets/mascot/dolphin_sad_blue.png"
+              alt="assets/mascot/dolphin_sad_blue.png"
+              style={{
+                width: "300px",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+          <h2
+            style={{
+              textAlign: "center",
+            }}>
+            예금 통장을 만드는 중에 오류가 발생했어요.
+          </h2>
+          <h2 style={{ textAlign: "center" }}>다시 시도해주세요.</h2>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center">
+            <MUIButton
+              variant="contained"
+              sx={{
+                background: "#4cb5f5",
+                fontWeight: "Bold",
+                mt: 4,
+              }}
+              onClick={() => {
+                setStep("");
+              }}>
+              닫기
+            </MUIButton>
+          </Grid>
+        </div>
+      );
+    }
+
+    return ui;
+  };
+
+  return (
+    <>
+      {step !== "" ? (
+        <DepositResult />
+      ) : (
+        <Div flex={true}>
+          {help ? (
+            <>
+              <HelpDeposit />
+              <CloseBtn onClick={() => setHelp((help) => !help)}>
+                예금 가입하기
+              </CloseBtn>
+            </>
+          ) : (
+            <>
+              <Title>예금 가입</Title>
+              <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
+              <Flex>
+                <Text>시작일자</Text>
+                <Input
+                  type="date"
+                  value={startDate.toISOString().substring(0, 10)}
+                  readOnly={true}
+                />
+              </Flex>
+              <Flex>
+                <Text>만기일자</Text>
+                <Input
+                  type="date"
+                  value={endDate.toISOString().substring(0, 10)}
+                  readOnly={true}
+                />
+              </Flex>
+              <Flex>
+                <Text>가입기간</Text>
+                <Box>{btnClicked}</Box>
+              </Flex>
+              <div>
+                {DateFilterData.map((filter, idx) => (
+                  <InputBtn
+                    onClick={handleBtnClicked}
+                    key={idx}
+                    type="button"
+                    value={filter.value}
+                  />
+                ))}
+              </div>
+              <Flex>
+                <Text>맡길 금액</Text>
+                {/* <Input
               type="number"
               // onChange={moneyInputHandle}
               readOnly={true}
               // value={money + "원"}
               value={moneyWithComma}
             /> */}
-            <Box>{moneyWithComma}원</Box>
-          </Flex>
-          <div>
-            {MoneyFilterData.map((filter, idx) => (
-              <InputBtn
-                onClick={moneyBtnHandle}
-                key={idx}
-                type="button"
-                value={filter.value}
-              />
-            ))}
-          </div>
-          <Flex>
-            <Text>이자율</Text>
-            <Box> 5%</Box>
-          </Flex>
-          <Flex>
-            <Text>예상 금액</Text>
-            <Box>{expectedMoney}원</Box>
-          </Flex>
+                <Box>{moneyWithComma}원</Box>
+              </Flex>
+              <div>
+                {MoneyFilterData.map((filter, idx) => (
+                  <InputBtn
+                    onClick={moneyBtnHandle}
+                    key={idx}
+                    type="button"
+                    value={filter.value}
+                  />
+                ))}
+              </div>
+              <Flex>
+                <Text>이자율</Text>
+                <Box> 5%</Box>
+              </Flex>
+              <Flex>
+                <Text>예상 금액</Text>
+                <Box>{expectedMoney}원</Box>
+              </Flex>
 
-          <Button onClick={make}>가입하기</Button>
-        </>
+              <Button onClick={make}>가입하기</Button>
+            </>
+          )}
+        </Div>
       )}
-    </Div>
+    </>
   );
 };
 

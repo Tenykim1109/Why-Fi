@@ -72,24 +72,22 @@ const HelpStock = () => {
   };
 
   return (
-    <DIV flex={true}>
-      <div>
-        <Content />
-        <Flex>
-          <Button disabled={page === 1} onClick={Prev}>
-            &lt; 이전
-          </Button>
-          {page % 2 === 1 ? (
-            <IMG src={Whale} alt="whale" />
-          ) : (
-            <IMG src={WhaleSmile} alt="whale_smile" />
-          )}
-          <Button disabled={page === 5} onClick={Next}>
-            다음 &gt;
-          </Button>
-        </Flex>
-      </div>
-    </DIV>
+    <div>
+      <Content />
+      <Flex>
+        <Button disabled={page === 1} onClick={Prev}>
+          &lt; 이전
+        </Button>
+        {page % 2 === 1 ? (
+          <IMG src={Whale} alt="whale" />
+        ) : (
+          <IMG src={WhaleSmile} alt="whale_smile" />
+        )}
+        <Button disabled={page === 5} onClick={Next}>
+          다음 &gt;
+        </Button>
+      </Flex>
+    </div>
   );
 };
 

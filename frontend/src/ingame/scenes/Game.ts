@@ -262,7 +262,7 @@ export default class Game extends Phaser.Scene {
           key,
           object.gid! - this.map.getTileset(tilesetName).firstgid
         )
-        .setDepth(actualY - this.startY);
+        .setDepth(actualY - 10);
     }
 
     if (group.classType === Banker) {
