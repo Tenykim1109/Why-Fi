@@ -1,14 +1,14 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_list_or_404, get_object_or_404
 from django.contrib.auth import get_user_model
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from .models import BankBook, Stock, MyStock
 from .serializers import (
     BankBookSerializer,
     StockListSerializer,
-    StockSerializer,
     MyStockSerializer,
 )
 from accounts.serializers import PasswordSerializer
@@ -118,6 +118,21 @@ def delete(request, book_type):
 
     else:
         return Response({'error: 본인 인증 실패'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def stockgraph(request):
+    json = {}
+
+    for stock_type in ['A', 'B', 'C']:
+        json[stock_type] = {}
+        stocks = get_list_or_404(Stock, stock_type=stock_type)
+
+        for stock in stocks:
+            json[stock_type][str(stock.created_at)] = stock.current_price
+
+    return Response(json)
 
 
 @api_view(['GET'])
