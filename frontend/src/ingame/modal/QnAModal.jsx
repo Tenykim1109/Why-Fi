@@ -13,6 +13,7 @@ import { useState } from "react";
 import HelpDeposit from "../../pages/bankbook/HelpDeposit";
 import HelpSavings from "../../pages/bankbook/HelpSavings";
 import HelpBankbook from "../../pages/bankbook/HelpBackbook";
+import HelpStock from "../../pages/stock/HelpStock";
 import { LoadingError } from "./LoadingError";
 import { useDispatch, useSelector } from "react-redux";
 import { closeQnA } from "../../modules/slices/modalSlice";
@@ -41,6 +42,9 @@ const QnAItem = ({ keyword }) => {
       break;
     case "송금":
       ui = <HelpBankbook />;
+      break;
+    case "주식":
+      ui = <HelpStock />;
       break;
     default:
       ui = <LoadingError />;
