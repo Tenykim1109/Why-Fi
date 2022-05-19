@@ -16,11 +16,8 @@ const StockNav = () => {
         </Link>
         <ul className="nav">
           <li>
-            <Link to="/stock/stocinfo">오늘의 주식뉴스</Link>
+            <Link to="/stock/stockinfo">오늘의 주식뉴스</Link>
           </li>
-          {/* <li>
-            <Link to="/stock/stockcompany">stockcompany</Link>
-          </li> */}
         </ul>
       </div>
     </div>

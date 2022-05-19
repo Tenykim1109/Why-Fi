@@ -1,0 +1,13 @@
+.stockinfo {
+  display: inline-flexbox;
+  text-align: center;
+  justify-content: center;
+}
+.stockinfolist {
+  text-align: center;
+  justify-content: center;
+  padding: 2rem;
+  font-size: larger;
+  border: 1px solid gray;
+  border-radius: 2%;
+}

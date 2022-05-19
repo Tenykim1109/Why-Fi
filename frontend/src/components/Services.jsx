@@ -64,19 +64,19 @@ const S = {
 const SERVICES_ITEMS = [
   {
     title: "예금적금",
-    description: "예금적금하기 여기 멘트수정",
+    description: "예금 적금 계좌를 만들어 보아요",
     button: "예금적금",
     link: "/예금",
   },
   {
     title: "모의주식",
-    description: "모의주식하기 멘트수정",
+    description: "주식 투자를 통해 원금을 늘려보아요",
     button: "모의주식",
     link: "/모의주식",
   },
   {
     title: "퀴즈",
-    description: "퀴즈를통해 학습하기",
+    description: "배운 내용을 퀴즈를 통해 확인해 보아요",
     button: "퀴즈",
     link: "/퀴즈",
   },
