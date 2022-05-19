@@ -23,11 +23,12 @@ CORS_ORIGIN_ALLOW_ALL = False
 
 CORS_ORIGIN_WHITELIST = env.list('CORS_ORIGIN_WHITELIST')
 
-CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [
+    'http://k6d108.p.ssafy.io',
+    'https://k6d108.p.ssafy.io',
+]
 
-USE_X_FORWARDED_HOST = True
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https', )
+SESSION_COOKIE_SAMESITE = 'None'
 
 # Application definition
 
