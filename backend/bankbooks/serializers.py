@@ -12,6 +12,14 @@ class BankBookSerializer(serializers.ModelSerializer):
         read_only_fields = ('user', 'balance', 'interest', 'created_at', 'updated_at', )
 
 
+class StockListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Stock
+        fields = ('stock_type', 'created_at', 'current_price', )
+        read_only_fields = ('current_price', 'created_at', )
+
+
 class StockSituationSerializer(serializers.ModelSerializer):
 
     class Meta:

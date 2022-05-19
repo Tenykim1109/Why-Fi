@@ -7,6 +7,7 @@ from rest_framework import status
 from .models import BankBook, Stock, MyStock
 from .serializers import (
     BankBookSerializer,
+    StockListSerializer,
     StockSerializer,
     MyStockSerializer,
 )
@@ -122,7 +123,7 @@ def delete(request, book_type):
 @api_view(['GET'])
 def stockinfo(request, stock_type):
     stocks = Stock.objects.filter(stock_type=stock_type)
-    serializer = StockSerializer(stocks, many=True)
+    serializer = StockListSerializer(stocks, many=True)
     return Response(serializer.data)
 
 
