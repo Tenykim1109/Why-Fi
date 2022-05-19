@@ -10,6 +10,29 @@ import RemittanceModal from "./modal/RemittanceModal";
 import StockModal from "./modal/StockModal";
 import UserModal from "./modal/UserModal";
 import QuizModal from "./modal/QuizModal";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  setUserId,
+  setBookNumber,
+  setBookPwd,
+  notHavePwd,
+  havePwd,
+  setBalance,
+} from "../modules/slices/userSlice";
+import TutorialModal from "./modal/TutorialModal";
+
+interface PwdResponse {
+  data: Array<string>;
+}
+
+interface UserResponse {
+  data: {
+    balance: number;
+    book_number: string;
+    username: string;
+  };
+}
 
 const ImageAnimated = styled("img")({
   width: "300px",
@@ -59,6 +82,55 @@ const Loading = () => {
 
 export default function GameApp() {
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  const getUserInfo = async () => {
+    try {
+      const res: UserResponse = await axios({
+        method: "get",
+        url: "https://k6d108.p.ssafy.io/api/accounts/self/",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+      });
+
+      console.log(res);
+      dispatch(setBookNumber(res.data.book_number));
+      dispatch(setUserId(res.data.username));
+      dispatch(setBalance(res.data.balance));
+      console.log("get userinfo!");
+    } catch (err) {
+      console.log(err);
+      console.log("error get userinfo");
+    }
+  };
+
+  const getTutorialInfo = async () => {
+    console.log("asdf");
+    try {
+      const res: PwdResponse = await axios({
+        method: "get",
+        url: "https://k6d108.p.ssafy.io/api/accounts/tutorialcheck/",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+      });
+
+      console.log(res);
+      const pwd = res.data[0];
+
+      if (pwd === "") {
+        dispatch(notHavePwd());
+      } else {
+        dispatch(havePwd());
+      }
+      dispatch(setBookPwd(pwd));
+      console.log("success!");
+    } catch (err) {
+      console.log(err);
+      console.log("error!");
+    }
+  };
 
   // 로딩화면 띄우는 용도
   useEffect(() => {
@@ -66,13 +138,32 @@ export default function GameApp() {
 
     //게임 연결 - 5초동안 로딩
     setTimeout(() => {
+      getUserInfo();
+    }, 1500);
+    setTimeout(() => {
+      getTutorialInfo();
+    }, 3000);
+    setTimeout(() => {
       setLoading(false);
     }, 5000);
   }, []);
 
+  // const LoadedItem = () => {
+  //   switch (loading) {
+  //     cas
+  //   }
+  // };
+
   return (
     <>
-      {loading ? <Loading /> : <PhaserGame />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <PhaserGame />
+          <TutorialModal />
+        </>
+      )}
       <QnAModal />
       <SavingsModal />
       <CashMachineModal />

@@ -27,7 +27,7 @@ export default class PhaserGame extends React.Component {
       scene: [Preloader, Game, ButtonUI],
     };
 
-    new Phaser.Game(config);
+    let game = new Phaser.Game(config);
   }
 
   shouldComponentUpdate() {
