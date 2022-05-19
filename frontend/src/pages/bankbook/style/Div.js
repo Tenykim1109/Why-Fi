@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const DIV = styled.div`
   width: 500px;
-  height: 95vh;
+  ${"" /* height: 95vh; */}
   @media (max-height: 720px) {
     min-height: 720px;
     // height: 100%;

@@ -3,16 +3,20 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Transfer from "./Transfer";
 import Div from "./style/Div";
+import { useDispatch } from "react-redux";
+import { closeATM, closeRemittance } from "../../modules/slices/modalSlice";
 
 const Start = () => {
   const [state, setState] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const toTransfer = () => {
     setState("start");
   };
 
   const toHome = () => {
-    navigate("/ingame");
+    dispatch(closeATM());
+    dispatch(closeRemittance());
   };
 
   return (

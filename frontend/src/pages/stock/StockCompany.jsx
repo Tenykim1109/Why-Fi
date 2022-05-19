@@ -24,7 +24,7 @@ function StockCompany() {
 
   const getStockDataA = () => {
     axios({
-      url: `http://127.0.0.1:8000/api/bankbooks/stockinfo/A/`,
+      url: `https://k6d108.p.ssafy.io/api/bankbooks/stockinfo/A/`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -36,7 +36,7 @@ function StockCompany() {
   };
   const getStockDataB = () => {
     axios({
-      url: `http://127.0.0.1:8000/api/bankbooks/stockinfo/B/`,
+      url: `https://k6d108.p.ssafy.io/api/bankbooks/stockinfo/B/`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -47,7 +47,7 @@ function StockCompany() {
   };
   const getStockDataC = () => {
     axios({
-      url: `http://127.0.0.1:8000/api/bankbooks/stockinfo/C/`,
+      url: `https://k6d108.p.ssafy.io/api/bankbooks/stockinfo/C/`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,

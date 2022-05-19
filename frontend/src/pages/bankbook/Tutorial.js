@@ -15,6 +15,11 @@ import Title from "./style/Title";
 import Describe from "./style/Describe";
 import Bold from "./style/Bold";
 
+import { Button as MUIButton, Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { havePwd } from "../../modules/slices/userSlice";
+import { closeTutorial } from "../../modules/slices/modalSlice";
+
 const Tutorial = () => {
   const navigate = useNavigate();
 
@@ -32,6 +37,10 @@ const Tutorial = () => {
   const [birthError, setBirthError] = useState(0);
   const [pwError, setPwError] = useState(0);
   // const [pwErrorMsg, setPwErrorMsg] = useState("");
+
+  // 모달 다음 페이지 설정할때 사용
+  const [step, setStep] = useState("");
+  const dispatch = useDispatch();
 
   const nameHandle = (event) => {
     const inputName = event.target.value;
@@ -139,100 +148,237 @@ const Tutorial = () => {
       },
     })
       .then((res) => {
+        // 비밀번호 설정 성공
         console.log(res.data);
-        navigate("/savings/success", { state: "통장" });
+        // navigate("/savings/success", { state: "통장" });
+        setStep("success");
       })
       .catch((err) => {
         console.log(err.response.data);
+        setStep("fail");
       });
   };
 
+  const TutorialBody = () => {
+    let ui = "";
+
+    if (step === "success") {
+      ui = (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "center",
+            justifyContent: "center",
+          }}>
+          <div
+            style={{
+              textAlign: "center",
+            }}>
+            <img
+              src="assets/mascot/dolphin_happy_blue.png"
+              alt="assets/mascot/dolphin_happy_blue.png"
+              style={{
+                width: "300px",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+          <h2
+            style={{
+              textAlign: "center",
+            }}>
+            튜토리얼을 성공적으로 마쳤어요!
+          </h2>
+          <h2 style={{ textAlign: "center" }}>즐거운 시간 보내길 바라요!</h2>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center">
+            <MUIButton
+              variant="contained"
+              sx={{
+                background: "#4cb5f5",
+                fontWeight: "Bold",
+                mt: 4,
+              }}
+              onClick={() => {
+                dispatch(havePwd());
+                dispatch(closeTutorial());
+              }}>
+              은행으로 가기
+            </MUIButton>
+          </Grid>
+        </div>
+      );
+    } else if (step === "fail") {
+      ui = (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "center",
+            justifyContent: "center",
+          }}>
+          <div
+            style={{
+              textAlign: "center",
+            }}>
+            <img
+              src="assets/mascot/dolphin_sad_blue.png"
+              alt="assets/mascot/dolphin_sad_blue.png"
+              style={{
+                width: "300px",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+          <h2
+            style={{
+              textAlign: "center",
+            }}>
+            튜토리얼 과정 중에 오류가 발생했어요.
+          </h2>
+          <h2 style={{ textAlign: "center" }}>다시 시도해주세요.</h2>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center">
+            <MUIButton
+              variant="contained"
+              sx={{
+                background: "#4cb5f5",
+                fontWeight: "Bold",
+                mt: 4,
+              }}
+              onClick={() => {
+                setStep("");
+              }}>
+              다시 시도하기
+            </MUIButton>
+          </Grid>
+        </div>
+      );
+    }
+
+    return ui;
+  };
+
   return (
-    <Div flex={true}>
-      {help ? (
-        <>
-          <HelpBankbook page={page} setPage={setPage} setClose={setClose} />
-          {close && <CloseBtn onClick={closeHandle}>닫기</CloseBtn>}
-        </>
+    <>
+      {step !== "" ? (
+        <TutorialBody />
       ) : (
-        <>
-          <Title>통장 가입</Title>
-          <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
-          {!pageMain ? (
-            <form>
-              <Flex>
-                <Text>이름</Text>
-                <Input
-                  type="text"
-                  value={name}
-                  onChange={nameHandle}
-                  placeholder="이름"
-                />
-              </Flex>
-              <ErrorMsg>{errorMsg}</ErrorMsg>
-              <Flex>
-                <Text>생년월일</Text>
-                <Input
-                  type="number"
-                  maxlength="6"
-                  value={birth}
-                  onChange={birthHandle}
-                  placeholder="생년월일 8자리"
-                />
-              </Flex>
-              <NextBtn
-                disabled={!(nameError === 2 && birthError === 2)}
-                onClick={authentication}>
-                다음
-              </NextBtn>
-            </form>
+        <Div flex={true}>
+          {help ? (
+            <>
+              <HelpBankbook page={page} setPage={setPage} setClose={setClose} />
+              {close && <CloseBtn onClick={closeHandle}>닫기</CloseBtn>}
+            </>
           ) : (
-            <form>
-              <Flex>
-                <Text>비밀번호</Text>
-                <Input
-                  type="password"
-                  maxlength="4"
-                  value={pw}
-                  onChange={pwHandle}
-                  placeholder="비밀번호 숫자 4자리"
-                  autoComplete="on"
-                />
-              </Flex>
-              <Flex>
-                <PrevBtn onClick={prev}>이전</PrevBtn>
-                <MakeBtn
-                  onClick={makeBankBook}
-                  disabled={
-                    !(nameError === 2 && pwError === 2 && birthError === 2)
-                  }>
-                  가입하기
-                </MakeBtn>
-              </Flex>
-            </form>
-          )}
-          <IMG src={Whale} alt="whale" />
-          <Container>
-            <Describe>
+            <>
+              <Title>통장 가입</Title>
+              <HelpBtn onClick={() => setHelp((help) => !help)}>도움말</HelpBtn>
               {!pageMain ? (
-                <>
-                  실제로는 <Bold>신분증</Bold>과 <Bold>주민등록등본</Bold>과
-                  같은 서류들과 <br /> <Bold>추가적인 정보</Bold>들이 더
-                  필요해요.
-                </>
+                <form>
+                  <Flex>
+                    <Text>이름</Text>
+                    <Input
+                      type="text"
+                      value={name}
+                      onChange={nameHandle}
+                      placeholder="이름"
+                    />
+                  </Flex>
+                  <ErrorMsg>{errorMsg}</ErrorMsg>
+                  <Flex>
+                    <Text>생년월일</Text>
+                    <Input
+                      type="number"
+                      maxlength="6"
+                      value={birth}
+                      onChange={birthHandle}
+                      placeholder="생년월일 8자리"
+                    />
+                  </Flex>
+                  <NextBtn
+                    disabled={!(nameError === 2 && birthError === 2)}
+                    onClick={authentication}>
+                    다음
+                  </NextBtn>
+                </form>
               ) : (
-                <>
-                  비밀번호 네 자리로 <Bold>연속된 숫자</Bold>나
-                  <Bold>쉬운 숫자</Bold>는
-                  <br />
-                  피해야 해요.
-                </>
+                <form>
+                  <Flex>
+                    <Text>비밀번호</Text>
+                    <Input
+                      type="password"
+                      maxlength="4"
+                      value={pw}
+                      onChange={pwHandle}
+                      placeholder="비밀번호 숫자 4자리"
+                      autoComplete="on"
+                    />
+                  </Flex>
+                  <Flex>
+                    <PrevBtn onClick={prev}>이전</PrevBtn>
+                    <MakeBtn
+                      onClick={makeBankBook}
+                      disabled={
+                        !(nameError === 2 && pwError === 2 && birthError === 2)
+                      }>
+                      가입하기
+                    </MakeBtn>
+                  </Flex>
+                </form>
               )}
-            </Describe>
-          </Container>
-        </>
+              <IMG src={Whale} alt="whale" />
+              <Container>
+                <Describe>
+                  {!pageMain ? (
+                    <>
+                      실제로는 <Bold>신분증</Bold>과 <Bold>주민등록등본</Bold>
+                      과 같은 서류들과 <br /> <Bold>추가적인 정보</Bold>들이 더
+                      필요해요.
+                    </>
+                  ) : (
+                    <>
+                      비밀번호 네 자리로 <Bold>연속된 숫자</Bold>나
+                      <Bold>쉬운 숫자</Bold>는
+                      <br />
+                      피해야 해요.
+                    </>
+                  )}
+                </Describe>
+              </Container>
+              <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justifyContent="center">
+                <MUIButton
+                  variant="contained"
+                  sx={{
+                    background: "#4cb5f5",
+                    fontWeight: "Bold",
+                    mt: 4,
+                  }}
+                  onClick={() => {
+                    dispatch(closeTutorial());
+                  }}>
+                  다음에 할래요
+                </MUIButton>
+              </Grid>
+            </>
+          )}
+        </Div>
       )}
-    </Div>
+    </>
   );
 };
 

@@ -9,14 +9,16 @@ import ConfirmBtn from "./style/ConfirmBtn";
 import Component1 from "./style/Component1";
 import Component2 from "./style/Component2";
 import NameConfirm from "./NameConfirm";
+import { useDispatch } from "react-redux";
 import { Button as MUIButton } from "@mui/material";
+import { closeATM, closeRemittance } from "../../modules/slices/modalSlice";
 
 const Transfer = () => {
   // 통장 번호
   const [accountNum, setAccountNum] = useState("");
   const [state, setState] = useState("");
   let item = null;
-  let ui = "";
+  const dispatch = useDispatch();
 
   const numpad = (num) => {
     // 통장 번호 10자리
@@ -42,7 +44,9 @@ const Transfer = () => {
 
   // 시작 화면 화면으로
   const toStart = () => {
-    navigate("/atm/start");
+    // navigate("/atm/start");
+    dispatch(closeATM());
+    dispatch(closeRemittance());
   };
 
   const TransferBody = () => {

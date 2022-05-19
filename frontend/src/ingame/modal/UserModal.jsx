@@ -23,8 +23,10 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 800,
+  maxHeight: "75vh",
   bgcolor: "background.paper",
   border: "2px solid #000",
+  overflow: "scroll",
   boxShadow: 24,
   p: 4,
 };
@@ -68,18 +70,18 @@ export default function UserModal() {
       case "mypage":
         ui = (
           <>
-            <Mypage />
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
               }}>
+              <Mypage />
               <StyledButton
                 sx={{
                   backgroundColor: "#4cb5f5",
                   fontWeight: "Bold",
-                  mt: 4,
+                  // mt: 4,
                   height: "60px",
                 }}
                 onClick={() => {

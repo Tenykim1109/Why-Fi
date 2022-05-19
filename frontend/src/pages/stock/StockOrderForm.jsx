@@ -26,7 +26,7 @@ const StockOrderForm = ({
   const [checkStockC, setCheckStockC] = useState(0); // 보유주식 파악
   const getUserData = () => {
     axios({
-      url: `http://127.0.0.1:8000/api/accounts/self/`,
+      url: `https://k6d108.p.ssafy.io/api/accounts/self/`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -47,7 +47,7 @@ const StockOrderForm = ({
 
   const getStockData = () => {
     axios({
-      url: `http://127.0.0.1:8000/api/bankbooks/mystocklist/`,
+      url: `https://k6d108.p.ssafy.io/api/bankbooks/mystocklist/`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -72,7 +72,7 @@ const StockOrderForm = ({
 
   const buyStock = () => {
     axios({
-      url: "http://127.0.0.1:8000/api/bankbooks/buystocks/",
+      url: "https://k6d108.p.ssafy.io/api/bankbooks/buystocks/",
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -88,7 +88,7 @@ const StockOrderForm = ({
 
   const sellStock = () => {
     axios({
-      url: "http://127.0.0.1:8000/api/bankbooks/sellstocks/",
+      url: "https://k6d108.p.ssafy.io/api/bankbooks/sellstocks/",
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,

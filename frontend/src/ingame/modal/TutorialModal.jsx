@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { havePwd, notHavePwd } from "../../modules/slices/userSlice";
-import { Modal, Box, Grid, IconButton } from "@mui/material";
+import { Modal, Box, Grid, IconButton, Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { LoadingError } from "./LoadingError";
 import Tutorial from "../../pages/bankbook/Tutorial";
+import { closeTutorial, openTutorial } from "../../modules/slices/modalSlice";
 
 // modal style
 const style = {
@@ -21,26 +22,26 @@ const style = {
 
 export default function TutorialModal() {
   const [item, setItem] = useState("");
-  const [open, setOpen] = useState(false);
-  const havePwd = useSelector((state) => state.user.havePwd);
+  const open = useSelector((state) => state.modal.tutorial);
+  const havePwd = useSelector((state) => state.user.hasBookPwd);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (havePwd) {
-      setOpen(false);
+      dispatch(closeTutorial());
     } else {
-      setOpen(true);
+      dispatch(openTutorial());
     }
-  }, []);
+  }, [havePwd]);
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(closeTutorial());
   };
 
   return (
     <>
       <Modal
-        open={open}
+        open={open && !havePwd}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
@@ -50,7 +51,24 @@ export default function TutorialModal() {
               <CloseIcon />
             </IconButton>
           </Grid>
-          <Tutorial />
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center">
+            <Tutorial />
+            {/* <Button
+              variant="contained"
+              sx={{
+                background: "#4cb5f5",
+                fontWeight: "Bold",
+                mt: 4,
+              }}
+              onClick={handleClose}>
+              다음에 할래요
+            </Button> */}
+          </Grid>
         </Box>
       </Modal>
     </>

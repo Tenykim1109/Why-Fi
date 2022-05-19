@@ -8,9 +8,12 @@ import Whale from "../../components/whale.png";
 import WhaleSmile from "../../components/whale_smile.jpg";
 import WhaleCry from "../../components/whale_cry.jpg";
 import Div from "../bankbook/style/Div";
+import { useDispatch } from "react-redux";
+import { closeQuiz } from "../../modules/slices/modalSlice";
 
 const Result = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   console.log(props);
   // const { state } = useLocation();
   // console.log("state", state);
@@ -45,7 +48,8 @@ const Result = (props) => {
     props.setCheckCorrect(0);
   };
   const toHome = () => {
-    navigate("/");
+    // navigate("/");
+    dispatch(closeQuiz());
   };
 
   return (

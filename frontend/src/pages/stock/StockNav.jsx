@@ -11,7 +11,7 @@ const StockNav = () => {
             <img
               src={"/logo.png"}
               style={{ display: "flex", width: "40px", margin: "25px" }}></img>
-            <span>Whi-Fi 주식시장</span>
+            <span>Why-Fi 주식시장</span>
           </div>
         </Link>
         <ul className="nav">
