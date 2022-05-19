@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 // import DatePicker from "react-datepicker";
 // import { ko } from "date-fns/esm/locale";
@@ -198,7 +198,7 @@ const MakeDeposit = () => {
 
   const [help, setHelp] = useState(true);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // console.log(btnClicked.slice(0, -1))
   const make = () => {
     if (!money) alert("맡길 금액을 설정해주세요.");

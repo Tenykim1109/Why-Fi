@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -191,7 +191,7 @@ const MakeSavings = () => {
 
   const [help, setHelp] = useState(true);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const make = () => {
     if (!money) alert("맡길 금액을 설정해주세요.");
     else
