@@ -54,7 +54,7 @@ export default class Game extends Phaser.Scene {
   create() {
     // 화면 크기
     const { width, height } = this.scale;
-    console.log(width, height);
+
     this.startX = width * 0.5 - 960;
     this.startY = height * 0.5 - 528;
 
@@ -63,12 +63,13 @@ export default class Game extends Phaser.Scene {
     this.characterType = store.getState().user.characterType;
     this.cameras.main.zoom = 1.5;
 
+    this.physics.world.setBounds(this.startX, this.startY, 3840, 2160);
+
     this.sky = this.add.sprite(width * 0.5, height * 0.5, "sky_day");
     this.sky.setDisplaySize(width * 1.5, height * 1.6);
 
     // map 생성
     this.map = this.make.tilemap({ key: "bank" });
-    console.log(this.map);
     const floor = this.map.addTilesetImage("Carpet", "floor"); // 바닥
     const ceil = this.map.addTilesetImage("toppers", "ceil"); // 천장
     const items = this.map.addTilesetImage("walltexture", "items"); // 벽
@@ -91,8 +92,6 @@ export default class Game extends Phaser.Scene {
       ceil,
       chairs,
     ]);
-
-    // groundLayer.fixedToCamera = false;
 
     wallLayer.x = this.startX;
     wallLayer.y = this.startY;
@@ -247,12 +246,6 @@ export default class Game extends Phaser.Scene {
     if (offsetY === undefined) {
       offsetY = 0;
     }
-
-    // 서버에서 올바르게 나오는 좌표값
-    // const actualX = object.x! + object.width! * (9.7 + offsetX);
-    // const actualY = object.y! + object.height! * (3 + offsetY);
-
-    // const actualX = object.x! - this.cameras.main.x;
 
     let obj = undefined;
     if (object.text !== undefined) {
