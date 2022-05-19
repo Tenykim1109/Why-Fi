@@ -28,7 +28,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://k6d108.p.ssafy.io',
 ]
 
-SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = None
 
 # Application definition
 
