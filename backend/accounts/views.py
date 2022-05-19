@@ -97,6 +97,13 @@ def delete(request):
 
 
 @api_view(['GET'])
+def tutorialcheck(request):
+    User = get_user_model()
+    user = get_object_or_404(User, pk=request.user.pk)
+    return Response({user.book_password})
+
+
+@api_view(['GET'])
 def self(request):
     User = get_user_model()
     user = get_object_or_404(User, pk=request.user.pk)

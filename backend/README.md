@@ -18,6 +18,7 @@
   - 회원 탈퇴 [DELETE] : accounts/delete/
     - username
     - password
+  - 튜토리얼 여부 확인 [GET] : accounts/tutorialcheck/
   - 본인 정보 [GET] : accounts/self/
   - 프로필 [GET] : accounts/profile/<str : username>/
   - 본인 확인 [POST] : accounts/selfcheck/
@@ -47,6 +48,7 @@
     - name
     - birthday
     - book_password
+  - 주식 그래프 데이터 [GET] : bankboos/stockgraph/
   - 주식 변동 정보 [GET] : bankbooks/stockinfo/<str : stock_type>/
   - 본인 보유 주식 확인 [GET] : bankbooks/mystocklist/
   - 주식 구매 [POST] : bankbooks/buystocks/

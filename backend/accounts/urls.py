@@ -14,6 +14,7 @@ urlpatterns = [
     path('idcheck/<username>/', views.idcheck),
     path('signup/', views.signup),
     path('delete/', views.delete),
+    path('tutorialcheck/', views.tutorialcheck),
     path('self/', views.self),
     path('profile/<username>/', views.profile),
     path('selfcheck/', views.selfcheck),

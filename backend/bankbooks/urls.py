@@ -7,6 +7,7 @@ urlpatterns = [
     path('getinterest/', views.getinterest),
     path('create/', views.create),
     path('<book_type>/delete/', views.delete),
+    path('stockgraph/', views.stockgraph),
     path('stockinfo/<stock_type>/', views.stockinfo),
     path('mystocklist/', views.mystocklist),
     path('buystocks/', views.buystocks),
