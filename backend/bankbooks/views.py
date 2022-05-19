@@ -128,7 +128,7 @@ def stockinfo(request, stock_type):
 
 @api_view(['GET'])
 def mystocklist(request):
-    mystocks = MyStock.objects.filter(user=request.user)
+    mystocks = MyStock.objects.filter(user=request.user).order_by('stock_type')
     serializer = MyStockSerializer(mystocks, many=True)
     return Response(serializer.data)
 
@@ -144,7 +144,7 @@ def buystocks(request):
     if stock_type not in ['A', 'B', 'C']:
         return Response({'error: 잘못된 기업 선택'}, status=status.HTTP_400_BAD_REQUEST)
 
-    stock = get_object_or_404(Stock, stock_type=stock_type)
+    stock = get_object_or_404(Stock, stock_type=stock_type, created_at=datetime.date.today())
 
     if stocks <= 0 or user.balance < stock.current_price * stocks:
         return Response({'error: 잘못된 주식수 입력'}, status=status.HTTP_400_BAD_REQUEST)
@@ -182,7 +182,7 @@ def sellstocks(request):
     if stock_type not in ['A', 'B', 'C']:
         return Response({'error: 잘못된 기업 선택'}, status=status.HTTP_400_BAD_REQUEST)
 
-    stock = get_object_or_404(Stock, stock_type=stock_type)
+    stock = get_object_or_404(Stock, stock_type=stock_type, created_at=datetime.date.today())
     mystock = get_object_or_404(MyStock, user=user, stock_type=stock_type)
 
     if stocks <= 0 or stocks > mystock.stocks:
