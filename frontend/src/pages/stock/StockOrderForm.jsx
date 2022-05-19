@@ -3,7 +3,13 @@ import Cleave from "cleave.js/react";
 import "./StockOrder.css";
 import axios from "axios";
 
-const StockOrderForm = ({ buyType, currentPrice, companyType, ...props }) => {
+const StockOrderForm = ({
+  buyType,
+  currentPrice,
+  companyType,
+  stockType,
+  ...props
+}) => {
   const typeToStr = useCallback(() => {
     if (buyType === "BUY") {
       return "매수";
@@ -13,8 +19,11 @@ const StockOrderForm = ({ buyType, currentPrice, companyType, ...props }) => {
   }, [buyType]);
 
   const [inputVolume, setInputVolume] = useState(0); // 매수수량
-  const [stockType, setStockType] = useState("");
+  // const [stockType, setStockType] = useState("A");
   const [balance, setBalance] = useState(0);
+  const [checkStockA, setCheckStockA] = useState(0);
+  const [checkStockB, setCheckStockB] = useState(0);
+  const [checkStockC, setCheckStockC] = useState(0); // 보유주식 파악
   const getUserData = () => {
     axios({
       url: `http://127.0.0.1:8000/api/accounts/self/`,
@@ -34,7 +43,8 @@ const StockOrderForm = ({ buyType, currentPrice, companyType, ...props }) => {
   useEffect(() => {
     getUserData();
     getStockData();
-  }, []);
+  }, [balance]);
+
   const getStockData = () => {
     axios({
       url: `http://127.0.0.1:8000/api/bankbooks/mystocklist/`,
@@ -44,10 +54,19 @@ const StockOrderForm = ({ buyType, currentPrice, companyType, ...props }) => {
       },
     })
       .then((res) => {
-        // console.log("주식:", res);
+        console.log("주식정보:", res.data);
+        for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].stock_type === "A") {
+            setCheckStockA(res.data[i].stocks);
+          } else if (res.data[i].stock_type === "B") {
+            setCheckStockB(res.data[i].stocks);
+          } else if (res.data[i].stock_type === "C") {
+            setCheckStockC(res.data[i].stocks);
+          }
+        }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -63,7 +82,23 @@ const StockOrderForm = ({ buyType, currentPrice, companyType, ...props }) => {
         stocks: inputVolume,
       },
     }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
+    });
+  };
+
+  const sellStock = () => {
+    axios({
+      url: "http://127.0.0.1:8000/api/bankbooks/sellstocks/",
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access-token")}`,
+      },
+      data: {
+        stock_type: stockType,
+        stocks: inputVolume,
+      },
+    }).then((res) => {
+      // console.log(res.data);
     });
   };
   const [totalPrice, setTotalPrice] = useState(0);
@@ -72,13 +107,6 @@ const StockOrderForm = ({ buyType, currentPrice, companyType, ...props }) => {
   }, [currentPrice, inputVolume]);
 
   const trade = useCallback(() => {
-    if (companyType === "엔터") {
-      return setStockType("A");
-    } else if (companyType === "제조") {
-      return setStockType("B");
-    } else if (companyType === "제약") {
-      return setStockType("C");
-    }
     if (buyType === "BUY") {
       if (totalPrice > balance) {
         return alert("보유 금액이 부족합니다.");
@@ -90,10 +118,46 @@ const StockOrderForm = ({ buyType, currentPrice, companyType, ...props }) => {
         );
       }
     } else if (buyType === "SELL") {
-      return setBalance(balance + totalPrice);
+      if (stockType === "A") {
+        if (inputVolume > checkStockA) {
+          return alert(
+            `보유주식보다 많이 팔수 없어요. 현재 나의 보유주식수는 ${checkStockA}입니다 `
+          );
+        } else {
+          return (
+            setBalance(balance + totalPrice),
+            alert(`${inputVolume}주 판매성공`),
+            sellStock()
+          );
+        }
+      } else if (stockType === "B") {
+        if (inputVolume > checkStockB) {
+          return alert(
+            `보유주식보다 많이 팔수 없어요. 현재 나의 보유주식수는 ${checkStockB}입니다 `
+          );
+        } else {
+          return (
+            setBalance(balance + totalPrice),
+            sellStock(),
+            alert(`${inputVolume}주 판매성공`)
+          );
+        }
+      } else if (stockType === "C") {
+        if (inputVolume > checkStockC) {
+          return alert(
+            `보유주식보다 많이 팔수 없어요. 현재 나의 보유주식수는 ${checkStockC}입니다 `
+          );
+        } else {
+          return (
+            setBalance(balance + totalPrice),
+            alert(`${inputVolume}주 판매성공`),
+            sellStock()
+          );
+        }
+      }
     }
-    // sell에 내가 보유하고 있는 주식인지 여부판단 들어가야함
   });
+
   return (
     <div className="Trade__Form">
       <div className="Form__List">
@@ -152,7 +216,9 @@ const StockOrderForm = ({ buyType, currentPrice, companyType, ...props }) => {
       <div className="Form__Submit">
         <button
           type="submit"
-          style={{ backgroudColor: buyType === "SELL" ? "#f14f4f" : "#7878e3" }}
+          style={{
+            backgroundColor: buyType === "SELL" ? "#f14f4f" : "#7878e3",
+          }}
           onClick={trade}>
           {typeToStr()}
         </button>

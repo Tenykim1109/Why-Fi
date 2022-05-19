@@ -29,8 +29,8 @@ function StockCompany() {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
       },
     }).then((res) => {
-      // console.log(res.data[0].current_price);
-      setCurrentPriceA(res.data[0].current_price);
+      console.log("주식현재가", res.data[res.data.length - 1].current_price);
+      setCurrentPriceA(res.data[res.data.length - 1].current_price);
     });
   };
   const getStockDataB = () => {
@@ -41,7 +41,7 @@ function StockCompany() {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
       },
     }).then((res) => {
-      setCurrentPriceB(res.data[0].current_price);
+      setCurrentPriceB(res.data[res.data.length - 1].current_price);
     });
   };
   const getStockDataC = () => {
@@ -52,7 +52,7 @@ function StockCompany() {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
       },
     }).then((res) => {
-      setCurrentPriceC(res.data[0].current_price);
+      setCurrentPriceC(res.data[res.data.length - 1].current_price);
     });
   };
   useEffect(() => {

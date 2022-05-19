@@ -10,15 +10,16 @@ const StockOrder = (
 ) => {
   const [buyType, setBuyType] = useState("BUY");
   const [currentPrice, setCurrentPrice] = useState(0);
+  const [stockType, setStockType] = useState("");
   // console.log(props);
   // console.log("현재가", currentPrice);
   useEffect(() => {
     if (props.companyType === "엔터") {
-      return setCurrentPrice(props.currentPriceA);
+      return setCurrentPrice(props.currentPriceA), setStockType("A");
     } else if (props.companyType === "제조") {
-      return setCurrentPrice(props.currentPriceB);
+      return setCurrentPrice(props.currentPriceB), setStockType("B");
     } else {
-      return setCurrentPrice(props.currentPriceC);
+      return setCurrentPrice(props.currentPriceC), setStockType("C");
     }
   }, [props.companyType]);
   return (
@@ -42,6 +43,7 @@ const StockOrder = (
       <StockOrderForm
         buyType={buyType}
         currentPrice={currentPrice}
+        stockType={stockType}
         // currentPriceA={currentPriceA}
         // currentPriceB={currentPriceB}
         // currentPriceC={currentPriceC}
