@@ -18,7 +18,7 @@ import DeleteSuccess from "./pages/account/DeleteSuccess";
 
 import Start from "./pages/quiz/Start";
 import Quiz from "./pages/quiz/Quiz";
-import Result from "./pages/quiz/Result";
+// import Result from "./pages/quiz/Result";
 
 import Tutorial from "./pages/bankbook/Tutorial";
 import MakeDeposit from "./pages/bankbook/MakeDeposit";

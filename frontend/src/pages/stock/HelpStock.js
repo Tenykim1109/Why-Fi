@@ -91,20 +91,20 @@ const HelpStock = () => {
   );
 };
 
-const DIV = styled.div`
-  width: 500px;
-  height: 95vh;
-  @media (max-height: 720px) {
-    min-height: 720px;
-    // height: 100%;
-  }
-  margin: auto;
-  ${({ flex }) => {
-    return flex
-      ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
-      : null;
-  }}
-`;
+// const DIV = styled.div`
+//   width: 500px;
+//   height: 95vh;
+//   @media (max-height: 720px) {
+//     min-height: 720px;
+//     // height: 100%;
+//   }
+//   margin: auto;
+//   ${({ flex }) => {
+//     return flex
+//       ? `display: flex; flex-direction: column; justify-content: center; align-items: center;`
+//       : null;
+//   }}
+// `;
 
 const IMG = styled.img`
   width: 300px;
