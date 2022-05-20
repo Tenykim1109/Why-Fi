@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
-  component: "",
+  component: "default",
 };
 
 export const stockSlice = createSlice({
