@@ -218,6 +218,8 @@ const StockOrderForm = ({
           type="submit"
           style={{
             backgroundColor: buyType === "SELL" ? "#f14f4f" : "#7878e3",
+            color: "#FFFFFF",
+            borderRadius: "8px",
           }}
           onClick={trade}>
           {typeToStr()}

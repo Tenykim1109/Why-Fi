@@ -34,7 +34,7 @@ const StockInfo = () => {
 
   return (
     <div>
-      <StockNav />
+      {/* <StockNav /> */}
       <List
         className="stockinfo"
         component="nav"
