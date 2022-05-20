@@ -5,10 +5,12 @@ import thunk from "redux-thunk";
 
 import modalReducer from "./slices/modalSlice";
 import userReducer from "./slices/userSlice";
+import stockReducer from "./slices/stockSlice";
 
 const reducers = combineReducers({
   modal: modalReducer,
   user: userReducer,
+  stock: stockReducer,
 });
 
 const persistConfig = {

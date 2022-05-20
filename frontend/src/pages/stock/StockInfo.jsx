@@ -11,7 +11,7 @@ const StockInfo = () => {
   const [newsC, setNewsC] = useState("");
   const getStockNews = () => {
     axios({
-      url: `http://127.0.0.1:8000/api/bankbooks/stocknews`,
+      url: `https://k6d108.p.ssafy.io/api/bankbooks/stocknews`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -34,7 +34,7 @@ const StockInfo = () => {
 
   return (
     <div>
-      <StockNav />
+      {/* <StockNav /> */}
       <List
         className="stockinfo"
         component="nav"

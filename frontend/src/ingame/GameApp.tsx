@@ -94,7 +94,6 @@ export default function GameApp() {
         },
       });
 
-      console.log(res);
       dispatch(setBookNumber(res.data.book_number));
       dispatch(setUserId(res.data.username));
       dispatch(setBalance(res.data.balance));
@@ -106,7 +105,7 @@ export default function GameApp() {
   };
 
   const getTutorialInfo = async () => {
-    console.log("asdf");
+    console.log("get tutorial...");
     try {
       const res: PwdResponse = await axios({
         method: "get",
@@ -116,7 +115,6 @@ export default function GameApp() {
         },
       });
 
-      console.log(res);
       const pwd = res.data[0];
 
       if (pwd === "") {
