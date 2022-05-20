@@ -151,7 +151,7 @@ const Terminate = () => {
       {help ? (
         <>
           <HelpTerminate />
-          <CloseBtn onClick={() => setHelp((help) => !help)}>닫기</CloseBtn>
+          <CloseBtn onClick={() => setHelp((help) => !help)}>해지하기</CloseBtn>
         </>
       ) : (
         <>

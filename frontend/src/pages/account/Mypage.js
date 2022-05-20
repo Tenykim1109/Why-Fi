@@ -6,6 +6,7 @@ import styled from "styled-components";
 // import Div from "../bankbook/style/Div";
 // import Title from "../bankbook/style/Title";
 import SubTitle from "../bankbook/style/SubTitle";
+import { style } from "@mui/system";
 
 const Mypage = () => {
   const [userData, setUserData] = useState();
@@ -94,6 +95,15 @@ const Mypage = () => {
     navigate("/mypage/delete");
   };
 
+  // const test = () => {
+  //   if (stockData.length === 0) {
+  //     console.log("true");
+  //   } else {
+  //     console.log("false");
+  //   }
+  // };
+  // test();
+
   return (
     <Div>
       <Flex>
@@ -106,7 +116,7 @@ const Mypage = () => {
 
       <Border>
         <SubTitle>내 자산 현황</SubTitle>
-        {bankbookData ? (
+        {bankbookData && bankbookData[0] ? (
           bankbookData.map((bankbook) => {
             const balance = bankbook.balance
               .toString()
@@ -135,13 +145,15 @@ const Mypage = () => {
             );
           })
         ) : (
-          <Bold>예금/적금을 가입해보세요.</Bold>
+          <Center>
+            <Bold>예금과 적금 가입을 해보세요.</Bold>
+          </Center>
         )}
       </Border>
 
       <Border>
         <SubTitle>내 주식 현황</SubTitle>
-        {stockData ? (
+        {stockData && stockData[0] ? (
           stockData.map((stock) => {
             return (
               <UL key={stock.stock_type}>
@@ -240,7 +252,9 @@ const Mypage = () => {
             );
           })
         ) : (
-          <Bold>보유하고 있는 주식이 없어요.</Bold>
+          <Center>
+            <Bold>주식을 구매해보세요.</Bold>
+          </Center>
         )}
       </Border>
       <Button onClick={toDelete}>탈퇴하기</Button>
@@ -350,6 +364,7 @@ const Border = styled.div`
   border: 1px solid #bbbbbb;
   padding: 20px;
   border-radius: 8px;
+  width: 342px;
 
   & + & {
     margin: 1rem 0;
@@ -360,6 +375,10 @@ const Line = styled.hr`
   width: 99%;
   border: 1px solid #bbbbbb;
   margin: 1rem 0;
+`;
+
+const Center = styled.div`
+  text-align: center;
 `;
 
 export default Mypage;
