@@ -72,7 +72,7 @@ const HelpDeposit = () => {
       <Content />
       <Flex>
         <Button disabled={page === 1} onClick={Prev}>
-          &lt; 이전
+          이전
         </Button>
         {page % 2 === 1 ? (
           <IMG src={Whale} alt="whale" />
@@ -80,7 +80,7 @@ const HelpDeposit = () => {
           <IMG src={WhaleSmile} alt="whale_smile" />
         )}
         <Button disabled={page === 4} onClick={Next}>
-          다음 &gt;
+          다음
         </Button>
       </Flex>
     </div>

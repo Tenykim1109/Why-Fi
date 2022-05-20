@@ -8,7 +8,7 @@ const Button = styled.button`
 
   background-color: #4cb5f5;
   font-size: 1.5rem;
-  width: 150px;
+  width: 165px;
   height: 60px;
 
   margin-left: ${(props) => (props.MarginLeft ? props.MarginLeft : "0px")};
